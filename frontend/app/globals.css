@@ -1,0 +1,665 @@
+/* =============================================================================
+   globals.css — CineNest Global Styles
+   Dark cinema theme: deep blacks, gold accents, warm off-white text.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   Google Fonts Imports
+   DM Sans       — primary UI / body font
+   Playfair Display — display / heading font (cinematic feel)
+   Dancing Script — script / decorative accent font
+   ----------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
+
+/* -----------------------------------------------------------------------------
+   Tailwind Directives
+   ----------------------------------------------------------------------------- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -----------------------------------------------------------------------------
+   CSS Custom Properties (Design Tokens)
+   Mirrors the palette defined in tailwind.config.ts so that plain CSS
+   and shadcn/ui components can consume the same tokens.
+   ----------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    /* Background scale */
+    --background:          #0D0D0D;
+    --background-surface:  #1A1A1A;
+    --background-elevated: #242424;
+
+    /* Foreground / text scale */
+    --foreground:         #F5F5F5;
+    --foreground-muted:   #9CA3AF;
+    --foreground-subtle:  #6B7280;
+
+    /* Accent — gold */
+    --accent:             #D4A017;
+    --accent-hover:       #E6B020;
+    --accent-foreground:  #0D0D0D;
+
+    /* Borders */
+    --border:             #2D2D2D;
+    --border-muted:       #1F1F1F;
+
+    /* Semantic */
+    --success:            #22C55E;
+    --warning:            #F59E0B;
+    --destructive:        #EF4444;
+    --destructive-foreground: #FFFFFF;
+
+    /* shadcn/ui compatibility aliases */
+    --primary:            #D4A017;
+    --primary-foreground: #0D0D0D;
+    --secondary:          #1A1A1A;
+    --secondary-foreground: #F5F5F5;
+    --muted:              #1A1A1A;
+    --muted-foreground:   #9CA3AF;
+    --card:               #1A1A1A;
+    --card-foreground:    #F5F5F5;
+    --popover:            #1A1A1A;
+    --popover-foreground: #F5F5F5;
+    --input:              #2D2D2D;
+    --ring:               #D4A017;
+
+    /* Border radius scale (matches tailwind.config.ts) */
+    --radius-lg: 0.75rem;
+    --radius-md: 0.5rem;
+    --radius-sm: 0.375rem;
+
+    /* Font families */
+    --font-sans:    'DM Sans', system-ui, sans-serif;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-script:  'Dancing Script', cursive;
+  }
+
+  /* ── Global Element Resets & Base Styles ──────────────────────────────────── */
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    /* Smooth, native-feel scrolling across the whole page */
+    scroll-behavior: smooth;
+    /* Prevent layout shift from scrollbar appearing / disappearing */
+    scrollbar-gutter: stable;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    font-weight: 400;
+    /* Improve font rendering on macOS / retina */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Prevent horizontal overflow from breaking layout */
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* Headings default to the display (serif) font for cinematic feel */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--foreground);
+  }
+
+  /* Anchor resets — components style links explicitly */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Sensible image defaults */
+  img,
+  video {
+    max-width: 100%;
+    display: block;
+  }
+
+  /* Remove default list styling (lists are styled per component) */
+  ul,
+  ol {
+    list-style: none;
+  }
+
+  /* Button base reset */
+  button {
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+  }
+
+  /* Focus-visible outline — gold ring for accessibility */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Remove focus outline for mouse users */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Input / textarea base */
+  input,
+  textarea,
+  select {
+    font-family: inherit;
+    font-size: inherit;
+    background-color: var(--input);
+    color: var(--foreground);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--foreground-subtle);
+  }
+
+  /* Horizontal rule */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.5rem 0;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Custom Scrollbar — thin, dark, gold thumb on hover
+   ----------------------------------------------------------------------------- */
+@layer base {
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--background-elevated) var(--background-surface);
+  }
+
+  /* WebKit (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--background-surface);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--background-elevated);
+    border-radius: 999px;
+    transition: background 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: var(--background);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Utility / Component Classes
+   ----------------------------------------------------------------------------- */
+@layer components {
+  /* ── Layout ─────────────────────────────────────────────────────────────────
+     .container-page
+     Standard page-level content wrapper.
+     max-w-7xl keeps wide layouts readable; px-4 / sm:px-6 / lg:px-8
+     provides responsive horizontal gutters.
+  ──────────────────────────────────────────────────────────────────────────── */
+  .container-page {
+    max-width: 80rem;      /* 1280px — equivalent to max-w-7xl */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;    /* 16px — mobile */
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-page {
+      padding-left: 1.5rem;  /* 24px — sm */
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-page {
+      padding-left: 2rem;    /* 32px — lg */
+      padding-right: 2rem;
+    }
+  }
+
+  /* ── Typography ──────────────────────────────────────────────────────────────
+     .text-gradient-gold
+     Renders text with a warm gold-to-amber horizontal gradient.
+     Works on any heading or inline element. Pair with font-display
+     for maximum cinematic impact.
+  ──────────────────────────────────────────────────────────────────────────── */
+  .text-gradient-gold {
+    background: linear-gradient(
+      135deg,
+      #F0C040 0%,    /* bright warm gold — highlight */
+      #D4A017 40%,   /* core accent gold */
+      #B8860B 75%,   /* darker antique gold */
+      #E6B020 100%   /* warm end shimmer */
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent; /* Fallback for browsers without -webkit-text-fill-color */
+    display: inline-block; /* Required for background-clip: text to work correctly */
+  }
+
+  /* ── Cards ───────────────────────────────────────────────────────────────────
+     .cinema-card
+     Standard card shell used across the platform — theater listings,
+     add-ons, booking summaries, etc.
+     Composes: dark surface background, rounded corners, subtle border.
+     Consumers layer hover / transition utilities on top as needed.
+  ──────────────────────────────────────────────────────────────────────────── */
+  .cinema-card {
+    background-color: var(--background-surface);   /* #1A1A1A */
+    border-radius: var(--radius-lg);               /* 0.75rem */
+    border: 1px solid var(--border);               /* #2D2D2D */
+    overflow: hidden;
+  }
+
+  /* Elevated variant — sits above the standard surface (e.g. dropdowns, modals) */
+  .cinema-card-elevated {
+    background-color: var(--background-elevated);  /* #242424 */
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  /* Interactive card — adds hover lift and border accent glow */
+  .cinema-card-interactive {
+    background-color: var(--background-surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition:
+      border-color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .cinema-card-interactive:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow:
+      0 8px 32px rgba(212, 160, 23, 0.12),
+      0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  /* ── Buttons (base layer — detailed variants live in Button component) ──────
+     These base classes normalise common button concerns so individual
+     component files only need to layer colour / size tokens.
+  ──────────────────────────────────────────────────────────────────────────── */
+  .btn-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      transform 0.15s ease;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .btn-base:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Gold / primary call-to-action */
+  .btn-gold {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+    padding: 0.625rem 1.5rem;
+  }
+
+  .btn-gold:hover:not(:disabled) {
+    background-color: var(--accent-hover);
+    box-shadow: 0 4px 16px rgba(212, 160, 23, 0.35);
+    transform: translateY(-1px);
+  }
+
+  .btn-gold:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  /* Ghost / outline variant */
+  .btn-outline {
+    background-color: transparent;
+    color: var(--foreground);
+    border: 1px solid var(--border);
+    padding: 0.625rem 1.5rem;
+  }
+
+  .btn-outline:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background-color: rgba(212, 160, 23, 0.06);
+  }
+
+  /* ── Section / Page helpers ──────────────────────────────────────────────── */
+
+  /* Full-bleed dark section with a very subtle radial vignette */
+  .section-dark {
+    background-color: var(--background);
+    position: relative;
+  }
+
+  /* Surface-tinted section (cards on cards appearance) */
+  .section-surface {
+    background-color: var(--background-surface);
+  }
+
+  /* Divider with gold centre dot — decorative heading separator */
+  .divider-gold {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--foreground-muted);
+  }
+
+  .divider-gold::before,
+  .divider-gold::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--border) 50%,
+      transparent
+    );
+  }
+
+  .divider-gold::before {
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--border)
+    );
+  }
+
+  .divider-gold::after {
+    background: linear-gradient(
+      to left,
+      transparent,
+      var(--border)
+    );
+  }
+
+  /* ── Form helpers ────────────────────────────────────────────────────────── */
+
+  /* Standard form field label */
+  .field-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--foreground-muted);
+    margin-bottom: 0.375rem;
+    letter-spacing: 0.01em;
+  }
+
+  /* Standard text input shell */
+  .field-input {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    background-color: var(--input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--foreground);
+    font-size: 0.9375rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .field-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.15);
+  }
+
+  .field-input::placeholder {
+    color: var(--foreground-subtle);
+  }
+
+  /* Error state */
+  .field-input-error {
+    border-color: var(--destructive);
+  }
+
+  .field-input-error:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+  }
+
+  /* Inline field error message */
+  .field-error {
+    font-size: 0.8125rem;
+    color: var(--destructive);
+    margin-top: 0.25rem;
+  }
+
+  /* ── Badge / Chip ────────────────────────────────────────────────────────── */
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.1875rem 0.625rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .badge-gold {
+    background-color: rgba(212, 160, 23, 0.15);
+    color: var(--accent);
+    border: 1px solid rgba(212, 160, 23, 0.3);
+  }
+
+  .badge-success {
+    background-color: rgba(34, 197, 94, 0.12);
+    color: var(--success);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+  }
+
+  .badge-destructive {
+    background-color: rgba(239, 68, 68, 0.12);
+    color: var(--destructive);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+  }
+
+  .badge-neutral {
+    background-color: var(--background-elevated);
+    color: var(--foreground-muted);
+    border: 1px solid var(--border);
+  }
+
+  /* ── Skeleton loader ─────────────────────────────────────────────────────── */
+
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--background-surface) 25%,
+      var(--background-elevated) 50%,
+      var(--background-surface) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+    border-radius: var(--radius-md);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Keyframes (non-Tailwind — supplemental animations)
+   ----------------------------------------------------------------------------- */
+@layer utilities {
+  @keyframes skeleton-shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Soft entrance for page sections */
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Gold pulse glow — used on featured / highlighted elements */
+  @keyframes gold-pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(212, 160, 23, 0);
+    }
+    50% {
+      box-shadow: 0 0 16px 4px rgba(212, 160, 23, 0.25);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.5s ease-out both;
+  }
+
+  .animate-gold-pulse {
+    animation: gold-pulse 2.4s ease-in-out infinite;
+  }
+
+  /* Stagger delay helpers for lists of animated children */
+  .delay-75  { animation-delay: 75ms; }
+  .delay-150 { animation-delay: 150ms; }
+  .delay-225 { animation-delay: 225ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-375 { animation-delay: 375ms; }
+  .delay-450 { animation-delay: 450ms; }
+}
+
+/* -----------------------------------------------------------------------------
+   Prose overrides — for dynamically-rendered rich text blocks
+   (e.g. theater descriptions, FAQ answers)
+   ----------------------------------------------------------------------------- */
+@layer components {
+  .prose-cinema {
+    color: var(--foreground-muted);
+    line-height: 1.75;
+    font-size: 0.9375rem;
+  }
+
+  .prose-cinema h2,
+  .prose-cinema h3,
+  .prose-cinema h4 {
+    font-family: var(--font-display);
+    color: var(--foreground);
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+  }
+
+  .prose-cinema p {
+    margin-bottom: 1em;
+  }
+
+  .prose-cinema a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.15s ease;
+  }
+
+  .prose-cinema a:hover {
+    color: var(--accent-hover);
+  }
+
+  .prose-cinema ul,
+  .prose-cinema ol {
+    list-style: revert;
+    padding-left: 1.5em;
+    margin-bottom: 1em;
+  }
+
+  .prose-cinema li {
+    margin-bottom: 0.375em;
+  }
+
+  .prose-cinema strong {
+    color: var(--foreground);
+    font-weight: 600;
+  }
+
+  .prose-cinema blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 1rem;
+    color: var(--foreground-subtle);
+    font-style: italic;
+    margin: 1.25em 0;
+  }
+
+  .prose-cinema hr {
+    border-color: var(--border);
+    margin: 2em 0;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Selection colour — gold tint
+   ----------------------------------------------------------------------------- */
+::selection {
+  background-color: rgba(212, 160, 23, 0.25);
+  color: var(--foreground);
+}
+
+::-moz-selection {
+  background-color: rgba(212, 160, 23, 0.25);
+  color: var(--foreground);
+}

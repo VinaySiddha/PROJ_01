@@ -1,0 +1,416 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// CineNest — Prisma Schema
+// ─────────────────────────────────────────────────────────────────────────────
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LOCATION
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Location {
+  id                    String    @id @default(uuid())
+  name                  String
+  slug                  String    @unique
+  address               String
+  google_maps_url       String
+  google_maps_embed_url String
+  latitude              Decimal   @db.Decimal(10, 7)
+  longitude             Decimal   @db.Decimal(10, 7)
+  google_rating         Decimal   @db.Decimal(2, 1)
+  google_review_count   Int
+  is_active             Boolean   @default(true)
+  created_at            DateTime  @default(now())
+
+  theaters              Theater[]
+
+  @@map("locations")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// THEATER
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Theater {
+  id                  String    @id @default(uuid())
+  location_id         String
+  location            Location  @relation(fields: [location_id], references: [id])
+  name                String
+  slug                String    @unique
+  screen_size         String
+  screen_resolution   String
+  sound_system        String
+  max_capacity        Int
+  base_capacity       Int       @default(4)
+  base_price          Int
+  short_slot_price    Int
+  extra_adult_price   Int
+  extra_child_price   Int
+  allow_extra_persons Boolean   @default(true)
+  couple_only         Boolean   @default(false)
+  description         String    @db.Text
+  images              Json
+  youtube_url         String?
+  is_active           Boolean   @default(true)
+  sort_order          Int       @default(0)
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+
+  time_slots          TimeSlot[]
+  bookings            Booking[]
+  reviews             Review[]
+
+  @@map("theaters")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TIME SLOT
+// ─────────────────────────────────────────────────────────────────────────────
+
+model TimeSlot {
+  id          String    @id @default(uuid())
+  theater_id  String
+  theater     Theater   @relation(fields: [theater_id], references: [id])
+  slot_name   String
+  start_time  String
+  end_time    String
+  is_active   Boolean   @default(true)
+
+  bookings    Booking[]
+
+  @@map("time_slots")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CUSTOMER
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Customer {
+  id         String    @id @default(uuid())
+  phone      String    @unique
+  name       String?
+  email      String?
+  created_at DateTime  @default(now())
+
+  bookings   Booking[]
+
+  @@map("customers")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BOOKING
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Booking {
+  id                String    @id @default(uuid())
+  booking_ref       String    @unique
+  theater_id        String
+  theater           Theater   @relation(fields: [theater_id], references: [id])
+  customer_id       String
+  customer          Customer  @relation(fields: [customer_id], references: [id])
+  date              DateTime
+  slot_id           String
+  slot              TimeSlot  @relation(fields: [slot_id], references: [id])
+  duration_type     String    @default("standard")
+  num_adults        Int       @default(1)
+  num_children      Int       @default(0)
+  occasion          String?
+  occasion_name     String?
+  // status: pending | confirmed | cancelled | completed
+  status            String    @default("pending")
+  base_amount       Int
+  addons_amount     Int       @default(0)
+  food_amount       Int       @default(0)
+  cake_amount       Int       @default(0)
+  total_amount      Int
+  advance_paid      Int       @default(700)
+  coupon_id         String?
+  coupon            Coupon?   @relation(fields: [coupon_id], references: [id])
+  referral_code     String?
+  payment_id        String?
+  payment_gateway   String?
+  notes             String?
+  reminder_sent     Boolean   @default(false)
+  review_request_sent Boolean @default(false)
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+
+  booking_addons    BookingAddon[]
+  booking_food_items BookingFoodItem[]
+  booking_cake      BookingCake?
+  review            Review?
+
+  @@map("bookings")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BOOKING ADDON
+// ─────────────────────────────────────────────────────────────────────────────
+
+model BookingAddon {
+  id         String   @id @default(uuid())
+  booking_id String
+  booking    Booking  @relation(fields: [booking_id], references: [id])
+  addon_id   String
+  addon      Addon    @relation(fields: [addon_id], references: [id])
+  quantity   Int      @default(1)
+  unit_price Int
+
+  @@map("booking_addons")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BOOKING FOOD ITEM
+// ─────────────────────────────────────────────────────────────────────────────
+
+model BookingFoodItem {
+  id           String    @id @default(uuid())
+  booking_id   String
+  booking      Booking   @relation(fields: [booking_id], references: [id])
+  food_item_id String
+  food_item    FoodItem  @relation(fields: [food_item_id], references: [id])
+  quantity     Int       @default(1)
+  unit_price   Int
+
+  @@map("booking_food_items")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BOOKING CAKE
+// ─────────────────────────────────────────────────────────────────────────────
+
+model BookingCake {
+  id         String   @id @default(uuid())
+  booking_id String   @unique
+  booking    Booking  @relation(fields: [booking_id], references: [id])
+  cake_id    String
+  cake       Cake     @relation(fields: [cake_id], references: [id])
+  unit_price Int
+
+  @@map("booking_cakes")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ADDON
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Addon {
+  id          String   @id @default(uuid())
+  // category: decoration | rose | photography
+  category    String
+  name        String
+  description String?
+  price       Int
+  image_url   String?
+  is_active   Boolean  @default(true)
+  sort_order  Int      @default(0)
+
+  booking_addons BookingAddon[]
+
+  @@map("addons")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CAKE
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Cake {
+  id          String   @id @default(uuid())
+  name        String
+  flavor      String
+  price       Int
+  is_eggless  Boolean  @default(false)
+  image_url   String?
+  is_active   Boolean  @default(true)
+  sort_order  Int      @default(0)
+
+  booking_cakes BookingCake[]
+
+  @@map("cakes")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FOOD CATEGORY
+// ─────────────────────────────────────────────────────────────────────────────
+
+model FoodCategory {
+  id         String     @id @default(uuid())
+  name       String
+  sort_order Int        @default(0)
+  is_active  Boolean    @default(true)
+
+  food_items FoodItem[]
+
+  @@map("food_categories")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FOOD ITEM
+// ─────────────────────────────────────────────────────────────────────────────
+
+model FoodItem {
+  id           String        @id @default(uuid())
+  category_id  String
+  category     FoodCategory  @relation(fields: [category_id], references: [id])
+  name         String
+  description  String?
+  price        Int
+  is_veg       Boolean       @default(true)
+  image_url    String?
+  is_available Boolean       @default(true)
+  sort_order   Int           @default(0)
+
+  booking_food_items BookingFoodItem[]
+
+  @@map("food_items")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REVIEW
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Review {
+  id            String   @id @default(uuid())
+  booking_id    String   @unique
+  booking       Booking  @relation(fields: [booking_id], references: [id])
+  theater_id    String
+  theater       Theater  @relation(fields: [theater_id], references: [id])
+  customer_name String
+  rating        Int
+  comment       String?
+  photo_url     String?
+  is_approved   Boolean  @default(false)
+  admin_reply   String?
+  created_at    DateTime @default(now())
+
+  @@map("reviews")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// COUPON
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Coupon {
+  id         String    @id @default(uuid())
+  code       String    @unique
+  // type: percent | flat
+  type       String
+  value      Int
+  min_amount Int       @default(0)
+  max_uses   Int
+  used_count Int       @default(0)
+  valid_from DateTime
+  valid_until DateTime
+  is_active  Boolean   @default(true)
+
+  bookings   Booking[]
+
+  @@map("coupons")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ADMIN
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Admin {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password_hash String
+  // role: super_admin | manager | staff
+  role          String    @default("staff")
+  is_active     Boolean   @default(true)
+  last_login    DateTime?
+  created_at    DateTime  @default(now())
+
+  @@map("admins")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ERROR MASTER
+// ─────────────────────────────────────────────────────────────────────────────
+
+model ErrorMaster {
+  code          String     @id
+  http_status   Int
+  severity      String
+  category      String
+  message       String
+  description   String
+  resolution    String?
+  is_retryable  Boolean    @default(false)
+  created_at    DateTime   @default(now())
+
+  error_logs    ErrorLog[]
+
+  @@map("error_master")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ERROR LOG
+// ─────────────────────────────────────────────────────────────────────────────
+
+model ErrorLog {
+  id               String      @id @default(uuid())
+  error_code       String
+  error_master     ErrorMaster @relation(fields: [error_code], references: [code])
+  severity         String
+  message          String
+  stack_trace      String?
+  request_id       String?
+  request_path     String?
+  request_method   String?
+  request_body     Json?
+  actor_type       String?
+  actor_id         String?
+  ip_address       String?
+  resource_type    String?
+  resource_id      String?
+  metadata         Json?
+  is_resolved      Boolean     @default(false)
+  resolved_by      String?
+  resolved_at      DateTime?
+  resolution_note  String?
+  created_at       DateTime    @default(now())
+
+  @@map("error_logs")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AUDIT LOG
+// ─────────────────────────────────────────────────────────────────────────────
+
+model AuditLog {
+  id            String    @id @default(uuid())
+  actor_type    String
+  actor_id      String?
+  action        String
+  category      String
+  resource_type String?
+  resource_id   String?
+  metadata      Json?
+  ip_address    String?
+  user_agent    String?
+  created_at    DateTime  @default(now())
+
+  @@map("audit_logs")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SITE SETTING
+// ─────────────────────────────────────────────────────────────────────────────
+
+model SiteSetting {
+  key        String   @id
+  value      String
+  updated_at DateTime @updatedAt
+  updated_by String?
+
+  @@map("site_settings")
+}
