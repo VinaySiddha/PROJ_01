@@ -5,7 +5,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { CalendarCheck, DollarSign, Star, TrendingUp } from 'lucide-react';
+import { CalendarCheck, DollarSign, Star, TrendingUp, Phone, Mail, MessageCircle, MapPin, CreditCard, ExternalLink } from 'lucide-react';
 import StatsCard from '../../../components/admin/StatsCard';
 import { formatCurrency, formatDate } from '../../../lib/formatters';
 import { apiClient } from '../../../lib/api';
@@ -52,6 +52,17 @@ function useAdminStats() {
   });
 }
 
+function useSiteSettings() {
+  return useQuery<Record<string, string>>({
+    queryKey: ['admin', 'settings-quick'],
+    queryFn: async () => {
+      const res = await apiClient.get('/admin/settings');
+      return (res.data as { data: Record<string, string> }).data ?? {};
+    },
+    staleTime: 300_000,
+  });
+}
+
 function useUpcomingBookings() {
   return useQuery<UpcomingBooking[]>({
     queryKey: ['admin', 'upcoming'],
@@ -72,6 +83,7 @@ function useUpcomingBookings() {
 export default function AdminDashboardPage() {
   const { data: stats, isLoading: statsLoading } = useAdminStats();
   const { data: upcoming, isLoading: upcomingLoading } = useUpcomingBookings();
+  const { data: siteInfo } = useSiteSettings();
 
   return (
     <div className="space-y-8">
@@ -199,6 +211,42 @@ export default function AdminDashboardPage() {
           </div>
         )}
       </div>
+      {/* Site contact info quick view */}
+      {siteInfo && (
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-bold text-white">Site Info</h2>
+            <Link
+              href="/admin/settings"
+              className="flex items-center gap-1 text-sm text-[#D4A017] hover:underline"
+            >
+              Edit <ExternalLink size={12} />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {[
+              { icon: Phone,         label: 'Support Phone',  value: siteInfo['support_phone'] },
+              { icon: Mail,          label: 'Support Email',  value: siteInfo['support_email'] },
+              { icon: MessageCircle, label: 'WhatsApp',       value: siteInfo['whatsapp_number'] },
+              { icon: CreditCard,    label: 'UPI ID',         value: siteInfo['upi_id'] },
+              { icon: MapPin,        label: 'Address',        value: siteInfo['address'] },
+            ]
+              .filter((item) => item.value)
+              .map(({ icon: Icon, label, value }) => (
+                <div
+                  key={label}
+                  className="flex items-start gap-3 p-3 rounded-xl border border-white/10 bg-[#1A1A1A]"
+                >
+                  <Icon size={15} className="text-[#D4A017] mt-0.5 shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-xs text-[#888] mb-0.5">{label}</p>
+                    <p className="text-sm text-white truncate">{value}</p>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
