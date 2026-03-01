@@ -48,7 +48,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Are there couple-only theaters?',
-    a: 'Yes, our Scarlet Theater (Hitec City) is reserved exclusively for couples. Other theaters can be booked by groups as well.',
+    a: 'Yes, our Red Love theater at Bhadurpally is reserved exclusively for couples. Other theaters can be booked by groups as well.',
   },
   {
     q: 'Can I decorate the theater?',

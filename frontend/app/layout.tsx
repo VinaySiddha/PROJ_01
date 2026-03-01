@@ -34,7 +34,7 @@ const dancingScript = Dancing_Script({
 export const metadata: Metadata = {
   title: { default: 'The Magic Screen — Private Theater Booking in Hyderabad', template: '%s | The Magic Screen' },
   description:
-    'Book a private theater in Hyderabad for birthdays, anniversaries, date nights, and special celebrations. Premium experience at Hitec City & Miyapur.',
+    'Book a private theater in Hyderabad for birthdays, anniversaries, date nights, and special celebrations. Premium private theater experience in Bhadurpally, Hyderabad.',
   keywords: [
     'private theater hyderabad',
     'private screening hyderabad',

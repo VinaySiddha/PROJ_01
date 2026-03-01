@@ -105,41 +105,27 @@ export default function ContactPage() {
               Our Locations
             </h2>
 
-            {[
-              {
-                name: 'Hitec City Branch',
-                address: 'HUDA Techno Enclave, Madhapur, Hyderabad – 500081',
-                landmark: 'Near HITEC City Metro Station',
-                mapsUrl: 'https://maps.google.com',
-              },
-              {
-                name: 'Miyapur Branch',
-                address: 'Miyapur Metro Station Road, Miyapur, Hyderabad – 500049',
-                landmark: 'Adjacent to Miyapur Metro Station',
-                mapsUrl: 'https://maps.google.com',
-              },
-            ].map((loc) => (
-              <a
-                key={loc.name}
-                href={loc.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-start gap-4 p-5 rounded-2xl border border-white/10 bg-[#1A1A1A] hover:border-[#D4A017]/40 transition-all group"
-              >
-                <MapPin
-                  size={20}
-                  className="text-[#D4A017] mt-0.5 flex-shrink-0"
-                />
-                <div>
-                  <p className="font-semibold text-white">{loc.name}</p>
-                  <p className="text-sm text-[#888] mt-1">{loc.address}</p>
-                  <p className="text-xs text-[#888] mt-0.5">{loc.landmark}</p>
-                  <p className="text-xs text-[#D4A017] mt-2 group-hover:underline">
-                    Get Directions &#8594;
-                  </p>
-                </div>
-              </a>
-            ))}
+            <a
+              href="https://maps.google.com/?q=Bhadurpally+Hyderabad"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-4 p-5 rounded-2xl border border-white/10 bg-[#1A1A1A] hover:border-[#D4A017]/40 transition-all group"
+            >
+              <MapPin
+                size={20}
+                className="text-[#D4A017] mt-0.5 flex-shrink-0"
+              />
+              <div>
+                <p className="font-semibold text-white">Bhadurpally</p>
+                <p className="text-sm text-[#888] mt-1">
+                  Bhadurpally, Hyderabad, Telangana 500055
+                </p>
+                <p className="text-xs text-[#888] mt-0.5">+91 99999 99999</p>
+                <p className="text-xs text-[#D4A017] mt-2 group-hover:underline">
+                  Get Directions &#8594;
+                </p>
+              </div>
+            </a>
 
             {/* FAQ nudge */}
             <div className="p-5 rounded-2xl border border-white/10 bg-[#1A1A1A]">

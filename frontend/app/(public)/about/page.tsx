@@ -36,9 +36,9 @@ export default function AboutPage() {
             loved ones, and a movie on a massive screen.
           </p>
           <p className="text-[#888] leading-relaxed mb-4">
-            We started with one theater in Hitec City and quickly realized how much demand there
-            was for private, personalized celebration experiences. Today we operate multiple premium
-            private theaters across Hyderabad, having hosted over 2,000 celebrations.
+            We launched our flagship location in Bhadurpally, Hyderabad, and quickly realized how
+            much demand there was for private, personalized celebration experiences. Today we operate
+            4 premium private theaters at our Bhadurpally venue, having hosted over 2,000 celebrations.
           </p>
           <p className="text-[#888] leading-relaxed">
             Every booking with us is handled with care &mdash; from the personalized decoration
@@ -53,7 +53,7 @@ export default function AboutPage() {
             { icon: Heart, value: '2000+', label: 'Happy Celebrations' },
             { icon: Award, value: '4.9', label: 'Average Rating' },
             { icon: Users, value: '10000+', label: 'Guests Hosted' },
-            { icon: MapPin, value: '2', label: 'Locations' },
+            { icon: MapPin, value: '1', label: 'Location' },
           ].map((stat) => (
             <div
               key={stat.label}
@@ -108,37 +108,30 @@ export default function AboutPage() {
           >
             Our Locations
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[
-              {
-                name: 'Hitec City',
-                address: 'HUDA Techno Enclave, Madhapur, Hyderabad &ndash; 500081',
-                timing: '9:00 AM &ndash; 1:00 AM, Every Day',
-              },
-              {
-                name: 'Miyapur',
-                address: 'Miyapur Metro Station Road, Miyapur, Hyderabad &ndash; 500049',
-                timing: '9:00 AM &ndash; 1:00 AM, Every Day',
-              },
-            ].map((loc) => (
-              <div
-                key={loc.name}
-                className="p-6 rounded-2xl border border-white/10 bg-[#1A1A1A]"
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <MapPin size={16} className="text-[#D4A017]" />
-                  <h3 className="font-semibold text-white">{loc.name}</h3>
-                </div>
-                <p
-                  className="text-sm text-[#888] mb-1"
-                  dangerouslySetInnerHTML={{ __html: loc.address }}
-                />
-                <p
-                  className="text-xs text-[#888]"
-                  dangerouslySetInnerHTML={{ __html: loc.timing }}
-                />
+          <div className="grid grid-cols-1 gap-6">
+            <div className="p-6 rounded-2xl border border-white/10 bg-[#1A1A1A]">
+              <div className="flex items-center gap-2 mb-2">
+                <MapPin size={16} className="text-[#D4A017]" />
+                <h3 className="font-semibold text-white">Bhadurpally</h3>
               </div>
-            ))}
+              <p className="text-sm text-[#888] mb-1">
+                Bhadurpally, Hyderabad, Telangana 500055
+              </p>
+              <p className="text-xs text-[#888] mb-2">
+                9:00 AM &ndash; 1:00 AM, Every Day
+              </p>
+              <p className="text-xs text-[#888] mb-3">
+                Our flagship location &mdash; home to 4 private theaters
+              </p>
+              <a
+                href="https://maps.google.com/?q=Bhadurpally+Hyderabad"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-[#D4A017] hover:underline"
+              >
+                Get Directions &#8594;
+              </a>
+            </div>
           </div>
         </div>
       </div>
