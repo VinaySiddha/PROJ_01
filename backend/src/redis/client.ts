@@ -1,47 +1,90 @@
 /**
- * redis/client.ts
- *
- * Singleton Redis client using ioredis.
- * Used for: slot locking (10-min TTL), OTP storage (5-min TTL), and caching.
- *
- * NEVER instantiate Redis directly elsewhere — always import `redis` from here.
+ * @file In-memory TTL store — drop-in replacement for Redis client.
+ * Implements the subset of ioredis methods used in this project.
+ * No external service required; data lives in process memory.
+ * On Render (single instance), this is perfectly adequate.
  */
-import Redis from 'ioredis';
 import { logger } from '../utils/logger';
 
-// Read Redis URL directly from process.env to avoid circular imports
-// (config/index.ts may import services that import redis)
-const REDIS_URL = process.env['REDIS_URL'];
-
-if (!REDIS_URL) {
-  // Fail fast — Redis is required for slot locking
-  logger.error('REDIS_URL environment variable is not set. Exiting.');
-  process.exit(1);
+interface Entry {
+  value: string;
+  expiresAt: number | null; // null = no expiry
 }
 
-/**
- * The singleton ioredis client instance.
- * Automatically reconnects on connection loss (ioredis handles this).
- */
-export const redis = new Redis(REDIS_URL, {
-  maxRetriesPerRequest: 3,     // Retry failed commands up to 3 times
-  connectTimeout: 10_000,       // 10 seconds to establish initial connection
-  lazyConnect: true,            // Don't connect until first command (avoids startup crash)
-  enableReadyCheck: true,       // Only emit 'ready' after Redis confirms it's ready
-});
+const store = new Map<string, Entry>();
 
-// Log connection lifecycle events for monitoring
-redis.on('connect', () => logger.info('Redis client connected'));
-redis.on('ready', () => logger.info('Redis client ready'));
-redis.on('error', (err: Error) => logger.error('Redis client error', { error: err.message }));
-redis.on('close', () => logger.warn('Redis connection closed'));
-redis.on('reconnecting', () => logger.warn('Redis client reconnecting...'));
+/** Remove expired entries (lazy eviction on access + periodic sweep) */
+function get_(key: string): Entry | null {
+  const entry = store.get(key);
+  if (!entry) return null;
+  if (entry.expiresAt !== null && Date.now() > entry.expiresAt) {
+    store.delete(key);
+    return null;
+  }
+  return entry;
+}
 
-/**
- * Gracefully disconnects the Redis client.
- * Called during app shutdown to cleanly close the connection.
- */
+// Periodic sweep every 5 minutes to prevent unbounded memory growth
+setInterval(() => {
+  const now = Date.now();
+  let swept = 0;
+  for (const [key, entry] of store) {
+    if (entry.expiresAt !== null && now > entry.expiresAt) {
+      store.delete(key);
+      swept++;
+    }
+  }
+  if (swept > 0) logger.debug(`Memory store: swept ${swept} expired keys`);
+}, 5 * 60 * 1000).unref(); // .unref() so this timer doesn't prevent process exit
+
+/** In-memory implementation of the Redis commands used in this project */
+export const redis = {
+  /** GET key → string value or null */
+  get: async (key: string): Promise<string | null> => {
+    return get_(key)?.value ?? null;
+  },
+
+  /** SET key value EX ttlSeconds */
+  setex: async (key: string, ttlSeconds: number, value: string): Promise<'OK'> => {
+    store.set(key, { value, expiresAt: Date.now() + ttlSeconds * 1000 });
+    return 'OK';
+  },
+
+  /** DEL key [key ...] */
+  del: async (...keys: string[]): Promise<number> => {
+    let count = 0;
+    for (const key of keys) {
+      if (store.delete(key)) count++;
+    }
+    return count;
+  },
+
+  /** INCR key → new integer value */
+  incr: async (key: string): Promise<number> => {
+    const entry = get_(key);
+    const current = entry ? parseInt(entry.value, 10) : 0;
+    const next = (isNaN(current) ? 0 : current) + 1;
+    store.set(key, {
+      value: String(next),
+      expiresAt: entry?.expiresAt ?? null,
+    });
+    return next;
+  },
+
+  /** EXPIRE key ttlSeconds → 1 if key exists, 0 if not */
+  expire: async (key: string, ttlSeconds: number): Promise<0 | 1> => {
+    const entry = get_(key);
+    if (!entry) return 0;
+    store.set(key, { value: entry.value, expiresAt: Date.now() + ttlSeconds * 1000 });
+    return 1;
+  },
+
+  /** QUIT — no-op for in-memory store */
+  quit: async (): Promise<'OK'> => 'OK',
+};
+
+/** No-op disconnect — kept so server.ts compiles without changes */
 export const disconnectRedis = async (): Promise<void> => {
-  await redis.quit();
-  logger.info('Redis client disconnected gracefully');
+  logger.info('In-memory store cleared (no external connection to close)');
+  store.clear();
 };
