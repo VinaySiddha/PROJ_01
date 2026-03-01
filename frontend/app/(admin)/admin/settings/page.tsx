@@ -43,6 +43,13 @@ const SETTING_SECTIONS: SettingSection[] = [
     ],
   },
   {
+    title: 'Location & Hours',
+    fields: [
+      { key: 'google_maps_url', label: 'Google Maps URL', description: 'Full Google Maps link for your location', type: 'url' },
+      { key: 'working_hours', label: 'Working Hours', description: 'Displayed on Contact page (e.g. 9:00 AM – 1:00 AM, Every Day)' },
+    ],
+  },
+  {
     title: 'Booking Configuration',
     fields: [
       { key: 'advance_amount', label: 'Advance Amount (₹)', description: 'Total advance collected at booking', type: 'number' },
@@ -53,8 +60,8 @@ const SETTING_SECTIONS: SettingSection[] = [
   {
     title: 'Homepage & Branding',
     fields: [
-      { key: 'marquee_text', label: 'Marquee Ticker Text', description: 'Scrolling announcement bar on homepage', type: 'textarea' },
-      { key: 'homepage_tagline', label: 'Homepage Tagline', description: 'Subtitle under the hero heading' },
+      { key: 'homepage_tagline', label: 'Homepage Tagline', description: 'Subtitle text under the hero heading on the homepage' },
+      { key: 'homepage_subtext', label: 'Homepage Sub-text', description: 'Paragraph below the tagline', type: 'textarea' },
     ],
   },
   {
