@@ -29,7 +29,7 @@ const EnvSchema = z.object({
   WATI_API_KEY: z.string().min(1, 'WATI_API_KEY is required'),
   WATI_API_ENDPOINT: z.string().url('WATI_API_ENDPOINT must be a valid URL'),
   WATI_BUSINESS_PHONE: z.string().min(10, 'WATI_BUSINESS_PHONE is required'),
-  FRONTEND_URL: z.string().url('FRONTEND_URL must be a valid URL').default('http://localhost:3000'),
+  FRONTEND_URL: z.string().default('http://localhost:3000'), // comma-separated allowed
 });
 
 // Parse and validate — throws ZodError with descriptive messages if anything is missing/wrong
