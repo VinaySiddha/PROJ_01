@@ -30,7 +30,7 @@ export default function HomePage() {
           {/* Headline */}
           <h1
             className="text-5xl md:text-7xl font-bold text-white leading-tight mb-6"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             Your Story Deserves a{' '}
             <span className="text-[#D4A017]">Grand Stage</span>
@@ -79,7 +79,7 @@ export default function HomePage() {
           <div className="text-center mb-14">
             <h2
               className="text-3xl md:text-4xl font-bold text-white mb-4"
-              style={{ fontFamily: 'var(--font-playfair)' }}
+              style={{ fontFamily: 'var(--font-display)' }}
             >
               Why The Magic Screen?
             </h2>
@@ -142,7 +142,7 @@ export default function HomePage() {
           <div className="text-center mb-14">
             <h2
               className="text-3xl md:text-4xl font-bold text-white mb-4"
-              style={{ fontFamily: 'var(--font-playfair)' }}
+              style={{ fontFamily: 'var(--font-display)' }}
             >
               Every Celebration,{' '}
               <span className="text-[#D4A017]">Perfectly Framed</span>
@@ -182,7 +182,7 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2
             className="text-3xl md:text-4xl font-bold text-white mb-4"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             Now Open in Bhadurpally
           </h2>
@@ -213,7 +213,7 @@ export default function HomePage() {
         <div className="max-w-2xl mx-auto px-4">
           <h2
             className="text-3xl md:text-4xl font-bold text-white mb-4"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             Ready to Create a Memory?
           </h2>

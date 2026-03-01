@@ -36,7 +36,7 @@ export default async function TheatersPage() {
         <div className="text-center mb-12">
           <h1
             className="text-4xl md:text-5xl font-bold text-white mb-4"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             Our Private Theaters
           </h1>
@@ -75,7 +75,7 @@ export default async function TheatersPage() {
                   <div className="p-5">
                     <h3
                       className="font-semibold text-white text-lg mb-1 group-hover:text-[#D4A017] transition-colors"
-                      style={{ fontFamily: 'var(--font-playfair)' }}
+                      style={{ fontFamily: 'var(--font-display)' }}
                     >
                       {theater.name}
                     </h3>
