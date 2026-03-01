@@ -14,6 +14,7 @@ export interface AddonItem {
   description?: string;
   price: number;
   image_url?: string;
+  emoji?: string;
   is_active: boolean;
   sort_order: number;
 }
@@ -28,6 +29,12 @@ export interface CakeItem {
   image_url?: string;
   is_active: boolean;
   sort_order: number;
+}
+
+/** A single size/price variant option for a food item */
+export interface FoodVariant {
+  size: string;   // e.g. "Single", "Full", "1 Pcs", "Regular"
+  price: number;
 }
 
 /** Food menu category */
@@ -49,6 +56,7 @@ export interface FoodItem {
   is_veg: boolean;
   image_url?: string;
   is_available: boolean;
+  variants?: FoodVariant[];   // present when item has size options
   sort_order: number;
 }
 
@@ -56,6 +64,7 @@ export interface FoodItem {
 export interface FoodOrderItem {
   food_item_id: string;
   food_item: FoodItem;
+  variant_size?: string;  // which size was selected; undefined for fixed-price items
   quantity: number;
-  unit_price: number;
+  unit_price: number;     // actual price for the selected variant
 }
