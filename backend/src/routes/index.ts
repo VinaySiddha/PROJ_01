@@ -9,6 +9,8 @@ import bookingsRouter from './bookings';
 import paymentsRouter from './payments';
 import reviewsRouter from './reviews';
 import adminRouter from './admin/index';
+import catalogRouter from './catalog';
+import { getLocations } from '../controllers/theaters.controller';
 
 const router = Router();
 
@@ -18,6 +20,10 @@ router.use('/bookings', bookingsRouter);
 router.use('/payments', paymentsRouter);
 router.use('/reviews', reviewsRouter);
 router.use('/admin', adminRouter);
+router.use('/', catalogRouter);
+
+/** /api/locations — alias for /api/theaters/locations (frontend convenience) */
+router.get('/locations', getLocations);
 
 /** Health check */
 router.get('/health', (_req, res) => {

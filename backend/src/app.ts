@@ -65,14 +65,12 @@ app.use((req, _res, next) => {
   next();
 });
 
-// ── Swagger UI (dev only) ──────────────────────────────────────────────────────
-if (config.NODE_ENV !== 'production') {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
-    customSiteTitle: 'The Magic Screen API Docs',
-    swaggerOptions: { persistAuthorization: true },
-  }));
-  logger.info('Swagger UI available at /api-docs');
-}
+// ── Swagger UI ────────────────────────────────────────────────────────────────
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customSiteTitle: 'The Magic Screen API Docs',
+  swaggerOptions: { persistAuthorization: true },
+}));
+logger.info('Swagger UI available at /api-docs');
 
 // ── Routes ────────────────────────────────────────────────────────────────────
 app.use('/api', router);
