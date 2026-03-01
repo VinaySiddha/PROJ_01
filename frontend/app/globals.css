@@ -1,5 +1,5 @@
 /* =============================================================================
-   globals.css — CineNest Global Styles
+   globals.css — theMagicshow Global Styles
    Dark cinema theme: deep blacks, gold accents, warm off-white text.
    ============================================================================= */
 
@@ -9,8 +9,8 @@
    Playfair Display — display / heading font (cinematic feel)
    Dancing Script — script / decorative accent font
    ----------------------------------------------------------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
 
 /* -----------------------------------------------------------------------------
@@ -72,8 +72,8 @@
     --radius-sm: 0.375rem;
 
     /* Font families */
-    --font-sans:    'DM Sans', system-ui, sans-serif;
-    --font-display: 'Playfair Display', Georgia, serif;
+    --font-sans:    'Outfit', system-ui, sans-serif;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
     --font-script:  'Dancing Script', cursive;
   }
 
@@ -531,6 +531,37 @@
     background-size: 200% 100%;
     animation: skeleton-shimmer 1.5s ease-in-out infinite;
     border-radius: var(--radius-md);
+  }
+
+  /* ── Cinematic display text — Cormorant Garamond italic, large ── */
+  .text-cinematic {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.15;
+  }
+
+  /* ── Gold underline link — animated scaleX from center ── */
+  .link-gold-underline {
+    position: relative;
+    display: inline-block;
+  }
+  .link-gold-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background: #D4A017;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.25s ease;
+  }
+  .link-gold-underline:hover::after,
+  .link-gold-underline[data-active='true']::after {
+    transform: scaleX(1);
   }
 }
 
