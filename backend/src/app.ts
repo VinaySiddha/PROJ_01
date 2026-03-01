@@ -25,8 +25,21 @@ app.use(helmet({
 }));
 
 // ── CORS ──────────────────────────────────────────────────────────────────────
+// FRONTEND_URL supports comma-separated values, e.g.:
+//   https://themagicscreen.com,https://www.themagicscreen.com
+const allowedOrigins = new Set([
+  ...config.FRONTEND_URL.split(',').map((u) => u.trim()).filter(Boolean),
+  'http://localhost:3000',
+  'http://localhost:3001',
+]);
+
 app.use(cors({
-  origin: [config.FRONTEND_URL, 'http://localhost:3000'],
+  origin: (origin, callback) => {
+    // Allow server-to-server (no origin header) and whitelisted origins
+    if (!origin || allowedOrigins.has(origin)) return callback(null, true);
+    logger.warn('CORS blocked', { origin });
+    callback(new Error(`CORS: origin ${origin} not allowed`));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Request-ID'],
