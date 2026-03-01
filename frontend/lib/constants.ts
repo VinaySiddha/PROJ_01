@@ -71,4 +71,4 @@ export const OCCASION_NAME_MAX_LENGTH = 20;
 export const BOOKING_STEPS = 7;
 
 /** WhatsApp contact link for customer support */
-export const WHATSAPP_SUPPORT_LINK = 'https://wa.me/919999999999?text=Hi%20I%20need%20help%20with%20a%20CineNest%20booking';
+export const WHATSAPP_SUPPORT_LINK = 'https://wa.me/919999999999?text=Hi%20I%20need%20help%20with%20a%20The%20Magic%20Screen%20booking';

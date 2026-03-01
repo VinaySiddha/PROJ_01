@@ -1,24 +1,23 @@
 /**
- * @file Theaters listing page — shows all available theaters, filterable by location
+ * @file Theaters listing page — shows all Bhadurpally private theaters
  * @module app/(public)/theaters/page
  */
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { MapPin } from 'lucide-react';
-import type { Theater, Location } from '@/types/theater';
+import type { Theater } from '@/types/theater';
 
 export const metadata: Metadata = {
-  title: 'Private Theaters in Hyderabad',
+  title: 'Private Theaters in Bhadurpally, Hyderabad',
   description:
-    'Browse all private theaters available for booking in Hyderabad at Hitec City and Miyapur locations.',
+    'Browse our private theaters available for booking in Bhadurpally, Hyderabad. Perfect for birthdays, anniversaries, and special celebrations.',
 };
 
-/** Fetch theaters from API (server-side, with optional location filter) */
-async function fetchTheaters(location?: string): Promise<Theater[]> {
+/** Fetch theaters from API (server-side) */
+async function fetchTheaters(): Promise<Theater[]> {
   const apiUrl = process.env['NEXT_PUBLIC_API_URL'] ?? 'http://localhost:4000/api';
-  const url = location ? `${apiUrl}/theaters?location=${location}` : `${apiUrl}/theaters`;
   try {
-    const res = await fetch(url, { next: { revalidate: 300 } });
+    const res = await fetch(`${apiUrl}/theaters`, { next: { revalidate: 300 } });
     if (!res.ok) return [];
     const data = (await res.json()) as { data?: Theater[] };
     return data.data ?? [];
@@ -27,26 +26,8 @@ async function fetchTheaters(location?: string): Promise<Theater[]> {
   }
 }
 
-/** Fetch all distinct locations for filter tabs */
-async function fetchLocations(): Promise<Location[]> {
-  const apiUrl = process.env['NEXT_PUBLIC_API_URL'] ?? 'http://localhost:4000/api';
-  try {
-    const res = await fetch(`${apiUrl}/theaters/locations`, { next: { revalidate: 300 } });
-    if (!res.ok) return [];
-    const data = (await res.json()) as { data?: Location[] };
-    return data.data ?? [];
-  } catch {
-    return [];
-  }
-}
-
-interface TheatersPageProps {
-  searchParams: Promise<{ location?: string }>;
-}
-
-export default async function TheatersPage({ searchParams }: TheatersPageProps) {
-  const { location } = await searchParams;
-  const [theaters, locations] = await Promise.all([fetchTheaters(location), fetchLocations()]);
+export default async function TheatersPage() {
+  const theaters = await fetchTheaters();
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
@@ -55,52 +36,23 @@ export default async function TheatersPage({ searchParams }: TheatersPageProps) 
         <div className="text-center mb-12">
           <h1
             className="text-4xl md:text-5xl font-bold text-white mb-4"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             Our Private Theaters
           </h1>
           <p className="text-[#888] text-lg max-w-xl mx-auto">
             Handcrafted private cinema experiences for every occasion.
           </p>
-        </div>
-
-        {/* Location Filter Tabs */}
-        <div className="flex items-center justify-center gap-3 mb-10 flex-wrap">
-          <Link
-            href="/theaters"
-            className={`flex items-center gap-2 px-5 py-2 rounded-full border transition-all text-sm font-medium ${
-              !location
-                ? 'bg-[#D4A017] text-black border-[#D4A017]'
-                : 'border-white/20 text-[#888] hover:border-[#D4A017]/50 hover:text-white'
-            }`}
-          >
-            All Locations
-          </Link>
-          {locations.map((loc) => (
-            <Link
-              key={loc.slug}
-              href={`/theaters?location=${loc.slug}`}
-              className={`flex items-center gap-2 px-5 py-2 rounded-full border transition-all text-sm font-medium ${
-                location === loc.slug
-                  ? 'bg-[#D4A017] text-black border-[#D4A017]'
-                  : 'border-white/20 text-[#888] hover:border-[#D4A017]/50 hover:text-white'
-              }`}
-            >
-              <MapPin size={14} /> {loc.name}
-            </Link>
-          ))}
+          <div className="flex items-center justify-center gap-2 mt-3 text-sm text-[#D4A017]">
+            <MapPin size={14} />
+            <span>Bhadurpally, Hyderabad</span>
+          </div>
         </div>
 
         {/* Theater Grid */}
         {theaters.length === 0 ? (
           <div className="text-center py-16 text-[#888]">
-            <p className="text-lg">No theaters found. Please try a different location.</p>
-            <Link
-              href="/theaters"
-              className="inline-flex items-center gap-2 mt-4 px-5 py-2 border border-[#D4A017]/40 text-[#D4A017] rounded-full text-sm hover:bg-[#D4A017]/10 transition-colors"
-            >
-              View All Locations
-            </Link>
+            <p className="text-lg">No theaters available at the moment. Please check back soon.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -123,7 +75,7 @@ export default async function TheatersPage({ searchParams }: TheatersPageProps) 
                   <div className="p-5">
                     <h3
                       className="font-semibold text-white text-lg mb-1 group-hover:text-[#D4A017] transition-colors"
-                      style={{ fontFamily: 'var(--font-playfair)' }}
+                      style={{ fontFamily: 'var(--font-display)' }}
                     >
                       {theater.name}
                     </h3>

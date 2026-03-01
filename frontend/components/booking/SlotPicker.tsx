@@ -1,6 +1,6 @@
 /**
  * @file SlotPicker.tsx
- * @description Date and time slot selection step in the CineNest booking flow.
+ * @description Date and time slot selection step in the The Magic Screen booking flow.
  * Client Component — manages date input and slot/duration selection state callbacks.
  */
 

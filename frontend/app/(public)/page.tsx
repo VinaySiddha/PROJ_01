@@ -1,5 +1,5 @@
 /**
- * @file Home page — CineNest landing page with hero, features, theaters preview, and reviews
+ * @file Home page — The Magic Screen landing page with hero, features, theaters preview, and reviews
  * @module app/(public)/page
  */
 import type { Metadata } from 'next';
@@ -7,9 +7,9 @@ import Link from 'next/link';
 import { Star, MapPin, Clock, Shield, ChevronRight, Play } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'CineNest — Private Theater Booking in Hyderabad',
+  title: 'The Magic Screen — Private Theater Booking in Hyderabad',
   description:
-    'Book a private theater in Hyderabad for birthdays, anniversaries, date nights and more. Premium private cinema experiences at Hitec City & Miyapur.',
+    'Book a private theater in Bhadurpally, Hyderabad for birthdays, anniversaries, date nights and more. Premium private cinema experiences.',
 };
 
 export default function HomePage() {
@@ -30,7 +30,7 @@ export default function HomePage() {
           {/* Headline */}
           <h1
             className="text-5xl md:text-7xl font-bold text-white leading-tight mb-6"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             Your Story Deserves a{' '}
             <span className="text-[#D4A017]">Grand Stage</span>
@@ -62,7 +62,7 @@ export default function HomePage() {
             {[
               { value: '2000+', label: 'Happy Celebrations' },
               { value: '4.9★', label: 'Average Rating' },
-              { value: '2', label: 'Premium Locations' },
+              { value: '4', label: 'Private Theaters' },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <p className="text-2xl font-bold text-[#D4A017]">{stat.value}</p>
@@ -79,9 +79,9 @@ export default function HomePage() {
           <div className="text-center mb-14">
             <h2
               className="text-3xl md:text-4xl font-bold text-white mb-4"
-              style={{ fontFamily: 'var(--font-playfair)' }}
+              style={{ fontFamily: 'var(--font-display)' }}
             >
-              Why CineNest?
+              Why The Magic Screen?
             </h2>
             <p className="text-[#888] max-w-lg mx-auto">
               Everything you need for an unforgettable private screening experience.
@@ -107,8 +107,8 @@ export default function HomePage() {
               },
               {
                 icon: MapPin,
-                title: '2 Locations',
-                desc: 'Conveniently located in Hitec City and Miyapur — the heart of Hyderabad.',
+                title: 'Bhadurpally',
+                desc: 'Conveniently located in Bhadurpally — easily accessible from across Hyderabad.',
               },
               {
                 icon: Star,
@@ -142,7 +142,7 @@ export default function HomePage() {
           <div className="text-center mb-14">
             <h2
               className="text-3xl md:text-4xl font-bold text-white mb-4"
-              style={{ fontFamily: 'var(--font-playfair)' }}
+              style={{ fontFamily: 'var(--font-display)' }}
             >
               Every Celebration,{' '}
               <span className="text-[#D4A017]">Perfectly Framed</span>
@@ -177,42 +177,34 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Locations CTA ──────────────────────────────────────────── */}
+      {/* ── Location CTA ───────────────────────────────────────────── */}
       <section className="py-20 bg-[#0D0D0D]">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2
             className="text-3xl md:text-4xl font-bold text-white mb-4"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
-            Two Locations, One Experience
+            Now Open in Bhadurpally
           </h2>
           <p className="text-[#888] mb-10">
-            Available at Hitec City and Miyapur for your convenience.
+            Visit us at Bhadurpally, Hyderabad — easily accessible and ready to host your celebration.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              { name: 'Hitec City', desc: 'HUDA Techno Enclave, Madhapur', slug: 'hitec-city' },
-              { name: 'Miyapur', desc: 'Miyapur Metro Station Road', slug: 'miyapur' },
-            ].map((loc) => (
-              <Link
-                key={loc.slug}
-                href={`/theaters?location=${loc.slug}`}
-                className="flex items-center justify-between p-6 rounded-2xl border border-white/10 bg-[#1A1A1A] hover:border-[#D4A017]/50 transition-all group"
-              >
-                <div className="text-left">
-                  <div className="flex items-center gap-2 mb-1">
-                    <MapPin size={16} className="text-[#D4A017]" />
-                    <span className="font-semibold text-white">{loc.name}</span>
-                  </div>
-                  <p className="text-sm text-[#888]">{loc.desc}</p>
-                </div>
-                <ChevronRight
-                  size={20}
-                  className="text-[#D4A017] group-hover:translate-x-1 transition-transform"
-                />
-              </Link>
-            ))}
-          </div>
+          <Link
+            href="/theaters"
+            className="inline-flex items-center justify-between p-6 rounded-2xl border border-white/10 bg-[#1A1A1A] hover:border-[#D4A017]/50 transition-all group max-w-sm mx-auto"
+          >
+            <div className="text-left">
+              <div className="flex items-center gap-2 mb-1">
+                <MapPin size={16} className="text-[#D4A017]" />
+                <span className="font-semibold text-white">Bhadurpally</span>
+              </div>
+              <p className="text-sm text-[#888]">4 private theaters available</p>
+            </div>
+            <ChevronRight
+              size={20}
+              className="text-[#D4A017] group-hover:translate-x-1 transition-transform"
+            />
+          </Link>
         </div>
       </section>
 
@@ -221,7 +213,7 @@ export default function HomePage() {
         <div className="max-w-2xl mx-auto px-4">
           <h2
             className="text-3xl md:text-4xl font-bold text-white mb-4"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             Ready to Create a Memory?
           </h2>

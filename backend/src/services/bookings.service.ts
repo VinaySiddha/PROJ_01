@@ -25,7 +25,7 @@ export interface CreateBookingInput {
   occasionName?: string;
   cakeId?:       string;
   addonIds?:     string[];
-  foodItems?:    { foodItemId: string; quantity: number }[];
+  foodItems?:    { foodItemId: string; variantSize?: string; quantity: number }[];
   couponCode?:   string;
   referralCode?: string;
   ipAddress?:    string;
@@ -99,20 +99,26 @@ export class BookingsService {
       if (cake) { cakeAmount = cake.price; resolvedCake = cake; }
     }
 
-    // Resolve food items
+    // Resolve food items (respects variant sizes when present)
     let foodAmount = 0;
-    const resolvedFoodItems: { foodItemId: string; quantity: number; price: number }[] = [];
+    const resolvedFoodItems: { foodItemId: string; variantSize?: string; quantity: number; price: number }[] = [];
     if (input.foodItems?.length) {
       const foodItemIds = input.foodItems.map((f) => f.foodItemId);
       const dbFoodItems = await prisma.foodItem.findMany({
         where: { id: { in: foodItemIds }, is_available: true },
-        select: { id: true, price: true },
+        select: { id: true, price: true, variants: true },
       });
-      const priceMap = new Map(dbFoodItems.map((f) => [f.id, f.price]));
+      const dbItemMap = new Map(dbFoodItems.map((f) => [f.id, f]));
       for (const item of input.foodItems) {
-        const price = priceMap.get(item.foodItemId) ?? 0;
-        foodAmount += price * item.quantity;
-        resolvedFoodItems.push({ foodItemId: item.foodItemId, quantity: item.quantity, price });
+        const dbItem = dbItemMap.get(item.foodItemId);
+        let unitPrice = dbItem?.price ?? 0;
+        if (item.variantSize && dbItem?.variants) {
+          const variantArr = dbItem.variants as Array<{ size: string; price: number }>;
+          const match = variantArr.find((v) => v.size === item.variantSize);
+          if (match) unitPrice = match.price;
+        }
+        foodAmount += unitPrice * item.quantity;
+        resolvedFoodItems.push({ foodItemId: item.foodItemId, variantSize: item.variantSize, quantity: item.quantity, price: unitPrice });
       }
     }
 
@@ -200,6 +206,7 @@ export class BookingsService {
         await tx.bookingFoodItem.createMany({
           data: resolvedFoodItems.map((f) => ({
             booking_id: newBooking.id, food_item_id: f.foodItemId,
+            variant_size: f.variantSize ?? null,
             quantity: f.quantity, unit_price: f.price,
           })),
         });

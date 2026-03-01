@@ -1,6 +1,6 @@
 /**
  * @file ErrorMessage.tsx
- * @description Reusable error state component for CineNest. Server Component.
+ * @description Reusable error state component for The Magic Screen. Server Component.
  * Displays an icon, title, message, and an optional retry action button
  * in a destructive red color scheme.
  */

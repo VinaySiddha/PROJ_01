@@ -15,12 +15,26 @@ export type OccasionType =
   | 'baby_shower'
   | 'farewell'
   | 'marriage_proposal'
+  | 'proposal'
   | 'private_date'
+  | 'date_night'
+  | 'movie_night'
   | 'reunion'
   | 'other';
 
 /** Duration type for a slot booking */
 export type DurationType = 'standard' | 'short';
+
+/** Availability status of a time slot for a given date */
+export type SlotStatus = 'available' | 'booked' | 'locked';
+
+/** A time slot with its real-time availability for a chosen date */
+export interface SlotAvailabilityResult {
+  slot_id: string;
+  name: string;
+  time_range: string;
+  status: SlotStatus;
+}
 
 /** Status of a booking throughout its lifecycle */
 export type BookingStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed';
@@ -99,10 +113,13 @@ export interface BookingAddonItem {
 export interface PriceBreakdown {
   base_price: number;
   extra_persons_charge: number;
+  extra_adults?: number;
+  extra_children?: number;
   addons_total: number;
   food_total: number;
   cake_price: number;
   coupon_discount: number;
+  coupon_code?: string;
   total: number;
   advance_amount: number;        // Amount charged now (Rs 700)
   balance_amount: number;        // Remaining to pay on arrival

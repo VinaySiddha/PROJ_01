@@ -116,7 +116,7 @@ export default function FoodPage() {
         <div className="text-center mb-12">
           <h1
             className="text-4xl md:text-5xl font-bold text-white mb-4"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             Food <span className="text-[#D4A017]">Menu</span>
           </h1>
@@ -143,7 +143,7 @@ export default function FoodPage() {
                 <span className="text-2xl">{cat.emoji}</span>
                 <h2
                   className="text-xl font-bold text-white"
-                  style={{ fontFamily: 'var(--font-playfair)' }}
+                  style={{ fontFamily: 'var(--font-display)' }}
                 >
                   {cat.category}
                 </h2>

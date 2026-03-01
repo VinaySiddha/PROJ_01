@@ -21,10 +21,12 @@ export interface Theater {
   id: string;
   location_id: string;
   location?: Location;
+  location_name?: string;     // Flat denormalized location name for listing cards
   name: string;
   slug: string;
   screen_size: string;
   screen_resolution: string;
+  resolution?: string;        // Alias / short form used in TheaterSpecs
   sound_system: string;
   max_capacity: number;
   base_capacity: number;
@@ -36,6 +38,7 @@ export interface Theater {
   couple_only: boolean;
   description: string;
   images: string[];           // Array of Cloudinary URLs
+  image_url?: string;         // Primary image URL shorthand used in TheaterCard
   youtube_url?: string;
   is_active: boolean;
   sort_order: number;

@@ -26,7 +26,7 @@ const POLICIES: Record<string, PolicyContent> = {
     lastUpdated: '2026-02-28',
     sections: [
       {
-        body: 'CineNest wants every booking to be a perfect experience. We understand that plans can change, and we have designed our refund policy to be as fair as possible.',
+        body: 'The Magic Screen wants every booking to be a perfect experience. We understand that plans can change, and we have designed our refund policy to be as fair as possible.',
       },
       {
         heading: 'Advance Payment',
@@ -65,7 +65,7 @@ const POLICIES: Record<string, PolicyContent> = {
     lastUpdated: '2026-02-28',
     sections: [
       {
-        body: 'CineNest wants every booking to be a perfect experience. We understand that plans can change, and we have designed our refund policy to be as fair as possible.',
+        body: 'The Magic Screen wants every booking to be a perfect experience. We understand that plans can change, and we have designed our refund policy to be as fair as possible.',
       },
       {
         heading: 'Advance Payment',
@@ -103,7 +103,7 @@ const POLICIES: Record<string, PolicyContent> = {
     lastUpdated: '2026-02-28',
     sections: [
       {
-        body: 'CineNest ("we", "our", "us") respects your privacy and is committed to protecting your personal data. This policy explains what data we collect, why we collect it, and how we use it.',
+        body: 'The Magic Screen ("we", "our", "us") respects your privacy and is committed to protecting your personal data. This policy explains what data we collect, why we collect it, and how we use it.',
       },
       {
         heading: 'Data We Collect',
@@ -123,7 +123,7 @@ const POLICIES: Record<string, PolicyContent> = {
       },
       {
         heading: 'Your Rights',
-        body: 'You have the right to access, correct, or delete your personal data. To exercise these rights, contact us at privacy@cinenest.com.',
+        body: 'You have the right to access, correct, or delete your personal data. To exercise these rights, contact us at privacy@themagicscreen.com.',
       },
       {
         heading: 'Cookies',
@@ -142,7 +142,7 @@ const POLICIES: Record<string, PolicyContent> = {
     lastUpdated: '2026-02-28',
     sections: [
       {
-        body: 'CineNest ("we", "our", "us") respects your privacy and is committed to protecting your personal data. This policy explains what data we collect, why we collect it, and how we use it.',
+        body: 'The Magic Screen ("we", "our", "us") respects your privacy and is committed to protecting your personal data. This policy explains what data we collect, why we collect it, and how we use it.',
       },
       {
         heading: 'Data We Collect',
@@ -162,7 +162,7 @@ const POLICIES: Record<string, PolicyContent> = {
       },
       {
         heading: 'Your Rights',
-        body: 'You have the right to access, correct, or delete your personal data. Contact: privacy@cinenest.com.',
+        body: 'You have the right to access, correct, or delete your personal data. Contact: privacy@themagicscreen.com.',
       },
       {
         heading: 'Cookies',
@@ -176,7 +176,7 @@ const POLICIES: Record<string, PolicyContent> = {
     lastUpdated: '2026-02-28',
     sections: [
       {
-        body: 'By booking a private theater at CineNest, you agree to the following terms and conditions. Please read them carefully before confirming your booking.',
+        body: 'By booking a private theater at The Magic Screen, you agree to the following terms and conditions. Please read them carefully before confirming your booking.',
       },
       {
         heading: 'Booking & Payment',
@@ -184,7 +184,7 @@ const POLICIES: Record<string, PolicyContent> = {
       },
       {
         heading: 'Content Policy',
-        body: 'You may stream content from any legal, licensed platform (Netflix, Prime Video, Disney+, etc.). Pirated or illegal content is strictly prohibited. CineNest is not responsible for streaming issues due to your account or subscription status.',
+        body: 'You may stream content from any legal, licensed platform (Netflix, Prime Video, Disney+, etc.). Pirated or illegal content is strictly prohibited. The Magic Screen is not responsible for streaming issues due to your account or subscription status.',
       },
       {
         heading: 'Guest Count',
@@ -196,15 +196,15 @@ const POLICIES: Record<string, PolicyContent> = {
       },
       {
         heading: 'Age Restriction',
-        body: 'Couple-only theaters are reserved exclusively for guests aged 18 years and above. CineNest reserves the right to request valid ID verification.',
+        body: 'Couple-only theaters are reserved exclusively for guests aged 18 years and above. The Magic Screen reserves the right to request valid ID verification.',
       },
       {
         heading: 'Photography',
-        body: 'Personal photography and videography is welcome. Commercial photography or videography inside the theater for professional purposes requires prior written permission from CineNest management.',
+        body: 'Personal photography and videography is welcome. Commercial photography or videography inside the theater for professional purposes requires prior written permission from The Magic Screen management.',
       },
       {
         heading: 'Force Majeure',
-        body: 'CineNest is not liable for service interruptions due to power failures, technical issues, or circumstances beyond our reasonable control. We will make best efforts to reschedule affected bookings.',
+        body: 'The Magic Screen is not liable for service interruptions due to power failures, technical issues, or circumstances beyond our reasonable control. We will make best efforts to reschedule affected bookings.',
       },
       {
         heading: 'Governing Law',
@@ -212,7 +212,7 @@ const POLICIES: Record<string, PolicyContent> = {
       },
       {
         heading: 'Contact',
-        body: 'For legal queries, contact: legal@cinenest.com',
+        body: 'For legal queries, contact: legal@themagicscreen.com',
       },
     ],
   },
@@ -252,7 +252,7 @@ export default async function PolicyPage({ params }: PolicyPageProps) {
         {/* Title */}
         <h1
           className="text-4xl font-bold text-white mb-8"
-          style={{ fontFamily: 'var(--font-playfair)' }}
+          style={{ fontFamily: 'var(--font-display)' }}
         >
           {content.title}
         </h1>

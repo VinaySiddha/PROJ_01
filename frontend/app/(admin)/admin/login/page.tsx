@@ -58,7 +58,7 @@ export default function AdminLoginPage() {
             className="text-2xl font-bold text-white"
             style={{ fontFamily: 'var(--font-display)' }}
           >
-            CineNest Admin
+            The Magic Screen Admin
           </h1>
           <p className="text-[#888] text-sm mt-1">Sign in to access the dashboard</p>
         </div>
@@ -77,7 +77,7 @@ export default function AdminLoginPage() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@cinenest.com"
+                placeholder="admin@themagicscreen.com"
                 className="w-full rounded-xl border border-white/10 bg-[#0D0D0D] px-4 py-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#D4A017]/50 placeholder:text-[#444]"
               />
             </div>
@@ -134,7 +134,7 @@ export default function AdminLoginPage() {
         </div>
 
         <p className="text-center text-xs text-[#555] mt-6">
-          CineNest Admin Panel · Restricted Access
+          The Magic Screen Admin Panel · Restricted Access
         </p>
       </div>
     </div>

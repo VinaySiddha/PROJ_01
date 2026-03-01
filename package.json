@@ -1,7 +1,7 @@
 {
-  "name": "cinenest",
+  "name": "themagicscreen",
   "version": "1.0.0",
-  "description": "CineNest private theater booking platform — monorepo",
+  "description": "The Magic Screen private theater booking platform — monorepo",
   "private": true,
   "workspaces": [
     "frontend",

@@ -73,7 +73,7 @@ export default async function TheaterDetailPage({ params }: Params) {
               )}
               <h1
                 className="text-3xl md:text-4xl font-bold text-white"
-                style={{ fontFamily: 'var(--font-playfair)' }}
+                style={{ fontFamily: 'var(--font-display)' }}
               >
                 {theater.name}
               </h1>
@@ -112,7 +112,7 @@ export default async function TheaterDetailPage({ params }: Params) {
               <div>
                 <h2
                   className="text-xl font-bold text-white mb-3"
-                  style={{ fontFamily: 'var(--font-playfair)' }}
+                  style={{ fontFamily: 'var(--font-display)' }}
                 >
                   About This Theater
                 </h2>
@@ -124,7 +124,7 @@ export default async function TheaterDetailPage({ params }: Params) {
             <div>
               <h2
                 className="text-xl font-bold text-white mb-4"
-                style={{ fontFamily: 'var(--font-playfair)' }}
+                style={{ fontFamily: 'var(--font-display)' }}
               >
                 What&apos;s Included
               </h2>
@@ -151,7 +151,7 @@ export default async function TheaterDetailPage({ params }: Params) {
             <div className="sticky top-28 p-6 rounded-2xl border border-[#D4A017]/30 bg-[#1A1A1A] space-y-4">
               <h3
                 className="text-lg font-bold text-white"
-                style={{ fontFamily: 'var(--font-playfair)' }}
+                style={{ fontFamily: 'var(--font-display)' }}
               >
                 Book This Theater
               </h3>

@@ -36,7 +36,7 @@ interface VerifyOtpResponseData {
 // ---------------------------------------------------------------------------
 
 /** Key under which the customer JWT is stored in localStorage */
-const TOKEN_KEY = 'cinenest_token';
+const TOKEN_KEY = 'themagicscreen_token';
 
 // ---------------------------------------------------------------------------
 // Hook

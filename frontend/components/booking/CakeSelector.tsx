@@ -1,6 +1,6 @@
 /**
  * @file CakeSelector.tsx
- * @description Cake selection step in the CineNest booking flow.
+ * @description Cake selection step in the The Magic Screen booking flow.
  * Client Component — manages eggless filter toggle and selected cake state.
  */
 

@@ -12,7 +12,7 @@ const PORT = config.PORT;
 
 /** Start HTTP server */
 const server = app.listen(PORT, () => {
-  logger.info(`CineNest API running`, {
+  logger.info(`The Magic Screen API running`, {
     port: PORT,
     env: config.NODE_ENV,
     url: `http://localhost:${PORT}/api/health`,

@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// CineNest — Prisma Schema
+// The Magic Screen — Prisma Schema
 // ─────────────────────────────────────────────────────────────────────────────
 
 datasource db {
@@ -176,6 +176,7 @@ model BookingFoodItem {
   booking      Booking   @relation(fields: [booking_id], references: [id])
   food_item_id String
   food_item    FoodItem  @relation(fields: [food_item_id], references: [id])
+  variant_size String?   // e.g. "Single", "Full", "1 Pcs" — null for fixed-price items
   quantity     Int       @default(1)
   unit_price   Int
 
@@ -242,7 +243,7 @@ model Cake {
 
 model FoodCategory {
   id         String     @id @default(uuid())
-  name       String
+  name       String    @unique
   sort_order Int        @default(0)
   is_active  Boolean    @default(true)
 
@@ -265,6 +266,7 @@ model FoodItem {
   is_veg       Boolean       @default(true)
   image_url    String?
   is_available Boolean       @default(true)
+  variants     Json?         // [{size: "Single", price: 129}, {size: "Full", price: 239}]
   sort_order   Int           @default(0)
 
   booking_food_items BookingFoodItem[]

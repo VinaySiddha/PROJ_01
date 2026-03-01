@@ -1,6 +1,6 @@
 /**
  * @file OccasionSelector.tsx
- * @description Occasion type selector with personalization name input for CineNest bookings.
+ * @description Occasion type selector with personalization name input for The Magic Screen bookings.
  * Client Component — manages the occasion grid selection and name input field.
  */
 

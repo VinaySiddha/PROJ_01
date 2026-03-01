@@ -10,7 +10,7 @@ import { WHATSAPP_SUPPORT_LINK } from '@/lib/constants';
 export const metadata: Metadata = {
   title: 'FAQ',
   description:
-    'Frequently asked questions about CineNest private theater bookings, cancellations, pricing, and more.',
+    'Frequently asked questions about The Magic Screen private theater bookings, cancellations, pricing, and more.',
 };
 
 const FAQ_ITEMS = [
@@ -40,15 +40,15 @@ const FAQ_ITEMS = [
   },
   {
     q: 'What is the cancellation policy?',
-    a: 'Free cancellation up to 72 hours before your slot. You'll receive ₹500 refund within 7 business days. Cancellations within 72 hours forfeit the full ₹700 advance.',
+    a: 'Free cancellation up to 72 hours before your slot. You\'ll receive ₹500 refund within 7 business days. Cancellations within 72 hours forfeit the full ₹700 advance.',
   },
   {
     q: 'How do I get my booking confirmation?',
-    a: 'Immediately after successful payment, you'll receive a WhatsApp message with your booking details, slot timing, and reference number.',
+    a: 'Immediately after successful payment, you\'ll receive a WhatsApp message with your booking details, slot timing, and reference number.',
   },
   {
     q: 'Are there couple-only theaters?',
-    a: 'Yes, our Scarlet Theater (Hitec City) is reserved exclusively for couples. Other theaters can be booked by groups as well.',
+    a: 'Yes, our Red Love theater at Bhadurpally is reserved exclusively for couples. Other theaters can be booked by groups as well.',
   },
   {
     q: 'Can I decorate the theater?',
@@ -71,13 +71,13 @@ export default function FAQPage() {
         <div className="text-center mb-12">
           <h1
             className="text-4xl md:text-5xl font-bold text-white mb-4"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             Frequently Asked{' '}
             <span className="text-[#D4A017]">Questions</span>
           </h1>
           <p className="text-[#888]">
-            Everything you need to know about booking with CineNest.
+            Everything you need to know about booking with The Magic Screen.
           </p>
         </div>
 

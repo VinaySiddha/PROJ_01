@@ -9,7 +9,7 @@ import { WHATSAPP_SUPPORT_LINK } from '@/lib/constants';
 export const metadata: Metadata = {
   title: 'Contact Us',
   description:
-    'Get in touch with CineNest. Contact us via WhatsApp, email, or visit our theaters in Hyderabad.',
+    'Get in touch with The Magic Screen. Contact us via WhatsApp, email, or visit our theaters in Hyderabad.',
 };
 
 export default function ContactPage() {
@@ -19,7 +19,7 @@ export default function ContactPage() {
         <div className="text-center mb-12">
           <h1
             className="text-4xl md:text-5xl font-bold text-white mb-4"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             Contact <span className="text-[#D4A017]">Us</span>
           </h1>
@@ -33,7 +33,7 @@ export default function ContactPage() {
           <div className="space-y-4">
             <h2
               className="text-xl font-bold text-white mb-4"
-              style={{ fontFamily: 'var(--font-playfair)' }}
+              style={{ fontFamily: 'var(--font-display)' }}
             >
               Get in Touch
             </h2>
@@ -71,7 +71,7 @@ export default function ContactPage() {
 
             {/* Email */}
             <a
-              href="mailto:hello@cinenest.com"
+              href="mailto:hello@themagicscreen.com"
               className="flex items-center gap-4 p-6 rounded-2xl border border-white/10 bg-[#1A1A1A] hover:border-[#D4A017]/40 transition-all"
             >
               <div className="w-12 h-12 rounded-xl bg-[#D4A017]/10 flex items-center justify-center flex-shrink-0">
@@ -79,7 +79,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <p className="font-semibold text-white">Email</p>
-                <p className="text-sm text-[#888]">hello@cinenest.com</p>
+                <p className="text-sm text-[#888]">hello@themagicscreen.com</p>
               </div>
             </a>
 
@@ -100,46 +100,32 @@ export default function ContactPage() {
           <div className="space-y-4">
             <h2
               className="text-xl font-bold text-white mb-4"
-              style={{ fontFamily: 'var(--font-playfair)' }}
+              style={{ fontFamily: 'var(--font-display)' }}
             >
               Our Locations
             </h2>
 
-            {[
-              {
-                name: 'Hitec City Branch',
-                address: 'HUDA Techno Enclave, Madhapur, Hyderabad – 500081',
-                landmark: 'Near HITEC City Metro Station',
-                mapsUrl: 'https://maps.google.com',
-              },
-              {
-                name: 'Miyapur Branch',
-                address: 'Miyapur Metro Station Road, Miyapur, Hyderabad – 500049',
-                landmark: 'Adjacent to Miyapur Metro Station',
-                mapsUrl: 'https://maps.google.com',
-              },
-            ].map((loc) => (
-              <a
-                key={loc.name}
-                href={loc.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-start gap-4 p-5 rounded-2xl border border-white/10 bg-[#1A1A1A] hover:border-[#D4A017]/40 transition-all group"
-              >
-                <MapPin
-                  size={20}
-                  className="text-[#D4A017] mt-0.5 flex-shrink-0"
-                />
-                <div>
-                  <p className="font-semibold text-white">{loc.name}</p>
-                  <p className="text-sm text-[#888] mt-1">{loc.address}</p>
-                  <p className="text-xs text-[#888] mt-0.5">{loc.landmark}</p>
-                  <p className="text-xs text-[#D4A017] mt-2 group-hover:underline">
-                    Get Directions &#8594;
-                  </p>
-                </div>
-              </a>
-            ))}
+            <a
+              href="https://maps.google.com/?q=Bhadurpally+Hyderabad"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-4 p-5 rounded-2xl border border-white/10 bg-[#1A1A1A] hover:border-[#D4A017]/40 transition-all group"
+            >
+              <MapPin
+                size={20}
+                className="text-[#D4A017] mt-0.5 flex-shrink-0"
+              />
+              <div>
+                <p className="font-semibold text-white">Bhadurpally</p>
+                <p className="text-sm text-[#888] mt-1">
+                  Bhadurpally, Hyderabad, Telangana 500055
+                </p>
+                <p className="text-xs text-[#888] mt-0.5">+91 99999 99999</p>
+                <p className="text-xs text-[#D4A017] mt-2 group-hover:underline">
+                  Get Directions &#8594;
+                </p>
+              </div>
+            </a>
 
             {/* FAQ nudge */}
             <div className="p-5 rounded-2xl border border-white/10 bg-[#1A1A1A]">

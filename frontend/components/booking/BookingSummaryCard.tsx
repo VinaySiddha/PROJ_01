@@ -1,7 +1,7 @@
 /**
  * @file BookingSummaryCard.tsx
  * @description Full booking price breakdown summary card for the final step
- * of the CineNest booking flow. Server Component — purely presentational.
+ * of the The Magic Screen booking flow. Server Component — purely presentational.
  */
 
 import { CalendarDays, Clock, Building2, Minus } from 'lucide-react';

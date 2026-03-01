@@ -1,7 +1,7 @@
 {
-  "name": "cinenest-backend",
+  "name": "themagicscreen-backend",
   "version": "1.0.0",
-  "description": "CineNest private theater booking platform - backend API",
+  "description": "The Magic Screen private theater booking platform - backend API",
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",

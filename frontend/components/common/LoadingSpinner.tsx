@@ -1,6 +1,6 @@
 /**
  * @file LoadingSpinner.tsx
- * @description Reusable loading spinner component for CineNest.
+ * @description Reusable loading spinner component for The Magic Screen.
  * Server Component — uses only Tailwind CSS animate-spin.
  * Supports size variants, color variants, and full-screen overlay mode.
  */

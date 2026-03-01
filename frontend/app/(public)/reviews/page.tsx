@@ -10,7 +10,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Customer Reviews',
   description:
-    'Read genuine customer reviews of CineNest private theater experiences in Hyderabad.',
+    'Read genuine customer reviews of The Magic Screen private theater experiences in Hyderabad.',
 };
 
 async function fetchReviews(page = 1): Promise<{ reviews: Review[]; pagination: unknown }> {
@@ -44,7 +44,7 @@ export default async function ReviewsPage() {
         <div className="text-center mb-12">
           <h1
             className="text-4xl md:text-5xl font-bold text-white mb-4"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             Customer <span className="text-[#D4A017]">Reviews</span>
           </h1>
@@ -129,7 +129,7 @@ export default async function ReviewsPage() {
                   {review.admin_reply && (
                     <div className="border-t border-white/5 pt-3">
                       <p className="text-xs font-semibold text-[#D4A017] mb-1">
-                        CineNest Response
+                        The Magic Screen Response
                       </p>
                       <p className="text-xs text-[#888] italic">{review.admin_reply}</p>
                     </div>

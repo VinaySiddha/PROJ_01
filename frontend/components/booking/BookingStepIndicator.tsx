@@ -1,6 +1,6 @@
 /**
  * @file BookingStepIndicator.tsx
- * @description Multi-step progress indicator for the CineNest booking flow.
+ * @description Multi-step progress indicator for the The Magic Screen booking flow.
  * Server Component — purely presentational, driven by currentStep prop.
  */
 

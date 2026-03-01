@@ -1,7 +1,7 @@
 /**
  * tailwind.config.ts
  *
- * Tailwind CSS configuration for CineNest.
+ * Tailwind CSS configuration for The Magic Screen.
  * Dark cinema theme — deep blacks, gold accents, warm whites.
  * Extends the default theme with custom colors, fonts, and animations.
  */
@@ -77,9 +77,9 @@ const config: Config = {
         ring: '#D4A017',
       },
       fontFamily: {
-        sans: ['DM Sans', 'system-ui', 'sans-serif'],
-        display: ['Playfair Display', 'Georgia', 'serif'],
-        script: ['Dancing Script', 'cursive'],
+        sans:    ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'Georgia', 'serif'],
+        script:  ['var(--font-script)', 'cursive'],
       },
       borderRadius: {
         lg: '0.75rem',
