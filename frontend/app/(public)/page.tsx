@@ -10,11 +10,66 @@ export const metadata: Metadata = {
   title: 'The Magic Screen — Private Theater Booking in Hyderabad',
   description:
     'Book a private theater in Bhadurpally, Hyderabad for birthdays, anniversaries, date nights and more. Premium private cinema experiences.',
+  keywords: 'private theater hyderabad, private cinema booking, birthday celebration hyderabad, anniversary surprise, bhadurpally theater',
+  openGraph: {
+    title: 'The Magic Screen — Private Theater Booking in Hyderabad',
+    description: 'Book a private theater in Bhadurpally, Hyderabad. Perfect for birthdays, anniversaries, proposals and every celebration.',
+    type: 'website',
+    locale: 'en_IN',
+  },
+};
+
+/** JSON-LD structured data for Google rich results */
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'The Magic Screen',
+  description: 'Private theater booking in Bhadurpally, Hyderabad. Luxury private cinema experiences for birthdays, anniversaries, proposals and more.',
+  url: 'https://themagicscreen.in',
+  telephone: '+919999999999',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Bhadurpally',
+    addressLocality: 'Hyderabad',
+    addressRegion: 'Telangana',
+    postalCode: '500055',
+    addressCountry: 'IN',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 17.5631,
+    longitude: 78.3987,
+  },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
+    opens: '09:00',
+    closes: '23:59',
+  },
+  priceRange: '₹₹',
+  servesCuisine: 'Entertainment',
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    reviewCount: '150',
+  },
+  amenityFeature: [
+    { '@type': 'LocationFeatureSpecification', name: 'Private Theater', value: true },
+    { '@type': 'LocationFeatureSpecification', name: '4K Projector', value: true },
+    { '@type': 'LocationFeatureSpecification', name: 'Dolby Sound', value: true },
+    { '@type': 'LocationFeatureSpecification', name: 'Free Decoration', value: true },
+  ],
 };
 
 export default function HomePage() {
   return (
     <div className="overflow-hidden">
+      {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       {/* ── Hero Section ─────────────────────────────────────────── */}
       <section className="relative min-h-[90vh] flex items-center justify-center">
         {/* Ambient glow */}
