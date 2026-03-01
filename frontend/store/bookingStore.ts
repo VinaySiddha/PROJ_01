@@ -20,7 +20,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import { ADVANCE_AMOUNT } from '@/lib/constants';
 import type { BookingWizardState, DurationType, OccasionType, PriceBreakdown } from '@/types/booking';
 import type { Theater } from '@/types/theater';
-import type { AddonItem, CakeItem, FoodOrderItem } from '@/types/addon';
+import type { FoodOrderItem } from '@/types/addon';
 
 // ---------------------------------------------------------------------------
 // Location action — Step 0

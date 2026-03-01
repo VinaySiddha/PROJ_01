@@ -32,6 +32,7 @@ const dancingScript = Dancing_Script({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://themagicscreen.com'),
   title: { default: 'The Magic Screen — Private Theater Booking in Hyderabad', template: '%s | The Magic Screen' },
   description:
     'Book a private theater in Hyderabad for birthdays, anniversaries, date nights, and special celebrations. Premium private theater experience in Bhadurpally, Hyderabad.',
