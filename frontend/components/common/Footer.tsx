@@ -1,12 +1,13 @@
 /**
  * @file Footer.tsx
- * @description Site-wide footer for CineNest. Server Component.
+ * @description Site-wide footer for theMagicshow. Server Component.
  * Contains logo, tagline, navigation links, contact info, social links,
  * WhatsApp CTA, and legal bottom bar.
  */
 
+import Image from 'next/image';
 import Link from 'next/link';
-import { Film, Phone, Mail, MapPin, MessageCircle, Instagram, Youtube, Facebook } from 'lucide-react';
+import { Phone, Mail, MapPin, MessageCircle, Instagram, Youtube, Facebook } from 'lucide-react';
 import { WHATSAPP_SUPPORT_LINK } from '@/lib/constants';
 
 const NAV_LINKS = [
@@ -25,7 +26,7 @@ const LEGAL_LINKS = [
 ];
 
 /**
- * CineNest site footer. Server Component — no interactivity required.
+ * theMagicshow site footer. Server Component — no interactivity required.
  * Renders full footer with navigation, contact info, social links, and legal bar.
  */
 export function Footer() {
@@ -35,10 +36,28 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand column */}
           <div className="flex flex-col gap-4">
-            <Link href="/" className="flex items-center gap-2">
-              <Film className="w-6 h-6 text-[#D4A017]" />
-              <span className="text-2xl font-bold text-[#D4A017]" style={{ fontFamily: "'Playfair Display', serif" }}>
-                CineNest
+            <Link href="/" className="flex items-center gap-3">
+              <span className="relative flex-shrink-0">
+                <Image
+                  src="/logo.png"
+                  alt="theMagicshow logo"
+                  width={36}
+                  height={36}
+                  className="rounded-full ring-1 ring-[#D4A017]/50"
+                />
+              </span>
+              <span className="flex flex-col leading-none">
+                <span
+                  className="text-[#D4A017] font-bold italic"
+                  style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem' }}
+                >
+                  theMagicshow
+                </span>
+                <span
+                  className="block h-px w-full mt-0.5"
+                  style={{ background: 'linear-gradient(90deg, #D4A017 60%, transparent 100%)' }}
+                  aria-hidden="true"
+                />
               </span>
             </Link>
             <p className="text-sm text-gray-400 leading-relaxed max-w-xs">
@@ -98,7 +117,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2 text-sm text-gray-400">
                 <Mail className="w-4 h-4 text-[#D4A017] shrink-0" />
-                <a href="mailto:hello@cinenest.in" className="hover:text-white transition-colors">hello@cinenest.in</a>
+                <a href="mailto:hello@themagicshow.in" className="hover:text-white transition-colors">hello@themagicshow.in</a>
               </li>
             </ul>
             <a
@@ -116,7 +135,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-gray-500">
-            &copy; 2026 CineNest. All rights reserved.
+            &copy; 2026 theMagicshow. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             {LEGAL_LINKS.map(({ href, label }) => (
