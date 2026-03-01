@@ -95,6 +95,8 @@ export interface Booking {
   advance_paid: number;
   coupon_code?: string;
   payment_gateway?: string;
+  payment_id?: string;     // UTR / transaction ref submitted by customer
+  utr?: string;            // Alias for payment_id used in some API responses
   created_at: string;
   booking_addons: BookingAddonItem[];
   booking_food_items: FoodOrderItem[];
