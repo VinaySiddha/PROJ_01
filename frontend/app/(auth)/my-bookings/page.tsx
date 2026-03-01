@@ -4,9 +4,7 @@
  */
 'use client';
 
-export const dynamic = 'force-dynamic';
-
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuthStore } from '../../../store/authStore';
 import { useMyBookings } from '../../../hooks/useBooking';
@@ -24,15 +22,35 @@ const STATUS_COLORS: Record<string, string> = {
   pending:       'bg-yellow-500/15 text-yellow-400 border-yellow-500/30',
 };
 
+/**
+ * Isolated component that reads the ?ref= param.
+ * Must be wrapped in <Suspense> so Next.js 14 can statically analyse the page
+ * without trying to access search params at build time.
+ */
+function BookingConfirmedBanner() {
+  const searchParams = useSearchParams();
+  const confirmedRef = searchParams.get('ref');
+
+  if (!confirmedRef) return null;
+
+  return (
+    <div className="mb-6 p-4 rounded-xl border border-green-500/30 bg-green-500/10 flex items-center gap-3">
+      <CheckCircle size={20} className="text-green-400 flex-shrink-0" />
+      <div>
+        <p className="text-sm font-medium text-green-400">Booking Confirmed!</p>
+        <p className="text-xs text-green-400/70 mt-0.5">
+          Reference: {confirmedRef}. You will receive a WhatsApp confirmation shortly.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function MyBookingsPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { customer } = useAuthStore();
   const { logout } = useAuth();
   const { data: bookings, isLoading, error } = useMyBookings();
-
-  // Booking confirmation reference from payment redirect
-  const confirmedRef = searchParams.get('ref');
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -74,20 +92,10 @@ export default function MyBookingsPage() {
           </button>
         </div>
 
-        {/* Payment success banner */}
-        {confirmedRef && (
-          <div className="mb-6 p-4 rounded-xl border border-green-500/30 bg-green-500/10 flex items-center gap-3">
-            <CheckCircle size={20} className="text-green-400 flex-shrink-0" />
-            <div>
-              <p className="text-sm font-medium text-green-400">
-                Booking Confirmed!
-              </p>
-              <p className="text-xs text-green-400/70 mt-0.5">
-                Reference: {confirmedRef}. You will receive a WhatsApp confirmation shortly.
-              </p>
-            </div>
-          </div>
-        )}
+        {/* Payment success banner — Suspense required by Next.js 14 for useSearchParams */}
+        <Suspense fallback={null}>
+          <BookingConfirmedBanner />
+        </Suspense>
 
         {/* Bookings list */}
         {isLoading ? (
