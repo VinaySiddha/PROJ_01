@@ -21,7 +21,7 @@ const createApiClient = (): AxiosInstance => {
   instance.interceptors.request.use((config) => {
     // Only access localStorage in browser (not during SSR)
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('cinenest_token');
+      const token = localStorage.getItem('themagicscreen_token');
       if (token) {
         config.headers['Authorization'] = `Bearer ${token}`;
       }

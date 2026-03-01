@@ -76,7 +76,7 @@ export default function ReviewCard({ review, showTheater = false }: ReviewCardPr
       {/* Admin reply */}
       {review.admin_reply && (
         <div className="border-t border-border/50 pt-3">
-          <p className="text-xs font-semibold text-accent mb-1">CineNest Response</p>
+          <p className="text-xs font-semibold text-accent mb-1">The Magic Screen Response</p>
           <p className="text-xs text-muted-foreground italic">{review.admin_reply}</p>
         </div>
       )}

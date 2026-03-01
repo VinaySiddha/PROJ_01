@@ -57,7 +57,7 @@ export class WhatsAppService {
     try {
       await sendWatiMessage(
         normalizedPhone,
-        `Your CineNest verification code is: *${otp}*\n\nThis code expires in 5 minutes. Do not share it with anyone.`,
+        `Your The Magic Screen verification code is: *${otp}*\n\nThis code expires in 5 minutes. Do not share it with anyone.`,
       );
 
       logger.info('WhatsApp OTP sent', { event: 'whatsapp.otp_sent', phone: maskPhone(phone) });
@@ -98,7 +98,7 @@ export class WhatsAppService {
     try {
       await sendWatiMessage(
         normalizedPhone,
-        `🎬 *Booking Confirmed!*\n\nHi ${name}! Your CineNest booking is confirmed.\n\n📍 *Theater:* ${theaterName}\n📅 *Date:* ${date}\n🕐 *Slot:* ${slot}\n🎫 *Booking ID:* ${bookingRef}\n\nPlease bring your own OTT account credentials. See you soon! 🎉`,
+        `🎬 *Booking Confirmed!*\n\nHi ${name}! Your The Magic Screen booking is confirmed.\n\n📍 *Theater:* ${theaterName}\n📅 *Date:* ${date}\n🕐 *Slot:* ${slot}\n🎫 *Booking ID:* ${bookingRef}\n\nPlease bring your own OTT account credentials. See you soon! 🎉`,
       );
 
       logger.info('Booking confirmation WhatsApp sent', {
@@ -142,7 +142,7 @@ export class WhatsAppService {
     try {
       await sendWatiMessage(
         normalizedPhone,
-        `⏰ *Reminder: Your CineNest experience is tomorrow!*\n\nHi ${name}! Just a reminder:\n\n📍 *Theater:* ${theaterName}\n📅 *Date:* ${date}\n🕐 *Slot:* ${slot}\n🎫 *Booking ID:* ${bookingRef}\n\n💡 Don't forget to bring your OTT account credentials (Netflix, Prime, etc.). See you soon! 🎬`,
+        `⏰ *Reminder: Your The Magic Screen experience is tomorrow!*\n\nHi ${name}! Just a reminder:\n\n📍 *Theater:* ${theaterName}\n📅 *Date:* ${date}\n🕐 *Slot:* ${slot}\n🎫 *Booking ID:* ${bookingRef}\n\n💡 Don't forget to bring your OTT account credentials (Netflix, Prime, etc.). See you soon! 🎬`,
       );
 
       logger.info('24hr reminder WhatsApp sent', { event: 'whatsapp.reminder_sent', bookingRef });
@@ -163,7 +163,7 @@ export class WhatsAppService {
    * @param name        - Customer name
    * @param bookingRef  - Booking reference number
    * @param reviewToken - One-time token for the review form URL
-   * @param frontendUrl - Base URL of the frontend app (e.g. 'https://cinenest.in')
+   * @param frontendUrl - Base URL of the frontend app (e.g. 'https://themagicscreen.com')
    */
   static async sendReviewRequest(params: {
     phone: string;
@@ -179,7 +179,7 @@ export class WhatsAppService {
     try {
       await sendWatiMessage(
         normalizedPhone,
-        `⭐ *How was your CineNest experience?*\n\nHi ${name}! We hope you had an amazing time at CineNest (Booking: ${bookingRef}).\n\nWe'd love to hear your feedback! It only takes 30 seconds:\n${reviewUrl}\n\nYour review helps us improve! 🎬`,
+        `⭐ *How was your The Magic Screen experience?*\n\nHi ${name}! We hope you had an amazing time at The Magic Screen (Booking: ${bookingRef}).\n\nWe'd love to hear your feedback! It only takes 30 seconds:\n${reviewUrl}\n\nYour review helps us improve! 🎬`,
       );
 
       logger.info('Review request WhatsApp sent', { event: 'whatsapp.review_request_sent', bookingRef });
@@ -216,7 +216,7 @@ export class WhatsAppService {
     try {
       await sendWatiMessage(
         normalizedPhone,
-        `❌ *Booking Cancelled*\n\nHi ${name}, your booking *${bookingRef}* has been cancelled.\n\n${refundLine}\n\nHope to see you again soon! Book anytime at CineNest.`,
+        `❌ *Booking Cancelled*\n\nHi ${name}, your booking *${bookingRef}* has been cancelled.\n\n${refundLine}\n\nHope to see you again soon! Book anytime at The Magic Screen.`,
       );
 
       logger.info('Cancellation notice WhatsApp sent', { event: 'whatsapp.cancellation_sent', bookingRef });

@@ -128,7 +128,7 @@ export default function SummaryPage() {
         key: process.env['NEXT_PUBLIC_RAZORPAY_KEY_ID'],
         amount: order.amount,
         currency: order.currency,
-        name: 'CineNest',
+        name: 'The Magic Screen',
         description: `Theater booking — ${store.occasion ?? 'celebration'}`,
         order_id: order.id,
         prefill: {

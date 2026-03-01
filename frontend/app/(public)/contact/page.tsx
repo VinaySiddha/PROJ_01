@@ -9,7 +9,7 @@ import { WHATSAPP_SUPPORT_LINK } from '@/lib/constants';
 export const metadata: Metadata = {
   title: 'Contact Us',
   description:
-    'Get in touch with CineNest. Contact us via WhatsApp, email, or visit our theaters in Hyderabad.',
+    'Get in touch with The Magic Screen. Contact us via WhatsApp, email, or visit our theaters in Hyderabad.',
 };
 
 export default function ContactPage() {
@@ -71,7 +71,7 @@ export default function ContactPage() {
 
             {/* Email */}
             <a
-              href="mailto:hello@cinenest.com"
+              href="mailto:hello@themagicscreen.com"
               className="flex items-center gap-4 p-6 rounded-2xl border border-white/10 bg-[#1A1A1A] hover:border-[#D4A017]/40 transition-all"
             >
               <div className="w-12 h-12 rounded-xl bg-[#D4A017]/10 flex items-center justify-center flex-shrink-0">
@@ -79,7 +79,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <p className="font-semibold text-white">Email</p>
-                <p className="text-sm text-[#888]">hello@cinenest.com</p>
+                <p className="text-sm text-[#888]">hello@themagicscreen.com</p>
               </div>
             </a>
 

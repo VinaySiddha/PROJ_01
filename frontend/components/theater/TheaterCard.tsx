@@ -1,6 +1,6 @@
 /**
  * @file TheaterCard.tsx
- * @description Card component displaying a single theater's preview for CineNest.
+ * @description Card component displaying a single theater's preview for The Magic Screen.
  * Client Component — handles the Book Now click and image interactions.
  */
 

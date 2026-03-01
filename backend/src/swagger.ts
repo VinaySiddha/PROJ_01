@@ -1,5 +1,5 @@
 /**
- * @file OpenAPI 3.0 specification for CineNest API
+ * @file OpenAPI 3.0 specification for The Magic Screen API
  * @module swagger
  */
 
@@ -102,10 +102,10 @@ const CouponSchema: OpenAPIV3.SchemaObject = {
 export const swaggerSpec: OpenAPIV3.Document = {
   openapi: '3.0.3',
   info: {
-    title: 'CineNest API',
+    title: 'The Magic Screen API',
     version: '1.0.0',
     description: `
-## CineNest Private Theater Booking Platform
+## The Magic Screen Private Theater Booking Platform
 
 REST API for managing private theater bookings, customer authentication, payments, reviews, and admin operations.
 
@@ -117,13 +117,13 @@ Get a customer token via \`POST /api/auth/otp/verify\`.
 Get an admin token via \`POST /api/auth/admin/login\`.
     `.trim(),
     contact: {
-      name: 'CineNest Support',
-      email: 'support@cinenest.com',
+      name: 'The Magic Screen Support',
+      email: 'support@themagicscreen.com',
     },
   },
   servers: [
     { url: 'http://localhost:4000', description: 'Local development' },
-    { url: 'https://api.cinenest.com', description: 'Production' },
+    { url: 'https://api.themagicscreen.com', description: 'Production' },
   ],
   tags: [
     { name: 'Health',         description: 'Server health check' },
@@ -319,7 +319,7 @@ Get an admin token via \`POST /api/auth/admin/login\`.
                 type: 'object',
                 required: ['email', 'password'],
                 properties: {
-                  email:    { type: 'string', format: 'email', example: 'admin@cinenest.com' },
+                  email:    { type: 'string', format: 'email', example: 'admin@themagicscreen.com' },
                   password: { type: 'string', minLength: 8, example: 'Admin@123' },
                 },
               },
@@ -1251,7 +1251,7 @@ Get an admin token via \`POST /api/auth/admin/login\`.
                       type: 'object',
                       additionalProperties: { type: 'string' },
                       example: {
-                        site_name:          'CineNest',
+                        site_name:          'The Magic Screen',
                         support_phone:      '+919876543210',
                         advance_amount:     '700',
                         cancellation_hours: '24',

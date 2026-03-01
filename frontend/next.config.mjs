@@ -1,7 +1,7 @@
 /**
  * next.config.mjs
  *
- * Next.js configuration for CineNest.
+ * Next.js configuration for The Magic Screen.
  * - Enables image optimization for Cloudinary domains
  * - Sets up environment variables accessible on client
  * - Configures redirects for SEO
@@ -27,7 +27,7 @@ const nextConfig = {
   },
   // Environment variables exposed to the browser (non-secret only)
   env: {
-    NEXT_PUBLIC_APP_NAME: 'CineNest',
+    NEXT_PUBLIC_APP_NAME: 'The Magic Screen',
     NEXT_PUBLIC_APP_TAGLINE: 'Your Private Theater Experience',
   },
   // Redirect legacy-style paths to canonical paths for SEO

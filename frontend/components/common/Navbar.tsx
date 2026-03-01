@@ -1,6 +1,6 @@
 /**
  * @file Navbar.tsx
- * @description Sticky top navigation bar for theMagicshow with mobile hamburger menu,
+ * @description Sticky top navigation bar for The Magic Screen with mobile hamburger menu,
  * active route highlighting, and animated mobile overlay menu.
  */
 
@@ -23,7 +23,7 @@ const NAV_LINKS = [
 ] as const;
 
 /**
- * theMagicshow top navigation bar.
+ * The Magic Screen top navigation bar.
  * Reads active route from usePathname. Handles mobile menu toggle with
  * AnimatePresence slide-down overlay.
  */
@@ -68,7 +68,7 @@ export function Navbar() {
               />
               <Image
                 src="/logo.png"
-                alt="theMagicshow logo"
+                alt="The Magic Screen logo"
                 width={40}
                 height={40}
                 priority
@@ -82,7 +82,7 @@ export function Navbar() {
                 className="text-[#D4A017] font-bold italic tracking-wide"
                 style={{ fontFamily: 'var(--font-display)', fontSize: '1.45rem' }}
               >
-                theMagicshow
+                The Magic Screen
               </span>
               <span
                 className="block h-px w-full mt-0.5"

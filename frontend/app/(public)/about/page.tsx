@@ -8,7 +8,7 @@ import { Heart, Award, Users, MapPin } from 'lucide-react';
 export const metadata: Metadata = {
   title: 'About Us',
   description:
-    "Learn about CineNest — Hyderabad's premier private theater booking platform for celebrations and special moments.",
+    "Learn about The Magic Screen — Hyderabad's premier private theater booking platform for celebrations and special moments.",
 };
 
 export default function AboutPage() {
@@ -20,10 +20,10 @@ export default function AboutPage() {
             className="text-4xl md:text-5xl font-bold text-white mb-4"
             style={{ fontFamily: 'var(--font-playfair)' }}
           >
-            About <span className="text-[#D4A017]">CineNest</span>
+            About <span className="text-[#D4A017]">The Magic Screen</span>
           </h1>
           <p className="text-[#888] text-lg max-w-xl mx-auto leading-relaxed">
-            We believe every special moment deserves a special setting. We created CineNest to give
+            We believe every special moment deserves a special setting. We created The Magic Screen to give
             Hyderabad a world-class private cinema experience that&apos;s accessible to everyone.
           </p>
         </div>
@@ -31,7 +31,7 @@ export default function AboutPage() {
         {/* Story */}
         <div className="prose-cinema mb-16">
           <p className="text-[#888] leading-relaxed mb-4">
-            CineNest was born from a simple idea: what if you could have an entire cinema hall to
+            The Magic Screen was born from a simple idea: what if you could have an entire cinema hall to
             yourself? No strangers, no phones ringing, no crying babies &mdash; just you, your
             loved ones, and a movie on a massive screen.
           </p>

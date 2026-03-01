@@ -1,5 +1,5 @@
 /**
- * @file Home page — CineNest landing page with hero, features, theaters preview, and reviews
+ * @file Home page — The Magic Screen landing page with hero, features, theaters preview, and reviews
  * @module app/(public)/page
  */
 import type { Metadata } from 'next';
@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { Star, MapPin, Clock, Shield, ChevronRight, Play } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'CineNest — Private Theater Booking in Hyderabad',
+  title: 'The Magic Screen — Private Theater Booking in Hyderabad',
   description:
     'Book a private theater in Hyderabad for birthdays, anniversaries, date nights and more. Premium private cinema experiences at Hitec City & Miyapur.',
 };
@@ -81,7 +81,7 @@ export default function HomePage() {
               className="text-3xl md:text-4xl font-bold text-white mb-4"
               style={{ fontFamily: 'var(--font-playfair)' }}
             >
-              Why CineNest?
+              Why The Magic Screen?
             </h2>
             <p className="text-[#888] max-w-lg mx-auto">
               Everything you need for an unforgettable private screening experience.

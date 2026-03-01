@@ -7,7 +7,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Gallery',
   description:
-    'View photos and videos of CineNest private theaters — our spaces, decorations, and celebrations.',
+    'View photos and videos of The Magic Screen private theaters — our spaces, decorations, and celebrations.',
 };
 
 /** Placeholder gallery items with varying heights for masonry effect */
@@ -45,7 +45,7 @@ export default function GalleryPage() {
             Gallery
           </h1>
           <p className="text-[#888] text-lg max-w-xl mx-auto">
-            A glimpse into the memories created at CineNest.
+            A glimpse into the memories created at The Magic Screen.
           </p>
         </div>
 

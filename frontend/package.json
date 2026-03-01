@@ -1,7 +1,7 @@
 {
-  "name": "cinenest-frontend",
+  "name": "themagicscreen-frontend",
   "version": "1.0.0",
-  "description": "CineNest private theater booking platform - frontend",
+  "description": "The Magic Screen private theater booking platform - frontend",
   "private": true,
   "scripts": {
     "dev": "next dev",

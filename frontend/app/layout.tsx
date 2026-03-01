@@ -32,7 +32,7 @@ const dancingScript = Dancing_Script({
 });
 
 export const metadata: Metadata = {
-  title: { default: 'theMagicshow — Private Theater Booking in Hyderabad', template: '%s | theMagicshow' },
+  title: { default: 'The Magic Screen — Private Theater Booking in Hyderabad', template: '%s | The Magic Screen' },
   description:
     'Book a private theater in Hyderabad for birthdays, anniversaries, date nights, and special celebrations. Premium experience at Hitec City & Miyapur.',
   keywords: [
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    siteName: 'theMagicshow',
+    siteName: 'The Magic Screen',
   },
 };
 

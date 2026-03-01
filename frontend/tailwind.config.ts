@@ -1,7 +1,7 @@
 /**
  * tailwind.config.ts
  *
- * Tailwind CSS configuration for theMagicshow.
+ * Tailwind CSS configuration for The Magic Screen.
  * Dark cinema theme — deep blacks, gold accents, warm whites.
  * Extends the default theme with custom colors, fonts, and animations.
  */

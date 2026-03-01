@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// theMagicshow — Prisma Seed
+// The Magic Screen — Prisma Seed
 // Run: tsx prisma/seed.ts
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -1505,20 +1505,20 @@ async function seedAdmin(): Promise<void> {
   const passwordHash = await hashPassword("Admin@123");
 
   await prisma.admin.upsert({
-    where: { email: "admin@themagicshow.com" },
+    where: { email: "admin@themagicscreen.com" },
     update: {
       role: "super_admin",
       is_active: true,
     },
     create: {
-      email: "admin@themagicshow.com",
+      email: "admin@themagicscreen.com",
       password_hash: passwordHash,
       role: "super_admin",
       is_active: true,
     },
   });
 
-  console.log("  ✓ Admin admin@themagicshow.com (super_admin) seeded");
+  console.log("  ✓ Admin admin@themagicscreen.com (super_admin) seeded");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1529,7 +1529,7 @@ async function seedSiteSettings(): Promise<void> {
   console.log("Seeding site settings …");
 
   const settings: { key: string; value: string }[] = [
-    { key: "business_name", value: "theMagicshow" },
+    { key: "business_name", value: "The Magic Screen" },
     { key: "whatsapp_number", value: "919999999999" },
     { key: "advance_amount", value: "700" },
     { key: "refundable_amount", value: "500" },
@@ -1552,7 +1552,7 @@ async function seedSiteSettings(): Promise<void> {
 
 async function main(): Promise<void> {
   console.log("\n========================================");
-  console.log("  theMagicshow — Database Seed");
+  console.log("  The Magic Screen — Database Seed");
   console.log("========================================\n");
 
   await prisma.$transaction(async () => {

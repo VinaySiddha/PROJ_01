@@ -1,7 +1,7 @@
 /**
  * hooks/useTheaters.ts
  * TanStack Query hooks for fetching locations, theater lists, and single
- * theater details from the CineNest API.
+ * theater details from the The Magic Screen API.
  *
  * Cache strategy:
  *   - staleTime: 5 minutes — these are relatively static resources; we don't

@@ -4,6 +4,7 @@
  */
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -17,13 +18,14 @@ import {
   LogOut,
   ChevronRight,
   Clapperboard,
+  type LucideIcon,
 } from 'lucide-react';
 
 /** Nav item definition */
 interface NavItem {
   label: string;
   href: string;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: LucideIcon;
 }
 
 /** Admin navigation items */
@@ -63,9 +65,15 @@ export default function AdminSidebar() {
       {/* Logo / Brand */}
       <div className="p-6 border-b border-border">
         <Link href="/admin" className="flex items-center gap-2">
-          <Clapperboard size={24} className="text-accent" />
+          <Image
+            src="/logo.png"
+            alt="The Magic Screen logo"
+            width={32}
+            height={32}
+            className="rounded-full"
+          />
           <div>
-            <span className="font-bold text-foreground text-sm block">CineNest</span>
+            <span className="font-bold text-foreground text-sm block">The Magic Screen</span>
             <span className="text-xs text-muted-foreground">Admin Panel</span>
           </div>
         </Link>

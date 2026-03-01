@@ -68,7 +68,7 @@ app.use((req, _res, next) => {
 // ── Swagger UI (dev only) ──────────────────────────────────────────────────────
 if (config.NODE_ENV !== 'production') {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
-    customSiteTitle: 'CineNest API Docs',
+    customSiteTitle: 'The Magic Screen API Docs',
     swaggerOptions: { persistAuthorization: true },
   }));
   logger.info('Swagger UI available at /api-docs');

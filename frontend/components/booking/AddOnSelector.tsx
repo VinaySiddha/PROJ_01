@@ -1,6 +1,6 @@
 /**
  * @file AddOnSelector.tsx
- * @description Add-on selection step for the CineNest booking flow.
+ * @description Add-on selection step for the The Magic Screen booking flow.
  * Client Component — manages the toggle selection of individual add-on items
  * and displays a running total of selected add-ons.
  */

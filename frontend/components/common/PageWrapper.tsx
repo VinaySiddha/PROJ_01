@@ -1,6 +1,6 @@
 /**
  * @file PageWrapper.tsx
- * @description Consistent page-level layout wrapper for CineNest. Server Component.
+ * @description Consistent page-level layout wrapper for The Magic Screen. Server Component.
  * Applies max-width constraint, horizontal padding, and a CSS fade-in entry animation.
  */
 
@@ -14,7 +14,7 @@ interface PageWrapperProps {
 }
 
 /**
- * Wraps page content with CineNest's standard layout constraints.
+ * Wraps page content with The Magic Screen's standard layout constraints.
  * Provides:
  * - `max-w-7xl` centered container with responsive horizontal padding
  * - Vertical padding (`py-10 sm:py-14`)

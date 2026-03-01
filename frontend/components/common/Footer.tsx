@@ -1,6 +1,6 @@
 /**
  * @file Footer.tsx
- * @description Site-wide footer for theMagicshow. Server Component.
+ * @description Site-wide footer for The Magic Screen. Server Component.
  * Contains logo, tagline, navigation links, contact info, social links,
  * WhatsApp CTA, and legal bottom bar.
  */
@@ -26,7 +26,7 @@ const LEGAL_LINKS = [
 ];
 
 /**
- * theMagicshow site footer. Server Component — no interactivity required.
+ * The Magic Screen site footer. Server Component — no interactivity required.
  * Renders full footer with navigation, contact info, social links, and legal bar.
  */
 export function Footer() {
@@ -40,7 +40,7 @@ export function Footer() {
               <span className="relative flex-shrink-0">
                 <Image
                   src="/logo.png"
-                  alt="theMagicshow logo"
+                  alt="The Magic Screen logo"
                   width={36}
                   height={36}
                   className="rounded-full ring-1 ring-[#D4A017]/50"
@@ -51,7 +51,7 @@ export function Footer() {
                   className="text-[#D4A017] font-bold italic"
                   style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem' }}
                 >
-                  theMagicshow
+                  The Magic Screen
                 </span>
                 <span
                   className="block h-px w-full mt-0.5"
@@ -117,7 +117,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2 text-sm text-gray-400">
                 <Mail className="w-4 h-4 text-[#D4A017] shrink-0" />
-                <a href="mailto:hello@themagicshow.in" className="hover:text-white transition-colors">hello@themagicshow.in</a>
+                <a href="mailto:hello@themagicscreen.com" className="hover:text-white transition-colors">hello@themagicscreen.com</a>
               </li>
             </ul>
             <a
@@ -135,7 +135,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-gray-500">
-            &copy; 2026 theMagicshow. All rights reserved.
+            &copy; 2026 The Magic Screen. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             {LEGAL_LINKS.map(({ href, label }) => (

@@ -190,7 +190,7 @@ export const useMyBookings = () => {
   // has been determined.
   const hasToken =
     typeof window !== 'undefined' &&
-    localStorage.getItem('cinenest_token') !== null;
+    localStorage.getItem('themagicscreen_token') !== null;
 
   return useQuery({
     queryKey: bookingKeys.mine,
