@@ -63,9 +63,20 @@ export default async function TheatersPage() {
                 className="group block"
               >
                 <div className="rounded-2xl border border-white/10 bg-[#1A1A1A] overflow-hidden hover:border-[#D4A017]/50 transition-all hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(212,160,23,0.12)]">
-                  {/* Placeholder image area */}
-                  <div className="aspect-video bg-[#2A2A2A] flex items-center justify-center relative overflow-hidden">
-                    <span className="text-5xl">🎬</span>
+                  {/* Theater image */}
+                  <div className="aspect-video bg-[#2A2A2A] relative overflow-hidden">
+                    {theater.images?.[0] ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={theater.images[0]}
+                        alt={theater.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#1A1A1A] to-[#2A2A2A]">
+                        <span className="text-5xl opacity-30">🎬</span>
+                      </div>
+                    )}
                     {theater.couple_only && (
                       <span className="absolute top-3 left-3 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#D4A017] text-black uppercase tracking-wider">
                         Couple Only

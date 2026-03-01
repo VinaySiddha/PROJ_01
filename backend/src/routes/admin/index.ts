@@ -11,6 +11,7 @@ import couponsRouter from './coupons';
 import errorLogsRouter from './errorLogs';
 import settingsRouter from './settings';
 import { getStats, getUpcomingBookings } from '../../controllers/admin/dashboard.controller';
+import uploadRouter from './upload';
 
 const router = Router();
 
@@ -28,5 +29,6 @@ router.use('/reviews', reviewsRouter);
 router.use('/coupons', couponsRouter);
 router.use('/error-logs', errorLogsRouter);
 router.use('/settings', settingsRouter);
+router.use('/upload', uploadRouter);
 
 export default router;

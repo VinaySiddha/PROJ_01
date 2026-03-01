@@ -58,10 +58,39 @@ export default async function TheaterDetailPage({ params }: Params) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Left: Theater info */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Gallery placeholder */}
-            <div className="aspect-video bg-[#1A1A1A] rounded-2xl border border-white/10 flex items-center justify-center">
-              <span className="text-6xl">🎬</span>
-            </div>
+            {/* Gallery */}
+            {theater.images && theater.images.length > 0 ? (
+              <div className="space-y-2">
+                {/* Main image */}
+                <div className="aspect-video rounded-2xl overflow-hidden border border-white/10">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={theater.images[0]}
+                    alt={theater.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                {/* Thumbnails */}
+                {theater.images.length > 1 && (
+                  <div className="grid grid-cols-4 gap-2">
+                    {theater.images.slice(1, 5).map((url, i) => (
+                      <div key={i} className="aspect-video rounded-xl overflow-hidden border border-white/10">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={url}
+                          alt={`${theater.name} ${i + 2}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="aspect-video bg-[#1A1A1A] rounded-2xl border border-white/10 flex items-center justify-center">
+                <span className="text-6xl opacity-20">🎬</span>
+              </div>
+            )}
 
             {/* Name + location */}
             <div>
