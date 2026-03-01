@@ -1,6 +1,6 @@
 /**
  * @file Navbar.tsx
- * @description Sticky top navigation bar for CineNest with mobile hamburger menu,
+ * @description Sticky top navigation bar for theMagicshow with mobile hamburger menu,
  * active route highlighting, and animated mobile overlay menu.
  */
 
@@ -9,8 +9,9 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, X, Film } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
@@ -22,7 +23,7 @@ const NAV_LINKS = [
 ] as const;
 
 /**
- * CineNest top navigation bar.
+ * theMagicshow top navigation bar.
  * Reads active route from usePathname. Handles mobile menu toggle with
  * AnimatePresence slide-down overlay.
  */
@@ -56,11 +57,38 @@ export function Navbar() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <Film className="w-6 h-6 text-[#D4A017] group-hover:rotate-12 transition-transform duration-300" />
-            <span className="font-display text-2xl font-bold text-[#D4A017] tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>
-              CineNest
+          {/* Brand — logo with gold ring glow + Cormorant italic wordmark */}
+          <Link href="/" className="flex items-center gap-3 group select-none">
+            {/* Gold ring + soft glow around logo */}
+            <span className="relative flex-shrink-0">
+              <span
+                className="absolute inset-0 rounded-full"
+                style={{ boxShadow: '0 0 14px 2px rgba(212,160,23,0.30)' }}
+                aria-hidden="true"
+              />
+              <Image
+                src="/logo.png"
+                alt="theMagicshow logo"
+                width={40}
+                height={40}
+                priority
+                className="relative rounded-full ring-1 ring-[#D4A017]/50 group-hover:scale-105 transition-transform duration-300"
+              />
+            </span>
+
+            {/* Wordmark: italic Cormorant + thin gold rule */}
+            <span className="flex flex-col leading-none">
+              <span
+                className="text-[#D4A017] font-bold italic tracking-wide"
+                style={{ fontFamily: 'var(--font-display)', fontSize: '1.45rem' }}
+              >
+                theMagicshow
+              </span>
+              <span
+                className="block h-px w-full mt-0.5"
+                style={{ background: 'linear-gradient(90deg, #D4A017 60%, transparent 100%)' }}
+                aria-hidden="true"
+              />
             </span>
           </Link>
 
@@ -74,11 +102,12 @@ export function Navbar() {
                 <Link
                   key={href}
                   href={href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                  className={`link-gold-underline px-2 py-2 text-sm font-medium transition-colors duration-200 ${
                     isActive
                       ? 'text-[#D4A017]'
                       : 'text-gray-300 hover:text-white'
                   }`}
+                  data-active={isActive ? 'true' : undefined}
                 >
                   {label}
                 </Link>
@@ -90,7 +119,18 @@ export function Navbar() {
           <div className="flex items-center gap-3">
             <Link
               href="/book"
-              className="hidden md:inline-flex items-center px-4 py-2 rounded-md bg-[#D4A017] text-black text-sm font-semibold hover:bg-[#e6b120] transition-colors duration-200"
+              className="hidden md:inline-flex items-center px-4 py-2 rounded-md text-sm font-semibold text-black transition-all duration-300"
+              style={{
+                background: 'linear-gradient(90deg, #D4A017 0%, #E6B020 50%, #D4A017 100%)',
+                backgroundSize: '200% auto',
+                backgroundPosition: 'left center',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.backgroundPosition = 'right center';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.backgroundPosition = 'left center';
+              }}
             >
               Book Now
             </Link>
