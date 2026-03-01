@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// CineNest — Prisma Seed
+// theMagicshow — Prisma Seed
 // Run: tsx prisma/seed.ts
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -436,47 +436,46 @@ async function seedErrorMaster(): Promise<void> {
 async function seedLocationsTheatersSlots(): Promise<void> {
   console.log("Seeding locations, theaters, and time slots …");
 
-  // ── Locations ──────────────────────────────────────────────────────────────
+  // ── Location ──────────────────────────────────────────────────────────────
 
-  const hitecCity = await prisma.location.upsert({
-    where: { slug: "hitec-city" },
-    update: {},
-    create: {
-      name: "Hitec City",
-      slug: "hitec-city",
-      address: "Plot 12, Cyber Towers, Hitech City, Hyderabad, Telangana 500081",
-      google_maps_url: "https://maps.google.com/?q=Hitech+City+Hyderabad",
+  const bhadurpally = await prisma.location.upsert({
+    where: { slug: "bhadurpally" },
+    update: {
+      name: "Bhadurpally",
+      address: "Bhadurpally, Hyderabad, Telangana 500055",
+      google_maps_url: "https://maps.google.com/?q=Bhadurpally+Hyderabad",
       google_maps_embed_url:
-        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.2!2d78.3810!3d17.4486!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zHitech+City!5e0!3m2!1sen!2sin!4v1700000000000",
-      latitude: 17.4486,
-      longitude: 78.381,
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.0!2d78.4200!3d17.4900!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zQmhhZHVycGFsbHk!5e0!3m2!1sen!2sin!4v1700000000000",
+      latitude: 17.49,
+      longitude: 78.42,
       google_rating: 4.5,
-      google_review_count: 120,
+      google_review_count: 0,
       is_active: true,
     },
-  });
-
-  const miyapur = await prisma.location.upsert({
-    where: { slug: "miyapur" },
-    update: {},
     create: {
-      name: "Miyapur",
-      slug: "miyapur",
-      address: "Survey No 45, Miyapur Main Road, Miyapur, Hyderabad, Telangana 500049",
-      google_maps_url: "https://maps.google.com/?q=Miyapur+Hyderabad",
+      name: "Bhadurpally",
+      slug: "bhadurpally",
+      address: "Bhadurpally, Hyderabad, Telangana 500055",
+      google_maps_url: "https://maps.google.com/?q=Bhadurpally+Hyderabad",
       google_maps_embed_url:
-        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3805.9!2d78.3570!3d17.4956!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMiyapur!5e0!3m2!1sen!2sin!4v1700000000001",
-      latitude: 17.4956,
-      longitude: 78.357,
-      google_rating: 4.4,
-      google_review_count: 98,
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.0!2d78.4200!3d17.4900!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zQmhhZHVycGFsbHk!5e0!3m2!1sen!2sin!4v1700000000000",
+      latitude: 17.49,
+      longitude: 78.42,
+      google_rating: 4.5,
+      google_review_count: 0,
       is_active: true,
     },
   });
 
-  console.log(`  ✓ Locations: Hitec City (${hitecCity.id}), Miyapur (${miyapur.id})`);
+  // Mark old placeholder locations inactive
+  await prisma.location.updateMany({
+    where: { slug: { in: ["hitec-city", "miyapur"] } },
+    data: { is_active: false },
+  });
 
-  // ── Theater definitions ────────────────────────────────────────────────────
+  console.log(`  ✓ Location: Bhadurpally (${bhadurpally.id})`);
+
+  // ── Theater definitions ───────────────────────────────────────────────────
 
   type TheaterSeed = {
     location_id: string;
@@ -499,230 +498,111 @@ async function seedLocationsTheatersSlots(): Promise<void> {
   };
 
   const theaterDefs: TheaterSeed[] = [
-    // ── Hitec City ────────────────────────────────────────────────────────────
     {
-      location_id: hitecCity.id,
-      name: "Platinum",
-      slug: "hitec-city-platinum",
-      screen_size: '150"',
+      location_id: bhadurpally.id,
+      name: "Blue",
+      slug: "bhadurpally-blue",
+      screen_size: '120"',
       screen_resolution: "4K",
-      sound_system: "Dolby Atmos 7.1",
-      max_capacity: 12,
+      sound_system: "Dolby Digital 5.1",
+      max_capacity: 10,
       base_capacity: 4,
-      base_price: 1799,
-      short_slot_price: 1299,
-      extra_adult_price: 200,
+      base_price: 799,
+      short_slot_price: 649,
+      extra_adult_price: 150,
       extra_child_price: 100,
       allow_extra_persons: true,
       couple_only: false,
       description:
-        "Our flagship Platinum theater at Hitec City features a massive 150-inch 4K screen with Dolby Atmos 7.1 surround sound. Perfect for large group celebrations and premium experiences.",
-      images: {
-        banner: "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/hitec-platinum-banner.jpg",
-        gallery: [
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/hitec-platinum-1.jpg",
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/hitec-platinum-2.jpg",
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/hitec-platinum-3.jpg",
-        ],
-      },
+        "The Blue theater is a cozy private cinema with a vibrant blue-themed ambiance, perfect for small groups and intimate celebrations.",
+      images: { banner: "", gallery: [] },
       sort_order: 1,
     },
     {
-      location_id: hitecCity.id,
-      name: "Majestic",
-      slug: "hitec-city-majestic",
-      screen_size: '133"',
-      screen_resolution: "4K",
-      sound_system: "Dolby Atmos 5.1",
-      max_capacity: 10,
-      base_capacity: 4,
-      base_price: 1799,
-      short_slot_price: 1299,
-      extra_adult_price: 200,
-      extra_child_price: 100,
-      allow_extra_persons: true,
-      couple_only: false,
-      description:
-        "The Majestic theater offers a premium 133-inch 4K viewing experience with Dolby Atmos 5.1 audio. Ideal for family gatherings and group celebrations up to 10 guests.",
-      images: {
-        banner: "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/hitec-majestic-banner.jpg",
-        gallery: [
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/hitec-majestic-1.jpg",
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/hitec-majestic-2.jpg",
-        ],
-      },
-      sort_order: 2,
-    },
-    {
-      location_id: hitecCity.id,
-      name: "Stellar",
-      slug: "hitec-city-stellar",
+      location_id: bhadurpally.id,
+      name: "Gold",
+      slug: "bhadurpally-gold",
       screen_size: '133"',
       screen_resolution: "4K",
       sound_system: "Dolby Digital 5.1",
-      max_capacity: 6,
+      max_capacity: 10,
       base_capacity: 4,
-      base_price: 1699,
-      short_slot_price: 1199,
-      extra_adult_price: 200,
+      base_price: 999,
+      short_slot_price: 849,
+      extra_adult_price: 150,
       extra_child_price: 100,
       allow_extra_persons: true,
       couple_only: false,
       description:
-        "The Stellar theater is a cozy 133-inch 4K private screen experience, perfect for small groups and intimate celebrations with crystal-clear Dolby Digital 5.1 audio.",
-      images: {
-        banner: "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/hitec-stellar-banner.jpg",
-        gallery: [
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/hitec-stellar-1.jpg",
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/hitec-stellar-2.jpg",
-        ],
-      },
-      sort_order: 3,
+        "The Gold theater offers a premium gold-themed private screening experience with an enhanced 133-inch display — our most popular choice.",
+      images: { banner: "", gallery: [] },
+      sort_order: 2,
     },
     {
-      location_id: hitecCity.id,
-      name: "Scarlet",
-      slug: "hitec-city-scarlet",
+      location_id: bhadurpally.id,
+      name: "Red Love",
+      slug: "bhadurpally-red-love",
       screen_size: '120"',
-      screen_resolution: "1080p",
-      sound_system: "Stereo 2.1",
+      screen_resolution: "4K",
+      sound_system: "Dolby Digital 5.1",
       max_capacity: 2,
       base_capacity: 2,
-      base_price: 1499,
+      base_price: 1199,
       short_slot_price: 999,
       extra_adult_price: 0,
       extra_child_price: 0,
       allow_extra_persons: false,
       couple_only: true,
       description:
-        "The Scarlet is our exclusive couples-only theater — an intimate 120-inch private screen designed for the perfect date night or anniversary celebration.",
-      images: {
-        banner: "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/hitec-scarlet-banner.jpg",
-        gallery: [
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/hitec-scarlet-1.jpg",
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/hitec-scarlet-2.jpg",
-        ],
-      },
-      sort_order: 4,
-    },
-
-    // ── Miyapur ───────────────────────────────────────────────────────────────
-    {
-      location_id: miyapur.id,
-      name: "Spectra",
-      slug: "miyapur-spectra",
-      screen_size: '150"',
-      screen_resolution: "4K",
-      sound_system: "Dolby Atmos 7.1",
-      max_capacity: 12,
-      base_capacity: 4,
-      base_price: 1799,
-      short_slot_price: 1299,
-      extra_adult_price: 200,
-      extra_child_price: 100,
-      allow_extra_persons: true,
-      couple_only: false,
-      description:
-        "Spectra is our largest theater at Miyapur, featuring a 150-inch 4K screen with Dolby Atmos 7.1. Built for grand celebrations and unforgettable group moments.",
-      images: {
-        banner: "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/miyapur-spectra-banner.jpg",
-        gallery: [
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/miyapur-spectra-1.jpg",
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/miyapur-spectra-2.jpg",
-        ],
-      },
-      sort_order: 1,
-    },
-    {
-      location_id: miyapur.id,
-      name: "Emerald",
-      slug: "miyapur-emerald",
-      screen_size: '150"',
-      screen_resolution: "4K",
-      sound_system: "Dolby Atmos 5.1",
-      max_capacity: 10,
-      base_capacity: 4,
-      base_price: 1799,
-      short_slot_price: 1299,
-      extra_adult_price: 200,
-      extra_child_price: 100,
-      allow_extra_persons: true,
-      couple_only: false,
-      description:
-        "The Emerald theater at Miyapur provides an expansive 150-inch 4K screen with Dolby Atmos 5.1 surround sound for a premium group viewing experience.",
-      images: {
-        banner: "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/miyapur-emerald-banner.jpg",
-        gallery: [
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/miyapur-emerald-1.jpg",
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/miyapur-emerald-2.jpg",
-        ],
-      },
-      sort_order: 2,
-    },
-    {
-      location_id: miyapur.id,
-      name: "Sapphire",
-      slug: "miyapur-sapphire",
-      screen_size: '150"',
-      screen_resolution: "4K",
-      sound_system: "Dolby Digital 5.1",
-      max_capacity: 6,
-      base_capacity: 4,
-      base_price: 1499,
-      short_slot_price: 999,
-      extra_adult_price: 200,
-      extra_child_price: 100,
-      allow_extra_persons: true,
-      couple_only: false,
-      description:
-        "Sapphire offers a vibrant 150-inch 4K experience with Dolby Digital 5.1 audio, suited perfectly for small group celebrations and special occasions.",
-      images: {
-        banner: "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/miyapur-sapphire-banner.jpg",
-        gallery: [
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/miyapur-sapphire-1.jpg",
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/miyapur-sapphire-2.jpg",
-        ],
-      },
+        "Red Love is our exclusive couples-only theater — a deeply romantic red-hued private screen designed for the perfect anniversary, proposal, or date night.",
+      images: { banner: "", gallery: [] },
       sort_order: 3,
     },
     {
-      location_id: miyapur.id,
-      name: "Aura",
-      slug: "miyapur-aura",
-      screen_size: '150"',
+      location_id: bhadurpally.id,
+      name: "Jail Dark Cell",
+      slug: "bhadurpally-jail-dark-cell",
+      screen_size: '133"',
       screen_resolution: "4K",
-      sound_system: "Dolby Atmos 5.1",
+      sound_system: "Dolby Atmos 7.1",
       max_capacity: 10,
       base_capacity: 4,
-      base_price: 1699,
+      base_price: 1399,
       short_slot_price: 1199,
-      extra_adult_price: 200,
+      extra_adult_price: 150,
       extra_child_price: 100,
       allow_extra_persons: true,
       couple_only: false,
       description:
-        "The Aura theater at Miyapur delivers a spectacular 150-inch 4K private screening with rich Dolby Atmos 5.1 sound for up to 10 guests.",
-      images: {
-        banner: "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/miyapur-aura-banner.jpg",
-        gallery: [
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/miyapur-aura-1.jpg",
-          "https://res.cloudinary.com/cinenest/image/upload/v1/theaters/miyapur-aura-2.jpg",
-        ],
-      },
+        "Jail Dark Cell is our most immersive premium theater — a dramatic, moody dark-themed private cinema experience with Dolby Atmos 7.1 surround sound.",
+      images: { banner: "", gallery: [] },
       sort_order: 4,
     },
   ];
 
-  // ── Time slot template (4 slots per theater) ───────────────────────────────
+  // Mark old placeholder theaters inactive
+  await prisma.theater.updateMany({
+    where: {
+      slug: {
+        in: [
+          "hitec-city-platinum", "hitec-city-majestic",
+          "hitec-city-stellar", "hitec-city-scarlet",
+          "miyapur-nova", "miyapur-eclipse",
+          "miyapur-prism", "miyapur-aura",
+        ],
+      },
+    },
+    data: { is_active: false },
+  });
+
+  // ── Time slot template (4 slots per theater) ─────────────────────────────
 
   const slotTemplate = [
-    { slot_name: "Morning", start_time: "09:00", end_time: "12:00" },
+    { slot_name: "Morning",   start_time: "09:00", end_time: "12:00" },
     { slot_name: "Afternoon", start_time: "12:00", end_time: "17:00" },
-    { slot_name: "Evening", start_time: "17:00", end_time: "21:00" },
-    { slot_name: "Night", start_time: "21:00", end_time: "01:00" },
+    { slot_name: "Evening",   start_time: "17:00", end_time: "21:00" },
+    { slot_name: "Night",     start_time: "21:00", end_time: "01:00" },
   ];
-
-  // ── Upsert theaters and their slots ───────────────────────────────────────
 
   for (const def of theaterDefs) {
     const theater = await prisma.theater.upsert({
@@ -743,6 +623,7 @@ async function seedLocationsTheatersSlots(): Promise<void> {
         description: def.description,
         images: def.images,
         sort_order: def.sort_order,
+        is_active: true,
       },
       create: {
         location_id: def.location_id,
@@ -766,7 +647,6 @@ async function seedLocationsTheatersSlots(): Promise<void> {
       },
     });
 
-    // Seed 4 slots for this theater (skip if already present)
     for (const slot of slotTemplate) {
       const existing = await prisma.timeSlot.findFirst({
         where: { theater_id: theater.id, slot_name: slot.slot_name },
@@ -1178,20 +1058,20 @@ async function seedAdmin(): Promise<void> {
   const passwordHash = await hashPassword("Admin@123");
 
   await prisma.admin.upsert({
-    where: { email: "admin@cinenest.com" },
+    where: { email: "admin@themagicshow.com" },
     update: {
       role: "super_admin",
       is_active: true,
     },
     create: {
-      email: "admin@cinenest.com",
+      email: "admin@themagicshow.com",
       password_hash: passwordHash,
       role: "super_admin",
       is_active: true,
     },
   });
 
-  console.log("  ✓ Admin admin@cinenest.com (super_admin) seeded");
+  console.log("  ✓ Admin admin@themagicshow.com (super_admin) seeded");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1202,7 +1082,7 @@ async function seedSiteSettings(): Promise<void> {
   console.log("Seeding site settings …");
 
   const settings: { key: string; value: string }[] = [
-    { key: "business_name", value: "CineNest" },
+    { key: "business_name", value: "theMagicshow" },
     { key: "whatsapp_number", value: "919999999999" },
     { key: "advance_amount", value: "700" },
     { key: "refundable_amount", value: "500" },
@@ -1225,7 +1105,7 @@ async function seedSiteSettings(): Promise<void> {
 
 async function main(): Promise<void> {
   console.log("\n========================================");
-  console.log("  CineNest — Database Seed");
+  console.log("  theMagicshow — Database Seed");
   console.log("========================================\n");
 
   await prisma.$transaction(async () => {
