@@ -10,7 +10,7 @@ import { logger } from '../utils/logger';
 import { AppError, ExternalServiceError, ValidationError } from '../utils/errors';
 import { AuditService } from './audit.service';
 import { WhatsAppService } from './whatsapp.service';
-import { formatDate, formatSlot } from '../utils/formatters';
+import { formatDate, formatTime } from '../utils/formatters';
 import { config } from '../config/index';
 
 /** Razorpay client instance (initialized lazily on first use) */
@@ -181,11 +181,7 @@ export class PaymentsService {
       bookingRef:  updatedBooking.booking_ref,
       theaterName: updatedBooking.theater.name,
       date:        formatDate(updatedBooking.date),
-      slot:        formatSlot(
-        updatedBooking.slot.slot_name,
-        updatedBooking.slot.start_time,
-        updatedBooking.slot.end_time,
-      ),
+      slot:        `${updatedBooking.slot.slot_name} (${formatTime(updatedBooking.slot.start_time)} – ${formatTime(updatedBooking.slot.end_time)})`,
     });
   }
 }

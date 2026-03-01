@@ -18,7 +18,7 @@ import { NotFoundError } from '../../utils/errors';
  * @returns    void — responds with an array of all theater records
  * @throws     AppError on database failure
  */
-export async function listTheaters(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function listTheaters(_req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const theaters = await prisma.theater.findMany({
       include: { location: { select: { name: true, slug: true } } },
@@ -47,7 +47,7 @@ export async function getTheaterDetail(req: Request, res: Response, next: NextFu
       where: { id },
       include: {
         location: true,
-        time_slots: { orderBy: { sort_order: 'asc' } },
+        time_slots: { orderBy: { id: 'asc' } },
       },
     });
     if (!theater) throw new NotFoundError('Theater', id);

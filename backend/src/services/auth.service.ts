@@ -19,7 +19,6 @@ import {
   ValidationError,
   UnauthorizedError,
   RateLimitError,
-  NotFoundError,
 } from '../utils/errors';
 import { WhatsAppService } from './whatsapp.service';
 import { AuditService } from './audit.service';
@@ -171,7 +170,7 @@ export class AuthService {
     };
 
     const token = jwt.sign(payload, config.JWT_SECRET, {
-      expiresIn: config.JWT_EXPIRES_IN as string,
+      expiresIn: config.JWT_EXPIRES_IN as import('jsonwebtoken').SignOptions['expiresIn'],
     });
 
     logger.info('Customer OTP verified — login success', {

@@ -18,7 +18,7 @@ import { AuditService } from '../../services/audit.service';
  * @returns    void — responds with a `Record<string, string>` map of all setting keys and values
  * @throws     AppError on database failure
  */
-export async function getSettings(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function getSettings(_req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const settings = await prisma.siteSetting.findMany({ orderBy: { key: 'asc' } });
     // Convert array to key-value map for easier frontend consumption

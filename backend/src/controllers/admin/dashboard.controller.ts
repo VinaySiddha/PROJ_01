@@ -17,7 +17,7 @@ import { sendSuccess } from '../../utils/response';
  * @returns    void — responds with `{ bookings, revenue, pending_reviews }` stats object
  * @throws     AppError on database failure
  */
-export async function getStats(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function getStats(_req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const stats = await DashboardService.getStats();
     sendSuccess(res, stats);
@@ -37,7 +37,7 @@ export async function getStats(req: Request, res: Response, next: NextFunction):
  * @returns    void — responds with an array of upcoming booking summaries (max 20)
  * @throws     AppError on database failure
  */
-export async function getUpcomingBookings(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function getUpcomingBookings(_req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const bookings = await DashboardService.getUpcomingBookings();
     sendSuccess(res, bookings);

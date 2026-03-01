@@ -44,7 +44,7 @@ export async function createBooking(req: Request, res: Response, next: NextFunct
  * @returns    void — responds with an array of booking summaries
  * @throws     AppError on database failure
  */
-export async function getMyBookings(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function getMyBookings(_req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const customerId = res.locals['userId'] as string;
     const bookings = await BookingsService.getCustomerBookings(customerId);

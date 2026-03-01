@@ -5,11 +5,9 @@
 import cron from 'node-cron';
 import { prisma } from '../prisma/client';
 import { logger } from '../utils/logger';
-import { WhatsappService } from '../services/whatsapp.service';
+import { formatDate, formatTime } from '../utils/formatters';
+import { WhatsAppService } from '../services/whatsapp.service';
 import { ReviewsService } from '../services/reviews.service';
-
-const whatsapp = new WhatsappService();
-const reviewsService = new ReviewsService();
 
 /**
  * Send 24-hour reminders to customers whose booking is tomorrow.
@@ -25,12 +23,12 @@ async function send24HourReminders(): Promise<void> {
       where: {
         date: new Date(tomorrowDate),
         status: 'confirmed',
-        reminderSent: false,
+        reminder_sent: false,
       },
       include: {
         customer: { select: { name: true, phone: true } },
         theater: { select: { name: true } },
-        slot: { select: { slotName: true, startTime: true } },
+        slot: { select: { slot_name: true, start_time: true } },
       },
     });
 
@@ -38,21 +36,21 @@ async function send24HourReminders(): Promise<void> {
 
     for (const booking of bookings) {
       try {
-        await whatsapp.send24HourReminder({
-          customerName: booking.customer.name ?? 'Guest',
-          customerPhone: booking.customer.phone,
+        await WhatsAppService.send24HourReminder({
+          phone: booking.customer.phone,
+          name: booking.customer.name ?? 'Guest',
           theaterName: booking.theater.name,
-          bookingDate: booking.date.toISOString().split('T')[0]!,
-          slotTime: booking.slot.startTime,
-          bookingRef: booking.bookingRef,
+          date: formatDate(booking.date),
+          slot: `${booking.slot.slot_name} (${formatTime(booking.slot.start_time)})`,
+          bookingRef: booking.booking_ref,
         });
 
         await prisma.booking.update({
           where: { id: booking.id },
-          data: { reminderSent: true },
+          data: { reminder_sent: true },
         });
       } catch (err) {
-        logger.warn(`Failed to send reminder for booking ${booking.bookingRef}`, { error: err });
+        logger.warn(`Failed to send reminder for booking ${booking.booking_ref}`, { error: err });
       }
     }
   } catch (err) {
@@ -72,8 +70,8 @@ async function sendReviewRequests(): Promise<void> {
     const bookings = await prisma.booking.findMany({
       where: {
         status: 'completed',
-        reviewRequestSent: false,
-        updatedAt: {
+        review_request_sent: false,
+        updated_at: {
           gte: fourHoursAgo,
           lte: twoHoursAgo,
         },
@@ -86,21 +84,22 @@ async function sendReviewRequests(): Promise<void> {
 
     for (const booking of bookings) {
       try {
-        const reviewToken = await reviewsService.generateReviewToken(booking.id);
+        const reviewToken = ReviewsService.generateReviewToken(booking.id, booking.customer_id);
 
-        await whatsapp.sendReviewRequest({
-          customerName: booking.customer.name ?? 'Guest',
-          customerPhone: booking.customer.phone,
-          theaterName: booking.theater.name,
-          reviewLink: `${process.env['FRONTEND_URL']}/review?token=${reviewToken}`,
+        await WhatsAppService.sendReviewRequest({
+          phone: booking.customer.phone,
+          name: booking.customer.name ?? 'Guest',
+          bookingRef: booking.booking_ref,
+          reviewToken,
+          frontendUrl: process.env['FRONTEND_URL'] ?? '',
         });
 
         await prisma.booking.update({
           where: { id: booking.id },
-          data: { reviewRequestSent: true },
+          data: { review_request_sent: true },
         });
       } catch (err) {
-        logger.warn(`Failed to send review request for booking ${booking.bookingRef}`, { error: err });
+        logger.warn(`Failed to send review request for booking ${booking.booking_ref}`, { error: err });
       }
     }
   } catch (err) {

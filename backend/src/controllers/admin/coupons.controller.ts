@@ -18,7 +18,7 @@ import { ValidationError } from '../../utils/errors';
  * @returns    void — responds with an array of all coupon records including usage stats
  * @throws     AppError on database failure
  */
-export async function listCoupons(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function listCoupons(_req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const coupons = await CouponsService.list();
     sendSuccess(res, coupons);

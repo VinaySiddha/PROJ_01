@@ -6,7 +6,7 @@
 import { prisma } from '../prisma/client';
 import { logger } from '../utils/logger';
 import { NotFoundError, ValidationError, ConflictError } from '../utils/errors';
-import { generateBookingRef, formatDate, formatSlot } from '../utils/formatters';
+import { generateBookingRef } from '../utils/formatters';
 import { AuditService } from './audit.service';
 import { WhatsAppService } from './whatsapp.service';
 import { SlotsService } from './slots.service';

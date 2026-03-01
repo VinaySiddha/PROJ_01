@@ -54,13 +54,13 @@ export class ErrorLogService {
           request_id:     entry.requestId     ?? null,
           request_path:   entry.requestPath   ?? null,
           request_method: entry.requestMethod ?? null,
-          request_body:   sanitizedBody       ?? {},
+          request_body:   (sanitizedBody       ?? {}) as object,
           actor_type:     entry.actorType     ?? null,
           actor_id:       entry.actorId       ?? null,
           ip_address:     entry.ipAddress     ?? null,
           resource_type:  entry.resourceType  ?? null,
           resource_id:    entry.resourceId    ?? null,
-          metadata:       entry.metadata      ?? {},
+          metadata:       (entry.metadata      ?? {}) as object,
         },
       })
       .catch((dbError: Error) => {
