@@ -232,27 +232,25 @@ export const useBookingStore = create<BookingStore>()(
       // ---- Step 5 -----------------------------------------------------------
       setFoodItem: (item) =>
         set((state) => {
+          // Composite key: same item in different sizes = separate cart entries
           const existing = state.foodItems.findIndex(
-            (f) => f.food_item_id === item.food_item_id,
+            (f) => f.food_item_id === item.food_item_id && f.variant_size === item.variant_size,
           );
 
           if (item.quantity === 0) {
-            // Remove the item entirely when quantity drops to zero
             return {
               foodItems: state.foodItems.filter(
-                (f) => f.food_item_id !== item.food_item_id,
+                (f) => !(f.food_item_id === item.food_item_id && f.variant_size === item.variant_size),
               ),
             };
           }
 
           if (existing !== -1) {
-            // Update quantity in place without mutating the original array
             const updated = [...state.foodItems];
             updated[existing] = item;
             return { foodItems: updated };
           }
 
-          // New item — append to the list
           return { foodItems: [...state.foodItems, item] };
         }),
 
@@ -318,7 +316,7 @@ export const useBookingStore = create<BookingStore>()(
       resetBooking: () => set(initialState),
     }),
     {
-      name: 'cinenest-booking', // sessionStorage key
+      name: 'themagicscreen-booking', // sessionStorage key
       storage: createJSONStorage(() => sessionStorage),
     },
   ),
