@@ -5,7 +5,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { CalendarCheck, DollarSign, Star, TrendingUp, Loader2 } from 'lucide-react';
+import { CalendarCheck, DollarSign, Star, TrendingUp } from 'lucide-react';
 import StatsCard from '../../../components/admin/StatsCard';
 import { formatCurrency, formatDate } from '../../../lib/formatters';
 import { apiClient } from '../../../lib/api';

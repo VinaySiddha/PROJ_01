@@ -43,7 +43,7 @@ A full-stack private theater booking platform for Hyderabad — similar to Binge
 ### 1.2 Business Details
 | Field | Value |
 |---|---|
-| Business Name | **TBD** *(placeholder: "CineNest")* |
+| Business Name | **TBD** *(placeholder: "theMagicshow")* |
 | City | Hyderabad, Telangana |
 | Branches | 2 (Branch names TBD) |
 | Target Audience | Couples, families, friend groups, corporates — 18–40 age group |

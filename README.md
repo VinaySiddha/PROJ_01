@@ -1,8 +1,8 @@
-# CineNest — Private Theater Booking Platform
+# theMagicshow — Private Theater Booking Platform
 
 ## Overview
 
-CineNest is a full-stack private theater booking platform built for Hyderabad, operating across **2 locations** (Hitec City and Miyapur). The platform allows customers to browse and book private theater experiences online, with support for add-ons (cakes, decor, photography), food pre-orders, WhatsApp-based notifications, an admin dashboard for operations, customer reviews, and an SEO-optimized public-facing storefront.
+theMagicshow is a full-stack private theater booking platform built for Hyderabad, operating across **2 locations** (Hitec City and Miyapur). The platform allows customers to browse and book private theater experiences online, with support for add-ons (cakes, decor, photography), food pre-orders, WhatsApp-based notifications, an admin dashboard for operations, customer reviews, and an SEO-optimized public-facing storefront.
 
 ---
 
@@ -35,7 +35,7 @@ Before getting started, ensure you have the following installed and configured:
 ## Project Structure
 
 ```
-cinenest/
+themagicshow/
 ├── frontend/          # Next.js 14 App Router
 ├── backend/           # Express.js REST API
 ├── SPEC.md            # Product specification
@@ -51,7 +51,7 @@ cinenest/
 
 ```bash
 git clone <repo-url>
-cd cinenest
+cd themagicshow
 npm install          # installs root workspace deps
 cd frontend && npm install
 cd ../backend && npm install
@@ -99,7 +99,7 @@ npm run dev:backend    # Express API on http://localhost:4000
 ## Admin Access (after seed)
 
 - **URL:** http://localhost:3000/admin
-- **Email:** admin@cinenest.com
+- **Email:** admin@themagicshow.com
 - **Password:** Admin@123
 - **WARNING:** Change the default password immediately after first login.
 
@@ -118,17 +118,17 @@ Copy each file to its non-example counterpart and fill in your actual values bef
 
 ## Business Name Placeholder
 
-All files across the monorepo use **"CineNest"** as a placeholder name. When the final business name is decided, run the following command from the repository root to replace it across all source files:
+All files across the monorepo use **"theMagicshow"** as a placeholder name. When the final business name is decided, run the following command from the repository root to replace it across all source files:
 
 ```bash
 # Replace across all files (case-sensitive variants)
 find . -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.json" -o -name "*.md" \) \
   -not -path "*/node_modules/*" \
   -not -path "*/.next/*" \
-  -exec sed -i 's/CineNest/YourBusinessName/g' {} +
+  -exec sed -i 's/theMagicshow/YourBusinessName/g' {} +
 ```
 
-Run this command multiple times with different case variants (e.g., `cinenest`, `CINENEST`) to cover all occurrences.
+Run this command multiple times with different case variants (e.g., `themagicshow`, `THEMAGICSHOW`) to cover all occurrences.
 
 ---
 
