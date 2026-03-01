@@ -17,11 +17,15 @@ const createApiClient = (): AxiosInstance => {
     },
   });
 
-  // Request interceptor — attaches the customer JWT if present in localStorage
+  // Request interceptor — attaches the correct JWT based on route
   instance.interceptors.request.use((config) => {
     // Only access localStorage in browser (not during SSR)
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('themagicscreen_token');
+      // Admin routes use the admin token; all other routes use the customer token
+      const isAdminRoute = config.url?.startsWith('/admin');
+      const token = isAdminRoute
+        ? localStorage.getItem('admin_token')
+        : localStorage.getItem('themagicscreen_token');
       if (token) {
         config.headers['Authorization'] = `Bearer ${token}`;
       }
