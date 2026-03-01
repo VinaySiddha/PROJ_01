@@ -32,6 +32,14 @@ const SETTING_SECTIONS: SettingSection[] = [
       { key: 'support_phone', label: 'Support Phone', description: 'Displayed on Contact page' },
       { key: 'support_email', label: 'Support Email', description: 'Displayed on Contact page' },
       { key: 'whatsapp_number', label: 'WhatsApp Number', description: 'E.164 format, e.g. +919999999999' },
+      { key: 'address', label: 'Business Address', description: 'Full address shown on Contact page', type: 'textarea' },
+    ],
+  },
+  {
+    title: 'UPI Payment',
+    fields: [
+      { key: 'upi_id', label: 'UPI ID', description: 'UPI ID shown to customers during checkout (e.g. themagicscreen@upi)' },
+      { key: 'upi_name', label: 'UPI Display Name', description: 'Name shown in UPI apps when customer scans QR' },
     ],
   },
   {

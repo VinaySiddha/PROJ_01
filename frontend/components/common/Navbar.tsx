@@ -18,8 +18,7 @@ const NAV_LINKS = [
   { href: '/book', label: 'Book Now' },
   { href: '/about', label: 'About' },
   { href: '/gallery', label: 'Gallery' },
-  { href: '/addons', label: 'Add-ons' },
-  { href: '/my-bookings', label: 'My Bookings' },
+  { href: '/booking', label: 'Track Booking' },
 ] as const;
 
 /**

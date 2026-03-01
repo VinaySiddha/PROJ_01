@@ -11,6 +11,7 @@ import reviewsRouter from './reviews';
 import adminRouter from './admin/index';
 import catalogRouter from './catalog';
 import { getLocations } from '../controllers/theaters.controller';
+import { getSettings } from '../controllers/admin/settings.controller';
 
 const router = Router();
 
@@ -24,6 +25,9 @@ router.use('/', catalogRouter);
 
 /** /api/locations — alias for /api/theaters/locations (frontend convenience) */
 router.get('/locations', getLocations);
+
+/** /api/settings — public read of site settings (UPI ID, contact details, etc.) */
+router.get('/settings', getSettings);
 
 /** Health check */
 router.get('/health', (_req, res) => {

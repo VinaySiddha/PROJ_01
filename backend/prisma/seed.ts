@@ -1533,6 +1533,11 @@ async function seedSiteSettings(): Promise<void> {
     { key: "whatsapp_number", value: "919999999999" },
     { key: "advance_amount", value: "700" },
     { key: "refundable_amount", value: "500" },
+    { key: "upi_id", value: "themagicscreen@upi" },
+    { key: "upi_name", value: "The Magic Screen" },
+    { key: "support_phone", value: "+919999999999" },
+    { key: "support_email", value: "hello@themagicscreen.in" },
+    { key: "address", value: "Bhadurpally, Hyderabad, Telangana 500055" },
   ];
 
   for (const setting of settings) {
