@@ -18,12 +18,42 @@ import type { DurationType } from '../../../../../types/booking';
 /** Step labels for the booking wizard */
 const BOOKING_STEPS = ['Date & Slot', 'Occasion', 'Cake', 'Add-Ons', 'Food', 'Details', 'Summary'];
 
-/** Slot availability shape returned by the API */
+/** Raw slot shape returned by the backend API */
+interface BackendSlot {
+  slot_id: string;
+  slot_name: string;
+  start_time: string;  // e.g. "18:00"
+  end_time: string;    // e.g. "20:30"
+  is_available: boolean;
+  is_locked: boolean;
+}
+
+/** Slot availability shape consumed by SlotPicker */
 interface SlotAvailabilityResult {
   slot_id: string;
   name: string;
   time_range: string;
   status: 'available' | 'booked' | 'locked';
+}
+
+/** Converts "18:00" → "6:00 PM" */
+function fmt12h(time: string): string {
+  const [hStr, mStr] = time.split(':');
+  const h = parseInt(hStr ?? '0', 10);
+  const m = parseInt(mStr ?? '0', 10);
+  const period = h >= 12 ? 'PM' : 'AM';
+  const hour = h % 12 || 12;
+  return `${hour}:${String(m).padStart(2, '0')} ${period}`;
+}
+
+/** Transforms a raw backend slot into the SlotPicker-friendly shape */
+function toPickerSlot(s: BackendSlot): SlotAvailabilityResult {
+  return {
+    slot_id:    s.slot_id,
+    name:       s.slot_name,
+    time_range: `${fmt12h(s.start_time)} – ${fmt12h(s.end_time)}`,
+    status:     s.is_locked ? 'locked' : s.is_available ? 'available' : 'booked',
+  };
 }
 
 export default function BookSlotPage() {
@@ -59,8 +89,8 @@ export default function BookSlotPage() {
     if (!selectedDate) return;
     setLoadingSlots(true);
     apiClient
-      .get<{ data: SlotAvailabilityResult[] }>(`/theaters/${params.id}/slots?date=${selectedDate}`)
-      .then((res) => setSlots(res.data.data ?? []))
+      .get<{ data: BackendSlot[] }>(`/theaters/${params.id}/slots?date=${selectedDate}`)
+      .then((res) => setSlots((res.data.data ?? []).map(toPickerSlot)))
       .catch(() => setSlots([]))
       .finally(() => setLoadingSlots(false));
   }, [selectedDate, params.id]);
@@ -74,7 +104,10 @@ export default function BookSlotPage() {
 
   const handleSlotSelect = (slotId: string) => {
     const slot = slots.find((s) => s.slot_id === slotId);
-    store.setSlot({ slotId, slotName: slot?.name ?? '' });
+    const slotName = slot
+      ? `${slot.name} · ${slot.time_range}`
+      : '';
+    store.setSlot({ slotId, slotName });
   };
 
   const handleDurationChange = (duration: DurationType) => {

@@ -10,28 +10,24 @@ export const metadata: Metadata = {
     'View photos and videos of The Magic Screen private theaters — our spaces, decorations, and celebrations.',
 };
 
-/** Placeholder gallery items with varying heights for masonry effect */
 const GALLERY_ITEMS = [
-  { id: 1, emoji: '🎬', category: 'Theaters', label: 'The Grand Hall' },
-  { id: 2, emoji: '🎂', category: 'Birthdays', label: 'Birthday Surprise' },
-  { id: 3, emoji: '💑', category: 'Anniversaries', label: 'Anniversary Night' },
-  { id: 4, emoji: '💍', category: 'Proposals', label: 'The Big Question' },
-  { id: 5, emoji: '🎉', category: 'Decorations', label: 'Balloon Extravaganza' },
-  { id: 6, emoji: '🌹', category: 'Decorations', label: 'Rose Petal Setup' },
-  { id: 7, emoji: '🎊', category: 'Birthdays', label: 'Surprise Party' },
-  { id: 8, emoji: '🥂', category: 'Anniversaries', label: 'Golden Anniversary' },
-  { id: 9, emoji: '🎭', category: 'Theaters', label: 'Scarlet Theater' },
-  { id: 10, emoji: '⭐', category: 'Theaters', label: 'Galaxy Screen' },
-  { id: 11, emoji: '🌟', category: 'Decorations', label: 'Fairy Light Setup' },
-  { id: 12, emoji: '✨', category: 'Proposals', label: 'Candlelight Proposal' },
-  { id: 13, emoji: '🎵', category: 'Birthdays', label: 'Musical Birthday' },
-  { id: 14, emoji: '🌙', category: 'Theaters', label: 'Midnight Screening' },
-  { id: 15, emoji: '🫶', category: 'Anniversaries', label: 'Love Story' },
-  { id: 16, emoji: '📸', category: 'Decorations', label: 'Photo Clippings' },
+  { id: 1,  src: 'https://picsum.photos/seed/theater1/600/400', category: 'Theaters',      label: 'Private Screening Room',   h: 200 },
+  { id: 2,  src: 'https://picsum.photos/seed/bday2/600/800',    category: 'Birthdays',     label: 'Birthday Surprise',        h: 260 },
+  { id: 3,  src: 'https://picsum.photos/seed/anniv3/600/600',   category: 'Anniversaries', label: 'Anniversary Night',        h: 220 },
+  { id: 4,  src: 'https://picsum.photos/seed/prop4/600/800',    category: 'Proposals',     label: 'The Big Question',         h: 280 },
+  { id: 5,  src: 'https://picsum.photos/seed/decor5/600/600',   category: 'Decorations',   label: 'Balloon Extravaganza',     h: 200 },
+  { id: 6,  src: 'https://picsum.photos/seed/roses6/600/700',   category: 'Decorations',   label: 'Rose Petal Setup',         h: 240 },
+  { id: 7,  src: 'https://picsum.photos/seed/party7/600/800',   category: 'Birthdays',     label: 'Surprise Party',           h: 260 },
+  { id: 8,  src: 'https://picsum.photos/seed/gold8/600/600',    category: 'Anniversaries', label: 'Golden Anniversary',       h: 200 },
+  { id: 9,  src: 'https://picsum.photos/seed/scarlet9/600/800', category: 'Theaters',      label: 'Scarlet Theater',          h: 280 },
+  { id: 10, src: 'https://picsum.photos/seed/galaxy10/600/600', category: 'Theaters',      label: 'Galaxy Screen',            h: 220 },
+  { id: 11, src: 'https://picsum.photos/seed/fairy11/600/700',  category: 'Decorations',   label: 'Fairy Light Setup',        h: 240 },
+  { id: 12, src: 'https://picsum.photos/seed/candle12/600/800', category: 'Proposals',     label: 'Candlelight Proposal',     h: 200 },
+  { id: 13, src: 'https://picsum.photos/seed/music13/600/600',  category: 'Birthdays',     label: 'Musical Birthday',         h: 260 },
+  { id: 14, src: 'https://picsum.photos/seed/mid14/600/800',    category: 'Theaters',      label: 'Midnight Screening',       h: 280 },
+  { id: 15, src: 'https://picsum.photos/seed/love15/600/600',   category: 'Anniversaries', label: 'Love Story',               h: 200 },
+  { id: 16, src: 'https://picsum.photos/seed/photo16/600/700',  category: 'Decorations',   label: 'Photo Wall Setup',         h: 240 },
 ] as const;
-
-/** Heights cycle for masonry visual variety */
-const HEIGHTS = [200, 260, 220, 280, 200, 240, 260, 200, 280, 220, 240, 200, 260, 280, 200, 240] as const;
 
 export default function GalleryPage() {
   return (
@@ -69,16 +65,22 @@ export default function GalleryPage() {
 
         {/* Masonry gallery grid */}
         <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-          {GALLERY_ITEMS.map((item, index) => (
+          {GALLERY_ITEMS.map((item) => (
             <div
               key={item.id}
               className="break-inside-avoid rounded-xl border border-white/10 bg-[#1A1A1A] overflow-hidden hover:border-[#D4A017]/40 transition-all group cursor-pointer"
             >
               <div
-                className="bg-[#2A2A2A] flex items-center justify-center text-5xl group-hover:scale-105 transition-transform duration-300"
-                style={{ height: `${HEIGHTS[index % HEIGHTS.length]}px` }}
+                className="overflow-hidden"
+                style={{ height: `${item.h}px` }}
               >
-                {item.emoji}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={item.src}
+                  alt={item.label}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
               </div>
               <div className="p-3">
                 <p className="text-xs text-[#D4A017]">{item.category}</p>
