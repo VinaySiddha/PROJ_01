@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useBookingStore } from '../../../../../store/bookingStore';
 import { BookingStepIndicator } from '../../../../../components/booking/BookingStepIndicator';
-import { ChevronLeft, ChevronRight, Plus, Minus, Loader2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Minus } from 'lucide-react';
 import { apiClient } from '../../../../../lib/api';
 import { formatCurrency } from '../../../../../lib/formatters';
 import type { FoodCategory, FoodItem } from '../../../../../types/addon';
@@ -23,6 +23,7 @@ export default function FoodPage() {
 
   const [categories, setCategories] = useState<FoodCategory[]>([]);
   const [loading, setLoading] = useState(true);
+  const [expandedItem, setExpandedItem] = useState<string | null>(null);
 
   useEffect(() => {
     apiClient
@@ -34,15 +35,25 @@ export default function FoodPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const getQty = (itemId: string): number =>
-    store.foodItems.find((f) => f.food_item_id === itemId)?.quantity ?? 0;
+  const getQty = (itemId: string, variantSize?: string): number =>
+    store.foodItems.find(
+      (f) => f.food_item_id === itemId && f.variant_size === variantSize,
+    )?.quantity ?? 0;
 
-  const updateQty = (item: FoodItem, qty: number) => {
+  const resolvePrice = (item: FoodItem, variantSize?: string): number => {
+    if (variantSize && item.variants) {
+      return item.variants.find((v) => v.size === variantSize)?.price ?? item.price;
+    }
+    return item.price;
+  };
+
+  const updateQty = (item: FoodItem, qty: number, variantSize?: string) => {
     store.setFoodItem({
       food_item_id: item.id,
       food_item: item,
+      variant_size: variantSize,
       quantity: qty,
-      unit_price: item.price,
+      unit_price: resolvePrice(item, variantSize),
     });
   };
 
@@ -93,58 +104,121 @@ export default function FoodPage() {
                 </h2>
                 <div className="space-y-2">
                   {cat.food_items.map((item) => {
-                    const qty = getQty(item.id);
+                    const hasVariants = item.variants && item.variants.length > 0;
+                    const isExpanded = expandedItem === item.id;
+
                     return (
-                      <div
-                        key={item.id}
-                        className="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-[#1A1A1A]"
-                      >
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span
-                              className={`w-3 h-3 rounded-sm border-2 flex-shrink-0 ${
-                                item.is_veg ? 'border-green-500' : 'border-red-500'
-                              }`}
-                            />
-                            <p className="font-medium text-white text-sm truncate">
-                              {item.name}
+                      <div key={item.id} className="rounded-xl border border-white/10 bg-[#1A1A1A] overflow-hidden">
+                        {/* Item row */}
+                        <div className="flex items-center justify-between p-4">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span
+                                className={`w-3 h-3 rounded-sm border-2 flex-shrink-0 ${
+                                  item.is_veg ? 'border-green-500' : 'border-red-500'
+                                }`}
+                              />
+                              <p className="font-medium text-white text-sm truncate">{item.name}</p>
+                            </div>
+                            <p className="text-xs text-[#888] mt-0.5 ml-5">
+                              {hasVariants
+                                ? `from ${formatCurrency(item.variants![0]!.price)}`
+                                : formatCurrency(item.price)}
                             </p>
                           </div>
-                          <p className="text-xs text-[#888] mt-0.5 ml-5">
-                            {formatCurrency(item.price)}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-2 ml-4">
-                          {qty > 0 ? (
-                            <>
-                              <button
-                                type="button"
-                                onClick={() => updateQty(item, qty - 1)}
-                                className="w-7 h-7 rounded-lg border border-white/20 flex items-center justify-center text-white hover:bg-white/5 transition-colors"
-                              >
-                                <Minus size={12} />
-                              </button>
-                              <span className="w-5 text-center text-sm font-semibold text-white">
-                                {qty}
-                              </span>
-                              <button
-                                type="button"
-                                onClick={() => updateQty(item, qty + 1)}
-                                className="w-7 h-7 rounded-lg border border-[#D4A017]/50 bg-[#D4A017]/10 flex items-center justify-center text-[#D4A017] hover:bg-[#D4A017]/20 transition-colors"
-                              >
-                                <Plus size={12} />
-                              </button>
-                            </>
-                          ) : (
+
+                          {/* Fixed-price items: standard +/- */}
+                          {!hasVariants && (
+                            <div className="flex items-center gap-2 ml-4">
+                              {getQty(item.id) > 0 ? (
+                                <>
+                                  <button
+                                    type="button"
+                                    onClick={() => updateQty(item, getQty(item.id) - 1)}
+                                    className="w-7 h-7 rounded-lg border border-white/20 flex items-center justify-center text-white hover:bg-white/5 transition-colors"
+                                  >
+                                    <Minus size={12} />
+                                  </button>
+                                  <span className="w-5 text-center text-sm font-semibold text-white">
+                                    {getQty(item.id)}
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() => updateQty(item, getQty(item.id) + 1)}
+                                    className="w-7 h-7 rounded-lg border border-[#D4A017]/50 bg-[#D4A017]/10 flex items-center justify-center text-[#D4A017] hover:bg-[#D4A017]/20 transition-colors"
+                                  >
+                                    <Plus size={12} />
+                                  </button>
+                                </>
+                              ) : (
+                                <button
+                                  type="button"
+                                  onClick={() => updateQty(item, 1)}
+                                  className="px-3 py-1.5 rounded-lg border border-[#D4A017]/50 text-[#D4A017] text-xs font-medium hover:bg-[#D4A017]/10 transition-colors"
+                                >
+                                  Add
+                                </button>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Variant items: expand toggle */}
+                          {hasVariants && (
                             <button
                               type="button"
-                              onClick={() => updateQty(item, 1)}
-                              className="px-3 py-1.5 rounded-lg border border-[#D4A017]/50 text-[#D4A017] text-xs font-medium hover:bg-[#D4A017]/10 transition-colors"
+                              onClick={() => setExpandedItem(isExpanded ? null : item.id)}
+                              className="ml-4 px-3 py-1.5 rounded-lg border border-[#D4A017]/50 text-[#D4A017] text-xs font-medium hover:bg-[#D4A017]/10 transition-colors"
                             >
-                              Add
+                              {isExpanded ? 'Close' : 'Select Size'}
                             </button>
                           )}
                         </div>
+
+                        {/* Variant size rows — shown when expanded */}
+                        {hasVariants && isExpanded && (
+                          <div className="border-t border-white/10 divide-y divide-white/5">
+                            {item.variants!.map((v) => {
+                              const qty = getQty(item.id, v.size);
+                              return (
+                                <div key={v.size} className="flex items-center justify-between px-4 py-2.5">
+                                  <div>
+                                    <span className="text-sm text-white">{v.size}</span>
+                                    <span className="text-xs text-[#888] ml-2">{formatCurrency(v.price)}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    {qty > 0 ? (
+                                      <>
+                                        <button
+                                          type="button"
+                                          onClick={() => updateQty(item, qty - 1, v.size)}
+                                          className="w-7 h-7 rounded-lg border border-white/20 flex items-center justify-center text-white hover:bg-white/5 transition-colors"
+                                        >
+                                          <Minus size={12} />
+                                        </button>
+                                        <span className="w-5 text-center text-sm font-semibold text-white">{qty}</span>
+                                        <button
+                                          type="button"
+                                          onClick={() => updateQty(item, qty + 1, v.size)}
+                                          className="w-7 h-7 rounded-lg border border-[#D4A017]/50 bg-[#D4A017]/10 flex items-center justify-center text-[#D4A017] hover:bg-[#D4A017]/20 transition-colors"
+                                        >
+                                          <Plus size={12} />
+                                        </button>
+                                      </>
+                                    ) : (
+                                      <button
+                                        type="button"
+                                        onClick={() => updateQty(item, 1, v.size)}
+                                        className="px-3 py-1.5 rounded-lg border border-[#D4A017]/50 text-[#D4A017] text-xs font-medium hover:bg-[#D4A017]/10 transition-colors"
+                                      >
+                                        Add
+                                      </button>
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
                       </div>
                     );
                   })}
