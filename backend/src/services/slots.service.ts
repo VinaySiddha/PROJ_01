@@ -65,10 +65,18 @@ export class SlotsService {
     // Build a Set of booked slot IDs for O(1) lookup
     const bookedSlotIds = new Set(confirmedBookings.map((b) => b.slot_id));
 
-    // Check Redis lock status for each slot in parallel
-    const lockChecks = await Promise.all(
-      slots.map((slot) => redis.get(slotLockKey(theaterId, date, slot.id))),
-    );
+    // Check Redis lock status — degrade gracefully if Redis is unavailable
+    let lockChecks: (string | null)[];
+    try {
+      lockChecks = await Promise.all(
+        slots.map((slot) => redis.get(slotLockKey(theaterId, date, slot.id))),
+      );
+    } catch (redisErr) {
+      logger.warn('Redis unavailable for slot lock check, treating all slots as unlocked', {
+        error: (redisErr as Error).message,
+      });
+      lockChecks = slots.map(() => null);
+    }
 
     return slots.map((slot, index) => ({
       slot_id:      slot.id,
@@ -97,15 +105,21 @@ export class SlotsService {
   ): Promise<void> {
     const key = slotLockKey(theaterId, date, slotId);
 
-    // Check for existing Redis lock
-    const existingLock = await redis.get(key);
-    if (existingLock) {
-      throw new ConflictError(
-        'BOOKING_SLOT_LOCKED',
-        'This slot is currently being booked by someone else. Please try a different slot or check back in a few minutes.',
-        'slot',
-        slotId,
-      );
+    // Check for existing Redis lock (skip if Redis unavailable)
+    try {
+      const existingLock = await redis.get(key);
+      if (existingLock) {
+        throw new ConflictError(
+          'BOOKING_SLOT_LOCKED',
+          'This slot is currently being booked by someone else. Please try a different slot or check back in a few minutes.',
+          'slot',
+          slotId,
+        );
+      }
+    } catch (err) {
+      // Re-throw ConflictError; swallow Redis connection errors
+      if ((err as { name?: string }).name === 'ConflictError' || (err as { code?: string }).code?.startsWith('BOOKING_')) throw err;
+      logger.warn('Redis unavailable for lock check, proceeding without lock', { error: (err as Error).message });
     }
 
     // Check for confirmed DB booking (handles edge case where lock expired but booking exists)
@@ -125,10 +139,13 @@ export class SlotsService {
       throw new ConflictError('BOOKING_SLOT_UNAVAILABLE', 'This slot is no longer available.', 'slot', slotId);
     }
 
-    // Lock the slot with a 10-minute TTL
-    await redis.setex(key, SLOT_LOCK_TTL, JSON.stringify({ sessionId, lockedAt: new Date().toISOString() }));
-
-    logger.debug('Slot locked', { event: 'slot.locked', theaterId, date, slotId, sessionId });
+    // Lock the slot with a 10-minute TTL (best-effort — skip if Redis unavailable)
+    try {
+      await redis.setex(key, SLOT_LOCK_TTL, JSON.stringify({ sessionId, lockedAt: new Date().toISOString() }));
+      logger.debug('Slot locked', { event: 'slot.locked', theaterId, date, slotId, sessionId });
+    } catch (redisErr) {
+      logger.warn('Redis unavailable, slot locked in DB only', { error: (redisErr as Error).message });
+    }
   }
 
   /**
@@ -140,7 +157,11 @@ export class SlotsService {
    */
   static async unlockSlot(theaterId: string, date: string, slotId: string): Promise<void> {
     const key = slotLockKey(theaterId, date, slotId);
-    await redis.del(key);
-    logger.debug('Slot unlocked', { event: 'slot.unlocked', theaterId, date, slotId });
+    try {
+      await redis.del(key);
+      logger.debug('Slot unlocked', { event: 'slot.unlocked', theaterId, date, slotId });
+    } catch (redisErr) {
+      logger.warn('Redis unavailable, could not remove slot lock', { error: (redisErr as Error).message });
+    }
   }
 }
