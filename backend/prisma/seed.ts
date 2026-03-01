@@ -1538,6 +1538,8 @@ async function seedSiteSettings(): Promise<void> {
     { key: "support_phone", value: "+919999999999" },
     { key: "support_email", value: "hello@themagicscreen.in" },
     { key: "address", value: "Bhadurpally, Hyderabad, Telangana 500055" },
+    { key: "working_hours", value: "9:00 AM – 1:00 AM, Every Day" },
+    { key: "google_maps_url", value: "https://maps.google.com/?q=Bhadurpally+Hyderabad" },
   ];
 
   for (const setting of settings) {

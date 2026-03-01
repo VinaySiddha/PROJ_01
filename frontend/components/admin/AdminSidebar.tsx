@@ -18,6 +18,7 @@ import {
   LogOut,
   ChevronRight,
   Clapperboard,
+  HelpCircle,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -35,6 +36,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Theaters', href: '/admin/theaters', icon: Building2 },
   { label: 'Reviews', href: '/admin/reviews', icon: Star },
   { label: 'Offers', href: '/admin/offers', icon: Tag },
+  { label: 'FAQs', href: '/admin/faqs', icon: HelpCircle },
   { label: 'Error Logs', href: '/admin/error-logs', icon: AlertTriangle },
   { label: 'Settings', href: '/admin/settings', icon: Settings },
 ];

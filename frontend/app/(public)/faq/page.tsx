@@ -1,30 +1,38 @@
 /**
- * @file FAQ page — frequently asked questions
+ * @file FAQ page — questions pulled from admin-controlled site settings
  * @module app/(public)/faq/page
  */
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { MessageCircle } from 'lucide-react';
-import { WHATSAPP_SUPPORT_LINK } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: 'FAQ',
+  title: 'FAQ — The Magic Screen',
   description:
     'Frequently asked questions about The Magic Screen private theater bookings, cancellations, pricing, and more.',
 };
 
-const FAQ_ITEMS = [
+interface FaqItem {
+  q: string;
+  a: string;
+}
+
+const DEFAULT_FAQS: FaqItem[] = [
   {
     q: 'What is a private theater?',
     a: 'A private theater is an exclusively booked screening room for just you and your guests. No other customers share the space. You get the full cinematic experience — 4K screen, surround sound, recliner seats — completely privately.',
   },
   {
     q: 'How many people can book?',
-    a: 'Our theaters accommodate 2 to 20 people depending on the theater. The base price covers 4 guests; additional guests can be added at an extra charge per person.',
+    a: 'Our theaters accommodate 2 to 20 people depending on the theater. The base price covers a set number of guests; additional guests can be added at an extra charge per person.',
   },
   {
     q: 'What is the advance payment?',
     a: 'We charge ₹700 as advance to confirm your booking. This includes ₹200 non-refundable processing fee and ₹500 refundable deposit. The remaining balance is paid at the venue on the day of your booking.',
+  },
+  {
+    q: 'How do I pay?',
+    a: 'We accept UPI payments (PhonePe, GPay, Paytm, etc.). After confirming your booking details, you\'ll scan a QR code or use our UPI ID to pay the advance, then enter your transaction reference to confirm.',
   },
   {
     q: 'Can I bring my own food?',
@@ -40,31 +48,51 @@ const FAQ_ITEMS = [
   },
   {
     q: 'What is the cancellation policy?',
-    a: 'Free cancellation up to 72 hours before your slot. You\'ll receive ₹500 refund within 7 business days. Cancellations within 72 hours forfeit the full ₹700 advance.',
+    a: "Free cancellation up to 72 hours before your slot. You'll receive ₹500 refund within 7 business days. Cancellations within 72 hours forfeit the full ₹700 advance.",
   },
   {
-    q: 'How do I get my booking confirmation?',
-    a: 'Immediately after successful payment, you\'ll receive a WhatsApp message with your booking details, slot timing, and reference number.',
+    q: 'How do I track my booking?',
+    a: 'After completing your booking you\'ll receive a Booking ID. Visit the "Track Booking" page on our website and enter your Booking ID to see the status of your reservation.',
   },
   {
     q: 'Are there couple-only theaters?',
-    a: 'Yes, our Red Love theater at Bhadurpally is reserved exclusively for couples. Other theaters can be booked by groups as well.',
+    a: 'Yes, our Red Love theater is reserved exclusively for couples. Other theaters can be booked by groups as well.',
   },
   {
     q: 'Can I decorate the theater?',
     a: 'Absolutely! All bookings include a complimentary base decoration setup. You can also add premium decoration packages via our add-ons menu.',
   },
   {
-    q: 'Is photography allowed?',
-    a: 'Yes, personal photography and videography is encouraged! For professional/commercial shoots inside our theaters, prior written permission from management is required.',
-  },
-  {
     q: 'How early should I arrive?',
     a: 'We recommend arriving 10–15 minutes before your slot starts. This allows you to settle in, check the setup, and start your session on time.',
   },
-] as const;
+];
 
-export default function FAQPage() {
+async function fetchFaqs(): Promise<{ faqs: FaqItem[]; waNumber: string }> {
+  const apiUrl = process.env['NEXT_PUBLIC_API_URL'] ?? 'http://localhost:4000/api';
+  try {
+    const res = await fetch(`${apiUrl}/settings`, { next: { revalidate: 120 } });
+    if (!res.ok) return { faqs: DEFAULT_FAQS, waNumber: '919999999999' };
+    const data = (await res.json()) as { data?: Record<string, string> };
+    const settings = data.data ?? {};
+    let faqs: FaqItem[] = DEFAULT_FAQS;
+    if (settings['faqs']) {
+      try {
+        faqs = JSON.parse(settings['faqs']) as FaqItem[];
+      } catch {
+        // ignore malformed JSON, use defaults
+      }
+    }
+    return { faqs, waNumber: (settings['whatsapp_number'] ?? '919999999999').replace(/\D/g, '') };
+  } catch {
+    return { faqs: DEFAULT_FAQS, waNumber: '919999999999' };
+  }
+}
+
+export default async function FAQPage() {
+  const { faqs, waNumber } = await fetchFaqs();
+  const waLink = `https://wa.me/${waNumber}?text=Hi%20I%20have%20a%20question%20about%20The%20Magic%20Screen`;
+
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
       <div className="max-w-3xl mx-auto">
@@ -82,7 +110,7 @@ export default function FAQPage() {
         </div>
 
         <div className="space-y-3">
-          {FAQ_ITEMS.map((item, i) => (
+          {faqs.map((item, i) => (
             <details
               key={i}
               className="group rounded-xl border border-white/10 bg-[#1A1A1A] overflow-hidden open:border-[#D4A017]/30 transition-all"
@@ -108,7 +136,7 @@ export default function FAQPage() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
-              href={WHATSAPP_SUPPORT_LINK}
+              href={waLink}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 bg-[#25D366] text-white font-semibold rounded-xl hover:bg-[#1ebe5d] transition-colors text-sm"

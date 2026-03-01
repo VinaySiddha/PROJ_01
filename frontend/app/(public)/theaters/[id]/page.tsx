@@ -199,7 +199,7 @@ export default async function TheaterDetailPage({ params }: Params) {
               </div>
 
               <Link
-                href={`/theaters/${theater.id}/book`}
+                href={`/theater/${theater.id}/book`}
                 className="block w-full text-center py-3.5 bg-[#D4A017] text-black font-bold rounded-xl hover:bg-[#D4A017]/90 transition-all hover:scale-[1.02]"
               >
                 Book Now
