@@ -85,7 +85,7 @@ export const requireRole = (minimumRole: AdminRole) => {
     super_admin: 2,
   };
 
-  return (req: Request, res: Response, next: NextFunction): void => {
+  return (_req: Request, res: Response, next: NextFunction): void => {
     const adminRole = res.locals['userRole'] as AdminRole | undefined;
 
     if (!adminRole) {

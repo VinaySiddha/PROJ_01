@@ -115,7 +115,7 @@ export async function updateBookingStatus(req: Request, res: Response, next: Nex
 
     const updated = await prisma.booking.update({
       where: { id },
-      data: { status: status as never, admin_note: adminNote },
+      data: { status: status as never },
     });
 
     // Fire-and-forget audit log — do not await

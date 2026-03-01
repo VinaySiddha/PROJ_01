@@ -17,7 +17,7 @@ import { sendSuccess } from '../utils/response';
  * @returns    void — responds with an array of location objects
  * @throws     AppError on database failure
  */
-export async function getLocations(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function getLocations(_req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const locations = await TheatersService.getAllLocations();
     sendSuccess(res, locations);

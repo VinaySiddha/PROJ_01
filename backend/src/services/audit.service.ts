@@ -46,7 +46,7 @@ export class AuditService {
           category:      entry.category,
           resource_type: entry.resourceType ?? null,
           resource_id:   entry.resourceId  ?? null,
-          metadata:      entry.metadata    ?? {},
+          metadata:      (entry.metadata    ?? {}) as object,
           ip_address:    entry.ipAddress   ?? null,
           user_agent:    entry.userAgent   ?? null,
         },

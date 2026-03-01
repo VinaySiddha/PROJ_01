@@ -4,7 +4,7 @@
  */
 import { Request, Response, NextFunction } from 'express';
 import { ReviewsService } from '../services/reviews.service';
-import { sendSuccess, sendCreated, sendPaginated } from '../utils/response';
+import { sendCreated, sendPaginated } from '../utils/response';
 
 /**
  * GET /api/reviews?page=1&limit=12&theaterId=

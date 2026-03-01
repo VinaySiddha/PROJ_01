@@ -26,7 +26,7 @@ const getErrorLogService = async () => {
   if (!errorLogServiceLoaded) {
     try {
       const module = await import('../services/errorLog.service');
-      ErrorLogService = module.ErrorLogService;
+      ErrorLogService = module.ErrorLogService as any; // eslint-disable-line @typescript-eslint/no-explicit-any
     } catch {
       // If service fails to load, log to Winston only — never crash the error handler
     }
