@@ -66,7 +66,18 @@ app.use((req, _res, next) => {
 });
 
 // ── Swagger UI ────────────────────────────────────────────────────────────────
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+// Override the servers list so Swagger UI calls the correct host in production.
+// Set BACKEND_URL env var on Render (e.g. https://proj-01-hy9i.onrender.com).
+const swaggerRuntimeSpec = {
+  ...swaggerSpec,
+  servers: [
+    {
+      url: process.env['BACKEND_URL'] ?? `http://localhost:${config.PORT}`,
+      description: 'API Server',
+    },
+  ],
+};
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerRuntimeSpec, {
   customSiteTitle: 'The Magic Screen API Docs',
   swaggerOptions: { persistAuthorization: true },
 }));
