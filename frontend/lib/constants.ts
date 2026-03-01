@@ -59,7 +59,10 @@ export const OCCASION_NAME_PROMPTS: Record<OccasionType, string> = {
   baby_shower:       "Mom's name",
   farewell:          "Person's name",
   marriage_proposal: "Partner's name",
+  proposal:          "Partner's name",
   private_date:      'Your names (optional)',
+  date_night:        'Your names (optional)',
+  movie_night:       'Your names (optional)',
   reunion:           'Group name (optional)',
   other:             'Name for personalization (optional)',
 };
