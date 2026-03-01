@@ -86,7 +86,7 @@ export default function AddonsPage() {
         <div className="text-center mb-12">
           <h1
             className="text-4xl md:text-5xl font-bold text-white mb-4"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             Add-Ons &amp; <span className="text-[#D4A017]">Extras</span>
           </h1>
@@ -106,7 +106,7 @@ export default function AddonsPage() {
                 <span className="text-2xl">{cat.emoji}</span>
                 <h2
                   className="text-xl font-bold text-white"
-                  style={{ fontFamily: 'var(--font-playfair)' }}
+                  style={{ fontFamily: 'var(--font-display)' }}
                 >
                   {cat.name}
                 </h2>

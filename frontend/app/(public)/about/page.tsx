@@ -18,7 +18,7 @@ export default function AboutPage() {
         <div className="text-center mb-16">
           <h1
             className="text-4xl md:text-5xl font-bold text-white mb-4"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             About <span className="text-[#D4A017]">The Magic Screen</span>
           </h1>
@@ -70,7 +70,7 @@ export default function AboutPage() {
         <div className="mb-16">
           <h2
             className="text-2xl font-bold text-white mb-8 text-center"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             Our Values
           </h2>
@@ -104,7 +104,7 @@ export default function AboutPage() {
         <div>
           <h2
             className="text-2xl font-bold text-white mb-8 text-center"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             Our Locations
           </h2>

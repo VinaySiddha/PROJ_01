@@ -252,7 +252,7 @@ export default async function PolicyPage({ params }: PolicyPageProps) {
         {/* Title */}
         <h1
           className="text-4xl font-bold text-white mb-8"
-          style={{ fontFamily: 'var(--font-playfair)' }}
+          style={{ fontFamily: 'var(--font-display)' }}
         >
           {content.title}
         </h1>

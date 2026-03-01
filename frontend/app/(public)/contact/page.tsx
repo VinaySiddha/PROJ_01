@@ -19,7 +19,7 @@ export default function ContactPage() {
         <div className="text-center mb-12">
           <h1
             className="text-4xl md:text-5xl font-bold text-white mb-4"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+            style={{ fontFamily: 'var(--font-display)' }}
           >
             Contact <span className="text-[#D4A017]">Us</span>
           </h1>
@@ -33,7 +33,7 @@ export default function ContactPage() {
           <div className="space-y-4">
             <h2
               className="text-xl font-bold text-white mb-4"
-              style={{ fontFamily: 'var(--font-playfair)' }}
+              style={{ fontFamily: 'var(--font-display)' }}
             >
               Get in Touch
             </h2>
@@ -100,7 +100,7 @@ export default function ContactPage() {
           <div className="space-y-4">
             <h2
               className="text-xl font-bold text-white mb-4"
-              style={{ fontFamily: 'var(--font-playfair)' }}
+              style={{ fontFamily: 'var(--font-display)' }}
             >
               Our Locations
             </h2>
