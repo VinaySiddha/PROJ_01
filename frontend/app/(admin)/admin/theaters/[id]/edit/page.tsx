@@ -9,6 +9,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { ChevronLeft, Loader2, Save } from 'lucide-react';
 import { apiClient } from '../../../../../../lib/api';
+import { ImageUpload } from '../../../../../../components/admin/ImageUpload';
 import type { Theater } from '../../../../../../types/theater';
 
 /** Editable subset of Theater fields shown in the form */
@@ -60,6 +61,7 @@ export default function EditTheaterPage() {
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
   const [form, setForm] = useState<TheaterFormState | null>(null);
+  const [images, setImages] = useState<string[]>([]);
 
   const { data: theater, isLoading } = useQuery<Theater>({
     queryKey: ['admin', 'theater', params.id],
@@ -73,7 +75,10 @@ export default function EditTheaterPage() {
 
   // Pre-fill form once theater data arrives
   useEffect(() => {
-    if (theater) setForm(theaterToForm(theater));
+    if (theater) {
+      setForm(theaterToForm(theater));
+      setImages(theater.images ?? []);
+    }
   }, [theater]);
 
   const setField = <K extends keyof TheaterFormState>(
@@ -90,7 +95,7 @@ export default function EditTheaterPage() {
     setError(null);
     setSaved(false);
     try {
-      await apiClient.put(`/admin/theaters/${params.id}`, form);
+      await apiClient.put(`/admin/theaters/${params.id}`, { ...form, images });
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
     } catch (err: unknown) {
@@ -168,6 +173,22 @@ export default function EditTheaterPage() {
         <TextField label="Theater Name *" field="name" />
         <TextField label="URL Slug *" field="slug" />
         <TextField label="YouTube Tour URL" field="youtube_url" placeholder="https://youtu.be/..." />
+
+        {/* Images */}
+        <div>
+          <label className="block text-sm font-medium text-white mb-2">
+            Theater Images
+          </label>
+          <p className="text-xs text-[#666] mb-3">
+            First image is used as the main thumbnail. Upload up to 8 images.
+          </p>
+          <ImageUpload
+            value={images}
+            onChange={setImages}
+            max={8}
+            folder="themagicscreen/theaters"
+          />
+        </div>
 
         {/* Tech specs */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

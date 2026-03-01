@@ -255,10 +255,16 @@ export default function SummaryPage() {
             <p className="text-2xl font-bold text-[#D4A017]">{formatCurrency(ADVANCE_AMOUNT)}</p>
           </div>
 
-          {/* QR Code */}
+          {/* QR Code — tap to open UPI app directly */}
           {qrImageUrl && (
             <div className="flex flex-col items-center mb-6">
-              <div className="p-4 bg-white rounded-2xl shadow-lg mb-3">
+              <a
+                href={upiDeepLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block p-4 bg-white rounded-2xl shadow-lg mb-3 hover:scale-[1.02] transition-transform active:scale-[0.98]"
+                title="Tap to pay with UPI app"
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={qrImageUrl}
@@ -267,9 +273,12 @@ export default function SummaryPage() {
                   height={180}
                   className="rounded-lg"
                 />
-              </div>
-              <p className="text-xs text-[#666] text-center">
-                Scan with any UPI app (PhonePe, GPay, Paytm, etc.)
+              </a>
+              <p className="text-xs text-[#888] text-center font-medium mb-1">
+                📱 Tap QR to open payment app directly
+              </p>
+              <p className="text-xs text-[#555] text-center">
+                Or scan with PhonePe / GPay / Paytm
               </p>
             </div>
           )}

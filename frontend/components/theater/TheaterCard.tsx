@@ -34,15 +34,21 @@ export function TheaterCard({ theater, onSelect }: TheaterCardProps) {
     <article className="group flex flex-col rounded-xl bg-[#1A1A1A] border border-white/10
                         hover:border-[#D4A017]/60 transition-all duration-300 overflow-hidden shadow-md hover:shadow-[#D4A017]/10 hover:shadow-lg">
       {/* Image */}
-      <div className="relative w-full aspect-video overflow-hidden">
-        <Image
-          src={theater.image_url ?? '/images/theater-placeholder.jpg'}
-          alt={theater.name}
-          fill
-          priority={false}
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        />
+      <div className="relative w-full aspect-video overflow-hidden bg-[#2A2A2A]">
+        {(theater.image_url ?? theater.images?.[0]) ? (
+          <Image
+            src={(theater.image_url ?? theater.images?.[0])!}
+            alt={theater.name}
+            fill
+            priority={false}
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#1A1A1A] to-[#2A2A2A]">
+            <span className="text-4xl opacity-20">🎬</span>
+          </div>
+        )}
         {/* Couple-only badge */}
         {theater.couple_only && (
           <span className="absolute top-3 left-3 px-2 py-0.5 rounded-full text-[10px] font-bold
