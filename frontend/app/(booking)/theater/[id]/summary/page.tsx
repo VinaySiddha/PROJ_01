@@ -28,6 +28,7 @@ const BOOKING_STEPS = ['Date & Slot', 'Occasion', 'Cake', 'Add-Ons', 'Food', 'De
 
 type Step = 'summary' | 'payment' | 'success';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function SummaryPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
@@ -69,6 +70,25 @@ export default function SummaryPage() {
 
   /** Creates the booking and moves to payment panel */
   const handleCreateBooking = async () => {
+    if (!store.theaterId || !store.slotId || !store.date) {
+      setError('Your booking session is incomplete. Please select date and slot again.');
+      return;
+    }
+
+    if (!store.customerName.trim()) {
+      setError('Please enter your name in the details step.');
+      return;
+    }
+
+    const rawPhone = store.customerPhone.trim();
+    const digitsOnly = rawPhone.replaceAll(/\D/g, '');
+    const normalizedPhone = rawPhone.startsWith('+') ? `+${digitsOnly}` : digitsOnly;
+
+    if (digitsOnly.length < 10 || digitsOnly.length > 13) {
+      setError('Please enter a valid phone number (10 to 13 digits).');
+      return;
+    }
+
     setProcessing(true);
     setError(null);
 
@@ -92,7 +112,7 @@ export default function SummaryPage() {
         num_adults:     2,
         num_children:   0,
         customer_name:  store.customerName,
-        customer_phone: store.customerPhone,
+        customer_phone: normalizedPhone,
         customer_email: store.customerEmail || undefined,
         coupon_code:    store.couponCode || undefined,
         referral_code:  store.referralCode || undefined,
@@ -167,10 +187,14 @@ export default function SummaryPage() {
       })
     : null;
 
+  const hasCoreSession = Boolean(store.theaterId && store.slotId && store.date);
+  const hasCustomerDetails = Boolean(store.customerName.trim() && store.customerPhone.trim());
+  const canAttemptConfirm = hasCoreSession && hasCustomerDetails;
+
   // ── SUCCESS SCREEN ───────────────────────────────────────────────────────────
   if (step === 'success') {
     return (
-      <div className="min-h-screen pt-24 pb-16 px-4 flex items-center justify-center">
+      <div className="min-h-screen pt-20 sm:pt-24 pb-16 px-4 flex items-center justify-center">
         <div className="max-w-md w-full text-center">
           <div className="w-20 h-20 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center mx-auto mb-6">
             <CheckCircle2 size={40} className="text-green-400" />
@@ -232,7 +256,7 @@ export default function SummaryPage() {
   // ── UPI PAYMENT PANEL ────────────────────────────────────────────────────────
   if (step === 'payment') {
     return (
-      <div className="min-h-screen pt-24 pb-16 px-4">
+      <div className="min-h-screen pt-20 sm:pt-24 pb-16 px-4">
         <div className="max-w-md mx-auto">
           <div className="mb-8">
             <h1
@@ -288,7 +312,7 @@ export default function SummaryPage() {
             <div className="p-4 rounded-2xl border border-white/10 bg-[#1A1A1A] mb-6">
               <p className="text-xs text-[#666] mb-2">Or pay using UPI ID</p>
               <div className="flex items-center justify-between gap-3">
-                <p className="font-mono font-semibold text-white text-lg">{upiId}</p>
+                <p className="font-mono font-semibold text-white text-sm sm:text-lg break-all">{upiId}</p>
                 <button
                   type="button"
                   onClick={() => handleCopy(upiId)}
@@ -308,7 +332,7 @@ export default function SummaryPage() {
           {/* Booking reference */}
           <div className="p-4 rounded-xl border border-white/10 bg-[#1A1A1A] mb-6">
             <p className="text-xs text-[#666] mb-1">Booking Reference</p>
-            <p className="font-mono font-bold text-[#D4A017]">{bookingRef}</p>
+            <p className="font-mono font-bold text-[#D4A017] break-all">{bookingRef}</p>
             <p className="text-xs text-[#555] mt-1">Add this as a note/remark when paying</p>
           </div>
 
@@ -366,7 +390,7 @@ export default function SummaryPage() {
 
   // ── SUMMARY SCREEN ───────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
+    <div className="min-h-screen pt-20 sm:pt-24 pb-16 px-4">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -389,7 +413,7 @@ export default function SummaryPage() {
         </div>
 
         <BookingStepIndicator steps={BOOKING_STEPS} currentStep={7} />
-        <div className="mb-10" />
+        <div className="mb-7 sm:mb-10" />
 
         {/* Summary Card */}
         {breakdown ? (
@@ -450,6 +474,12 @@ export default function SummaryPage() {
             </>
           )}
         </button>
+
+        {!processing && !canAttemptConfirm && (
+          <p className="text-xs text-center text-red-400 mt-3">
+            Please complete Date & Slot and Customer Details before confirming payment.
+          </p>
+        )}
 
         <p className="text-xs text-center text-[#888] mt-4">
           Secure UPI payment · Booking confirmed after verification

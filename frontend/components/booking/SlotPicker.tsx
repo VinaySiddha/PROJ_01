@@ -52,7 +52,7 @@ export function SlotPicker({
   selectedDate,
   onDateChange,
   shortSlotDiscount,
-}: SlotPickerProps) {
+}: Readonly<SlotPickerProps>) {
   const today = new Date().toISOString().split('T')[0];
 
   return (
@@ -89,6 +89,12 @@ export function SlotPicker({
               const isUnavailable = slot.status === 'booked';
               const isLocked = slot.status === 'locked';
               const isDisabled = isUnavailable || isLocked;
+              let cardStyleClass = 'border-white/10 bg-[#1A1A1A] hover:border-[#D4A017]/50 cursor-pointer';
+              if (isSelected) {
+                cardStyleClass = 'border-[#D4A017] bg-[#D4A017]/10 shadow-[0_0_12px_rgba(212,160,23,0.25)]';
+              } else if (isDisabled) {
+                cardStyleClass = 'border-white/8 bg-[#1A1A1A]/50 opacity-50 cursor-not-allowed';
+              }
 
               return (
                 <button
@@ -96,25 +102,19 @@ export function SlotPicker({
                   type="button"
                   disabled={isDisabled}
                   onClick={() => !isDisabled && onSlotSelect(slot.slot_id)}
-                  className={`relative flex flex-col items-center gap-1.5 p-4 rounded-xl border transition-all duration-200
-                    ${isSelected
-                      ? 'border-[#D4A017] bg-[#D4A017]/10 shadow-[0_0_12px_rgba(212,160,23,0.25)]'
-                      : isDisabled
-                      ? 'border-white/8 bg-[#1A1A1A]/50 opacity-50 cursor-not-allowed'
-                      : 'border-white/10 bg-[#1A1A1A] hover:border-[#D4A017]/50 cursor-pointer'
-                    }`}
+                  className={`relative flex min-h-[122px] flex-col items-center justify-center gap-1.5 p-3 sm:p-4 rounded-xl border transition-all duration-200 ${cardStyleClass}`}
                 >
                   <span className="text-2xl">{SLOT_ICONS[slot.name] ?? '🎬'}</span>
-                  <span className="text-sm font-semibold text-white">{slot.name}</span>
-                  <span className="text-xs text-gray-400">{slot.time_range}</span>
+                  <span className="text-xs sm:text-sm font-semibold text-white">{slot.name}</span>
+                  <span className="text-[11px] sm:text-xs text-gray-400 text-center leading-tight">{slot.time_range}</span>
 
                   {isUnavailable && (
-                    <span className="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[9px] font-bold bg-red-900/80 text-red-300 uppercase">
+                    <span className="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-900/80 text-red-300 uppercase">
                       Booked
                     </span>
                   )}
                   {isLocked && (
-                    <span className="absolute top-2 right-2 flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-yellow-900/80 text-yellow-300 uppercase">
+                    <span className="absolute top-2 right-2 flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-yellow-900/80 text-yellow-300 uppercase">
                       <LoadingSpinner size="sm" color="white" />
                       Hold
                     </span>
@@ -129,22 +129,33 @@ export function SlotPicker({
       {/* Duration toggle */}
       <div>
         <p className="text-sm font-medium text-gray-300 mb-3">Booking Duration</p>
-        <div className="inline-flex rounded-lg border border-white/15 overflow-hidden">
-          {(['standard', 'short'] as const).map((dur) => (
-            <button
-              key={dur}
-              type="button"
-              onClick={() => onDurationChange(dur)}
-              className={`flex flex-col items-center px-6 py-3 text-sm transition-colors duration-200 ${
-                selectedDuration === dur
-                  ? 'bg-[#D4A017] text-black font-semibold'
-                  : 'bg-[#1A1A1A] text-gray-300 hover:bg-white/5'
-              }`}
-            >
-              <span className="font-semibold capitalize">{dur === 'standard' ? 'Standard' : 'Short'}</span>
-              <span className="text-xs opacity-80">{dur === 'standard' ? '2.5 hours' : `1.5 hours${shortSlotDiscount ? ` · Save ₹${shortSlotDiscount}` : ''}`}</span>
-            </button>
-          ))}
+        <div className="grid grid-cols-2 w-full max-w-md rounded-lg border border-white/15 overflow-hidden">
+          {(['standard', 'short'] as const).map((dur) => {
+            const durationName = dur === 'standard' ? 'Standard' : 'Short';
+            let durationLabel = '2.5 hours';
+            if (dur === 'short') {
+              durationLabel = '1.5 hours';
+              if (shortSlotDiscount) {
+                durationLabel += ` · Save ₹${shortSlotDiscount}`;
+              }
+            }
+
+            return (
+              <button
+                key={dur}
+                type="button"
+                onClick={() => onDurationChange(dur)}
+                className={`flex min-h-[72px] flex-col items-center justify-center px-3 sm:px-6 py-3 text-sm text-center transition-colors duration-200 ${
+                  selectedDuration === dur
+                    ? 'bg-[#D4A017] text-black font-semibold'
+                    : 'bg-[#1A1A1A] text-gray-300 hover:bg-white/5'
+                }`}
+              >
+                <span className="font-semibold capitalize">{durationName}</span>
+                <span className="text-[11px] sm:text-xs opacity-80 leading-tight">{durationLabel}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

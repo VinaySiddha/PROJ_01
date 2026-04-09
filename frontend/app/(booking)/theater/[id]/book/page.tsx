@@ -39,8 +39,8 @@ interface SlotAvailabilityResult {
 /** Converts "18:00" → "6:00 PM" */
 function fmt12h(time: string): string {
   const [hStr, mStr] = time.split(':');
-  const h = parseInt(hStr ?? '0', 10);
-  const m = parseInt(mStr ?? '0', 10);
+  const h = Number.parseInt(hStr ?? '0', 10);
+  const m = Number.parseInt(mStr ?? '0', 10);
   const period = h >= 12 ? 'PM' : 'AM';
   const hour = h % 12 || 12;
   return `${hour}:${String(m).padStart(2, '0')} ${period}`;
@@ -48,11 +48,18 @@ function fmt12h(time: string): string {
 
 /** Transforms a raw backend slot into the SlotPicker-friendly shape */
 function toPickerSlot(s: BackendSlot): SlotAvailabilityResult {
+  let status: SlotAvailabilityResult['status'] = 'booked';
+  if (s.is_locked) {
+    status = 'locked';
+  } else if (s.is_available) {
+    status = 'available';
+  }
+
   return {
     slot_id:    s.slot_id,
     name:       s.slot_name,
     time_range: `${fmt12h(s.start_time)} – ${fmt12h(s.end_time)}`,
-    status:     s.is_locked ? 'locked' : s.is_available ? 'available' : 'booked',
+    status,
   };
 }
 
@@ -79,7 +86,10 @@ export default function BookSlotPage() {
         setTheater(t);
         store.setTheater({ theaterId: t.id, theaterName: t.name });
       })
-      .catch(() => setError('Unable to load theater details. Please go back and try again.'))
+      .catch((err: unknown) => {
+        const message = err instanceof Error ? err.message : null;
+        setError(message ?? 'Unable to load theater details. Please go back and try again.');
+      })
       .finally(() => setLoadingTheater(false));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);
@@ -94,6 +104,13 @@ export default function BookSlotPage() {
       .catch(() => setSlots([]))
       .finally(() => setLoadingSlots(false));
   }, [selectedDate, params.id]);
+
+  // Persist default date to store even when user doesn't touch the date picker.
+  useEffect(() => {
+    if (!store.date && selectedDate) {
+      store.setDate(selectedDate);
+    }
+  }, [store, selectedDate]);
 
   const handleDateChange = (date: string) => {
     setSelectedDate(date);
@@ -116,6 +133,10 @@ export default function BookSlotPage() {
 
   /** Handle Continue — validate slot is selected before navigating */
   const handleContinue = () => {
+    if (!store.date && selectedDate) {
+      store.setDate(selectedDate);
+    }
+
     if (!store.slotId) {
       setError('Please select a time slot to continue.');
       return;
@@ -129,7 +150,7 @@ export default function BookSlotPage() {
     : undefined;
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
+    <div className="min-h-screen pt-20 sm:pt-24 pb-16 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -153,7 +174,7 @@ export default function BookSlotPage() {
 
         {/* Step Indicator */}
         <BookingStepIndicator steps={BOOKING_STEPS} currentStep={1} />
-        <div className="mb-10" />
+        <div className="mb-7 sm:mb-10" />
 
         {/* Slot Picker — includes date picker and duration toggle */}
         <SlotPicker
@@ -176,11 +197,11 @@ export default function BookSlotPage() {
         )}
 
         {/* Navigation */}
-        <div className="flex justify-end mt-8">
+        <div className="mt-8">
           <button
             type="button"
             onClick={handleContinue}
-            className="flex items-center gap-2 px-8 py-3.5 bg-[#D4A017] text-black font-bold rounded-xl hover:bg-[#D4A017]/90 transition-all disabled:opacity-50"
+            className="w-full sm:w-auto sm:ml-auto flex items-center justify-center gap-2 px-8 py-3.5 bg-[#D4A017] text-black font-bold rounded-xl hover:bg-[#D4A017]/90 transition-all disabled:opacity-50"
           >
             Continue <ChevronRight size={18} />
           </button>

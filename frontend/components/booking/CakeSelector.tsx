@@ -33,7 +33,7 @@ export function CakeSelector({
   egglessFilter,
   onCakeSelect,
   onEgglessToggle,
-}: CakeSelectorProps) {
+}: Readonly<CakeSelectorProps>) {
   const filteredCakes = egglessFilter ? cakes.filter((c) => c.is_eggless) : cakes;
 
   return (
@@ -41,7 +41,7 @@ export function CakeSelector({
       {/* Egg / Eggless toggle */}
       <div className="flex flex-col gap-2">
         <p className="text-sm font-medium text-gray-300">Cake Preference</p>
-        <div className="inline-flex rounded-lg border border-white/15 overflow-hidden w-fit">
+        <div className="grid grid-cols-2 w-full max-w-sm rounded-lg border border-white/15 overflow-hidden">
           {[
             { value: false, label: '🥚 With Egg' },
             { value: true, label: '🌱 Eggless' },
@@ -50,7 +50,7 @@ export function CakeSelector({
               key={String(value)}
               type="button"
               onClick={() => onEgglessToggle(value)}
-              className={`px-5 py-2.5 text-sm font-medium transition-colors duration-200 ${
+              className={`px-3 sm:px-5 py-2.5 text-sm font-medium transition-colors duration-200 ${
                 egglessFilter === value
                   ? 'bg-[#D4A017] text-black'
                   : 'bg-[#1A1A1A] text-gray-300 hover:bg-white/5'
@@ -68,7 +68,7 @@ export function CakeSelector({
         <button
           type="button"
           onClick={() => onCakeSelect(null)}
-          className={`relative flex flex-col items-center gap-2 p-4 rounded-xl border transition-all duration-200
+          className={`relative flex min-h-[168px] flex-col items-center justify-center gap-2 p-4 rounded-xl border transition-all duration-200
             ${selectedCakeId === null
               ? 'border-[#D4A017] bg-[#D4A017]/10 shadow-[0_0_10px_rgba(212,160,23,0.2)]'
               : 'border-white/10 bg-[#1A1A1A] hover:border-[#D4A017]/40'
@@ -92,7 +92,7 @@ export function CakeSelector({
               key={cake.id}
               type="button"
               onClick={() => onCakeSelect(cake.id)}
-              className={`relative flex flex-col items-center gap-2 p-4 rounded-xl border transition-all duration-200
+              className={`relative flex min-h-[168px] flex-col items-center justify-center gap-2 p-4 rounded-xl border transition-all duration-200
                 ${isSelected
                   ? 'border-[#D4A017] bg-[#D4A017]/10 shadow-[0_0_10px_rgba(212,160,23,0.2)]'
                   : 'border-white/10 bg-[#1A1A1A] hover:border-[#D4A017]/40'

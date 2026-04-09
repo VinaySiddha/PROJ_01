@@ -77,7 +77,7 @@ export default function DetailsPage() {
       setError('Please enter your full name.');
       return;
     }
-    if (!phone.trim() || phone.replace(/\D/g, '').length < 10) {
+    if (!phone.trim() || phone.replaceAll(/\D/g, '').length < 10) {
       setError('Please enter a valid phone number.');
       return;
     }
@@ -105,7 +105,7 @@ export default function DetailsPage() {
     : null;
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
+    <div className="min-h-screen pt-20 sm:pt-24 pb-16 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -126,16 +126,16 @@ export default function DetailsPage() {
 
         {/* Step Indicator */}
         <BookingStepIndicator steps={BOOKING_STEPS} currentStep={6} />
-        <div className="mb-10" />
+        <div className="mb-7 sm:mb-10" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Form */}
           <div className="space-y-5">
             {/* Guest count */}
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <p className="block text-sm font-medium text-white mb-2">
                 Number of Guests
-              </label>
+              </p>
               <div className="flex items-center gap-3">
                 <button
                   type="button"
@@ -164,10 +164,11 @@ export default function DetailsPage() {
 
             {/* Name */}
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label htmlFor="details-name" className="block text-sm font-medium text-white mb-2">
                 Full Name *
               </label>
               <input
+                id="details-name"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -178,10 +179,11 @@ export default function DetailsPage() {
 
             {/* Phone */}
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label htmlFor="details-phone" className="block text-sm font-medium text-white mb-2">
                 Phone Number *
               </label>
               <input
+                id="details-phone"
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
@@ -192,11 +194,12 @@ export default function DetailsPage() {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label htmlFor="details-email" className="block text-sm font-medium text-white mb-2">
                 Email{' '}
                 <span className="text-[#888] font-normal">(optional)</span>
               </label>
               <input
+                id="details-email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -211,7 +214,7 @@ export default function DetailsPage() {
                 Coupon Code{' '}
                 <span className="text-[#888] font-normal">(optional)</span>
               </label>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="text"
                   value={couponCode}
@@ -223,7 +226,7 @@ export default function DetailsPage() {
                   type="button"
                   onClick={applyCoupon}
                   disabled={couponLoading || !couponCode.trim()}
-                  className="flex items-center gap-1 px-4 py-3 border border-[#D4A017]/50 text-[#D4A017] rounded-xl text-sm hover:bg-[#D4A017]/10 transition-all disabled:opacity-50"
+                  className="w-full sm:w-auto flex items-center justify-center gap-1 px-4 py-3 border border-[#D4A017]/50 text-[#D4A017] rounded-xl text-sm hover:bg-[#D4A017]/10 transition-all disabled:opacity-50"
                 >
                   {couponLoading ? (
                     <Loader2 size={14} className="animate-spin" />
@@ -269,18 +272,18 @@ export default function DetailsPage() {
         </div>
 
         {/* Navigation */}
-        <div className="flex justify-between mt-8">
+        <div className="mt-8 flex flex-col-reverse sm:flex-row gap-3 sm:justify-between">
           <button
             type="button"
             onClick={() => router.push(`/theater/${params.id}/food`)}
-            className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white rounded-xl hover:bg-white/5 transition-all"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 border border-white/20 text-white rounded-xl hover:bg-white/5 transition-all"
           >
             <ChevronLeft size={16} /> Back
           </button>
           <button
             type="button"
             onClick={handleContinue}
-            className="flex items-center gap-2 px-8 py-3 bg-[#D4A017] text-black font-bold rounded-xl hover:bg-[#D4A017]/90 transition-all"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3 bg-[#D4A017] text-black font-bold rounded-xl hover:bg-[#D4A017]/90 transition-all"
           >
             Review Order <ChevronRight size={18} />
           </button>

@@ -24,7 +24,12 @@ interface AddOnSelectorProps {
 function groupByCategory(items: AddonItem[]): Record<string, AddonItem[]> {
   return items.reduce<Record<string, AddonItem[]>>((acc, item) => {
     const cat = item.category ?? 'Other';
-    (acc[cat] ??= []).push(item);
+    let bucket = acc[cat];
+    if (!bucket) {
+      bucket = [];
+      acc[cat] = bucket;
+    }
+    bucket.push(item);
     return acc;
   }, {});
 }
@@ -38,11 +43,12 @@ export function AddOnSelector({
   addons,
   selectedAddonIds,
   onToggleAddon,
-}: AddOnSelectorProps) {
+}: Readonly<AddOnSelectorProps>) {
   const grouped = groupByCategory(addons);
   const selectedTotal = addons
     .filter((a) => selectedAddonIds.includes(a.id))
     .reduce((sum, a) => sum + a.price, 0);
+  const addonPluralSuffix = selectedAddonIds.length === 1 ? '' : 's';
 
   return (
     <div className="flex flex-col gap-8">
@@ -59,7 +65,7 @@ export function AddOnSelector({
                   key={addon.id}
                   type="button"
                   onClick={() => onToggleAddon(addon.id)}
-                  className={`relative flex flex-col items-center gap-2 p-4 rounded-xl border text-left
+                  className={`relative flex min-h-[168px] flex-col items-center justify-center gap-2 p-4 rounded-xl border text-left
                     transition-all duration-200
                     ${isSelected
                       ? 'border-[#D4A017] bg-[#D4A017]/10 shadow-[0_0_10px_rgba(212,160,23,0.18)]'
@@ -110,7 +116,7 @@ export function AddOnSelector({
         <div className="sticky bottom-0 flex items-center justify-between px-5 py-3 rounded-xl
                         bg-[#1A1A1A] border border-[#D4A017]/30 shadow-lg shadow-black/40">
           <span className="text-sm text-gray-300">
-            {selectedAddonIds.length} add-on{selectedAddonIds.length !== 1 ? 's' : ''} selected
+            {selectedAddonIds.length} add-on{addonPluralSuffix} selected
           </span>
           <span className="text-sm font-bold text-[#D4A017]">
             +{formatCurrency(selectedTotal)}

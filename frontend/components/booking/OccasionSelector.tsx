@@ -44,7 +44,7 @@ export function OccasionSelector({
   occasionName,
   onOccasionChange,
   onNameChange,
-}: OccasionSelectorProps) {
+}: Readonly<OccasionSelectorProps>) {
   const namePrompt =
     selectedOccasion && OCCASION_NAME_PROMPTS[selectedOccasion]
       ? OCCASION_NAME_PROMPTS[selectedOccasion]
@@ -63,7 +63,7 @@ export function OccasionSelector({
                 key={type}
                 type="button"
                 onClick={() => onOccasionChange(type)}
-                className={`relative flex flex-col items-center gap-2 px-3 py-4 rounded-xl border transition-all duration-200
+                className={`relative flex min-h-[122px] flex-col items-center justify-center gap-2 px-3 py-4 rounded-xl border transition-all duration-200
                   ${isSelected
                     ? 'border-[#D4A017] bg-[#D4A017]/10 shadow-[0_0_12px_rgba(212,160,23,0.2)]'
                     : 'border-white/10 bg-[#1A1A1A] hover:border-[#D4A017]/40'
@@ -98,7 +98,7 @@ export function OccasionSelector({
               maxLength={NAME_MAX}
               placeholder="e.g. Priya"
               onChange={(e) => onNameChange(e.target.value.slice(0, NAME_MAX))}
-              className="w-full sm:w-80 px-4 py-2.5 rounded-lg bg-[#1A1A1A] border border-white/15
+              className="w-full max-w-sm px-4 py-2.5 rounded-lg bg-[#1A1A1A] border border-white/15
                          text-white text-sm placeholder:text-gray-600
                          focus:outline-none focus:border-[#D4A017] focus:ring-1 focus:ring-[#D4A017]/40 transition-colors"
             />

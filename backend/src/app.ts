@@ -33,10 +33,15 @@ const allowedOrigins = new Set([
   'http://localhost:3001',
 ]);
 
+const isDevTunnelOrigin = (origin: string): boolean => {
+  if (!origin.startsWith('https://')) return false;
+  return /\.devtunnels\.ms$/i.test(origin);
+};
+
 app.use(cors({
   origin: (origin, callback) => {
     // Allow server-to-server (no origin header) and whitelisted origins
-    if (!origin || allowedOrigins.has(origin)) return callback(null, true);
+    if (!origin || allowedOrigins.has(origin) || isDevTunnelOrigin(origin)) return callback(null, true);
     logger.warn('CORS blocked', { origin });
     callback(new Error(`CORS: origin ${origin} not allowed`));
   },

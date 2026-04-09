@@ -34,7 +34,7 @@ export default function CakesPage() {
   }, []);
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
+    <div className="min-h-screen pt-20 sm:pt-24 pb-16 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -58,7 +58,7 @@ export default function CakesPage() {
 
         {/* Step Indicator */}
         <BookingStepIndicator steps={BOOKING_STEPS} currentStep={3} />
-        <div className="mb-10" />
+        <div className="mb-7 sm:mb-10" />
 
         {/* Cake Selector */}
         {loading ? (
@@ -76,18 +76,18 @@ export default function CakesPage() {
         )}
 
         {/* Navigation */}
-        <div className="flex justify-between mt-8">
+        <div className="mt-8 flex flex-col-reverse sm:flex-row gap-3 sm:justify-between">
           <button
             type="button"
             onClick={() => router.push(`/theater/${params.id}/occasion`)}
-            className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white rounded-xl hover:bg-white/5 transition-all"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 border border-white/20 text-white rounded-xl hover:bg-white/5 transition-all"
           >
             <ChevronLeft size={16} /> Back
           </button>
           <button
             type="button"
             onClick={() => router.push(`/theater/${params.id}/addons`)}
-            className="flex items-center gap-2 px-8 py-3 bg-[#D4A017] text-black font-bold rounded-xl hover:bg-[#D4A017]/90 transition-all"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3 bg-[#D4A017] text-black font-bold rounded-xl hover:bg-[#D4A017]/90 transition-all"
           >
             Continue <ChevronRight size={18} />
           </button>

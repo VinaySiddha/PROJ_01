@@ -28,15 +28,18 @@ interface SummaryRowProps {
 }
 
 /** Single row in the price breakdown table. */
-function SummaryRow({ label, value, isDiscount, isMuted, isBold }: SummaryRowProps) {
+function SummaryRow({ label, value, isDiscount, isMuted, isBold }: Readonly<SummaryRowProps>) {
+  let valueClass = 'text-white';
+  if (isDiscount) {
+    valueClass = 'text-green-400';
+  } else if (isBold) {
+    valueClass = 'text-white font-bold text-base';
+  }
+
   return (
-    <div className="flex items-center justify-between py-2.5 border-b border-white/8 last:border-0">
-      <span className={`text-sm ${isMuted ? 'text-gray-500' : 'text-gray-300'}`}>{label}</span>
-      <span
-        className={`text-sm font-medium ${
-          isDiscount ? 'text-green-400' : isBold ? 'text-white font-bold text-base' : 'text-white'
-        }`}
-      >
+    <div className="flex items-start justify-between gap-3 py-2.5 border-b border-white/8 last:border-0">
+      <span className={`flex-1 pr-2 text-xs sm:text-sm leading-5 ${isMuted ? 'text-gray-500' : 'text-gray-300'}`}>{label}</span>
+      <span className={`shrink-0 text-right text-xs sm:text-sm font-medium ${valueClass}`}>
         {isDiscount ? `− ${value}` : value}
       </span>
     </div>
@@ -53,9 +56,12 @@ export function BookingSummaryCard({
   theaterName,
   date,
   slotName,
-}: BookingSummaryCardProps) {
+}: Readonly<BookingSummaryCardProps>) {
   const ADVANCE_AMOUNT = 700;
   const balanceOnArrival = breakdown.total - ADVANCE_AMOUNT;
+  const couponLabel = breakdown.coupon_code
+    ? `Coupon (${breakdown.coupon_code})`
+    : 'Coupon Discount';
 
   return (
     <div className="rounded-xl bg-[#1A1A1A] border border-white/10 overflow-hidden">
@@ -101,7 +107,7 @@ export function BookingSummaryCard({
         )}
         {breakdown.coupon_discount > 0 && (
           <SummaryRow
-            label={`Coupon ${breakdown.coupon_code ? `(${breakdown.coupon_code})` : 'Discount'}`}
+            label={couponLabel}
             value={formatCurrency(breakdown.coupon_discount)}
             isDiscount
           />
@@ -117,7 +123,7 @@ export function BookingSummaryCard({
       </div>
 
       {/* Payment split — highlighted section */}
-      <div className="mx-4 mb-4 rounded-lg bg-[#D4A017]/8 border border-[#D4A017]/25 p-4 flex flex-col gap-2">
+      <div className="mx-3 sm:mx-4 mb-4 rounded-lg bg-[#D4A017]/8 border border-[#D4A017]/25 p-3 sm:p-4 flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <span className="text-sm font-semibold text-white">Advance (Pay Now)</span>
           <span className="text-base font-bold text-[#D4A017]">{formatCurrency(ADVANCE_AMOUNT)}</span>

@@ -24,7 +24,7 @@ async function fetchTheater(id: string): Promise<Theater | null> {
   }
 }
 
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
+export async function generateMetadata({ params }: Readonly<Params>): Promise<Metadata> {
   const { id } = await params;
   const theater = await fetchTheater(id);
   if (!theater) return { title: 'Theater Not Found' };
@@ -34,16 +34,16 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
-export default async function TheaterDetailPage({ params }: Params) {
+export default async function TheaterDetailPage({ params }: Readonly<Params>) {
   const { id } = await params;
   const theater = await fetchTheater(id);
   if (!theater) notFound();
 
   return (
-    <div className="min-h-screen pt-24 pb-16">
+    <div className="min-h-screen pt-20 sm:pt-24 pb-16">
       <div className="max-w-6xl mx-auto px-4">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-sm text-[#888] mb-8" aria-label="Breadcrumb">
+        <nav className="mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap pb-1 flex items-center gap-2 text-xs sm:text-sm text-[#888]" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-white transition-colors">
             Home
           </Link>
@@ -55,7 +55,7 @@ export default async function TheaterDetailPage({ params }: Params) {
           <span className="text-white">{theater.name}</span>
         </nav>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10">
           {/* Left: Theater info */}
           <div className="lg:col-span-2 space-y-8">
             {/* Gallery */}
@@ -74,7 +74,7 @@ export default async function TheaterDetailPage({ params }: Params) {
                 {theater.images.length > 1 && (
                   <div className="grid grid-cols-4 gap-2">
                     {theater.images.slice(1, 5).map((url, i) => (
-                      <div key={i} className="aspect-video rounded-xl overflow-hidden border border-white/10">
+                      <div key={url} className="aspect-video rounded-xl overflow-hidden border border-white/10">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={url}
@@ -101,7 +101,7 @@ export default async function TheaterDetailPage({ params }: Params) {
                 </div>
               )}
               <h1
-                className="text-3xl md:text-4xl font-bold text-white"
+                className="text-2xl sm:text-3xl md:text-4xl font-bold text-white"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 {theater.name}
@@ -177,7 +177,7 @@ export default async function TheaterDetailPage({ params }: Params) {
 
           {/* Right: Booking card */}
           <div className="lg:col-span-1">
-            <div className="sticky top-28 p-6 rounded-2xl border border-[#D4A017]/30 bg-[#1A1A1A] space-y-4">
+            <div className="lg:sticky lg:top-28 p-5 sm:p-6 rounded-2xl border border-[#D4A017]/30 bg-[#1A1A1A] space-y-4">
               <h3
                 className="text-lg font-bold text-white"
                 style={{ fontFamily: 'var(--font-display)' }}
@@ -187,33 +187,33 @@ export default async function TheaterDetailPage({ params }: Params) {
 
               {/* Pricing */}
               <div className="space-y-2 text-sm">
-                <div className="flex justify-between text-[#888]">
-                  <span>
+                <div className="flex items-start justify-between gap-3 text-[#888]">
+                  <span className="flex-1 pr-2 text-xs sm:text-sm leading-5">
                     Standard (2.5 hrs, {theater.base_capacity} guests)
                   </span>
-                  <span className="text-white font-semibold">
+                  <span className="shrink-0 text-right text-white font-semibold">
                     &#8377;{theater.base_price.toLocaleString('en-IN')}
                   </span>
                 </div>
-                <div className="flex justify-between text-[#888]">
-                  <span>
+                <div className="flex items-start justify-between gap-3 text-[#888]">
+                  <span className="flex-1 pr-2 text-xs sm:text-sm leading-5">
                     Short (1.5 hrs, {theater.base_capacity} guests)
                   </span>
-                  <span className="text-white font-semibold">
+                  <span className="shrink-0 text-right text-white font-semibold">
                     &#8377;{theater.short_slot_price.toLocaleString('en-IN')}
                   </span>
                 </div>
                 {theater.allow_extra_persons && (
                   <>
-                    <div className="flex justify-between text-[#888]">
-                      <span>Extra adult</span>
-                      <span className="text-white">
+                    <div className="flex items-start justify-between gap-3 text-[#888]">
+                      <span className="flex-1 pr-2 text-xs sm:text-sm leading-5">Extra adult</span>
+                      <span className="shrink-0 text-right text-white">
                         +&#8377;{theater.extra_adult_price.toLocaleString('en-IN')}
                       </span>
                     </div>
-                    <div className="flex justify-between text-[#888]">
-                      <span>Extra child (3&ndash;12 yrs)</span>
-                      <span className="text-white">
+                    <div className="flex items-start justify-between gap-3 text-[#888]">
+                      <span className="flex-1 pr-2 text-xs sm:text-sm leading-5">Extra child (3&ndash;12 yrs)</span>
+                      <span className="shrink-0 text-right text-white">
                         +&#8377;{theater.extra_child_price.toLocaleString('en-IN')}
                       </span>
                     </div>
